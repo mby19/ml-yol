@@ -3172,3 +3172,8 @@ html[data-theme="dark"] .theme-icon-light { display: none; }
     font-size: 1.25rem;
   }
 }
+
+.search-box input:focus-visible,
+.glossary-search:focus-visible {
+  outline-offset: 0;
+}
