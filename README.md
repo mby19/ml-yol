@@ -84,21 +84,26 @@ Site yalnız dosyada olanı gösterir. JSON’da F4–F6 üniteleri yoktur; site
 
 ## GitHub Pages
 
-`.github/workflows/deploy.yml` hazırdır. Depoyu GitHub’a it, **Settings → Pages →
-Source: GitHub Actions** seç. İş akışı:
+Yayın adresi: <https://mby19.github.io/ml-yol/>. Site, derlenmiş çıktının
+`gh-pages` dalına itilmesiyle yayınlanır (Jekyll kapalı: `public/.nojekyll`).
 
-- `configure-pages` çıktısından `BASE_PATH` (proje sitelerinde `/depo-adı`) ve
-  `SITE_URL` alır,
-- `npm ci && npm run build` çalıştırır,
-- `dist/` klasörünü yayınlar.
-
-`public/.nojekyll` dosyası `_astro/` varlıklarının GitHub Pages’te servis
-edilmesini sağlar. Alt yolda yerel deneme:
+Güncelleme için:
 
 ```bash
-BASE_PATH=/ml-yol npm run build
-npx serve dist       # /ml-yol yolunu ayrıca eşlemen gerekir
+./scripts/deploy-pages.sh
 ```
+
+Betik `BASE_PATH` ve `SITE_URL` değerlerini depo adından türetir, `npm run build`
+çalıştırır ve `dist/` içeriğini `gh-pages` dalına gönderir. Farklı bir alan adı
+için:
+
+```bash
+SITE_URL=https://ornek.com BASE_PATH=/ ./scripts/deploy-pages.sh
+```
+
+Actions ile otomatik dağıtım isteğe bağlıdır: `.github/workflows` altına bir
+workflow eklemek, GitHub token'ında `workflow` scope'u gerektirir. Bu depo
+workflow scope'u olmayan oturumda branch dağıtımıyla yayınlandı.
 
 ## Yapı
 
