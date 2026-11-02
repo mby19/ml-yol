@@ -1,0 +1,54 @@
+---
+import { phases, formatHours, shortUnitTitle } from "../lib/course";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+const lineClass = (key: string) =>
+  key === "baslangic" ? "line-b" : key === "araclar" ? "line-a" : `line-${key}`;
+---
+
+<section class="network-block" aria-labelledby="network-title">
+  <div class="network-head">
+    <h2 id="network-title">Ağ</h2>
+    <p>{phases.length} hat · {phases.reduce((n, phase) => n + phase.units.length, 0)} durak · {formatHours(phases.reduce((n, phase) => n + phase.minutes, 0))}</p>
+  </div>
+  <ol class="network">
+    {
+      phases.map((phase) => (
+        <li class={`line-row ${lineClass(phase.key)}`}>
+          <a class="line-label" href={href(`/hat/${phase.key}`)}>
+            <span class="line-badge">{phase.code}</span>
+            <span class="line-name">{phase.name}</span>
+            <span class="line-meta">
+              {phase.units.length} durak · {phase.lessons.length} ders ·{" "}
+              {phase.minutes.toLocaleString("tr-TR")} dk
+            </span>
+          </a>
+          <ol class="stations" data-count={phase.units.length} style={`--count:${phase.units.length}`}>
+            {phase.units.map((unit, index) => {
+              const station = shortUnitTitle(unit);
+              const code = `${phase.code}-${String(index + 1).padStart(2, "0")}`;
+              return (
+                <li class="station" data-station={unit.id}>
+                  <a href={href(`/unite/${unit.id}`)} title={unit.title}>
+                    <span class="station-dot" aria-hidden="true" />
+                    <span class="station-code">{code}</span>
+                    <span class="station-name">{station}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </li>
+      ))
+    }
+  </ol>
+  <div class="network-foot">
+    <p class="coverage">
+      Bu dosya Başlangıç, Araçlar ve F0–F3 hatlarını içeriyor. İlk ders yedi fazdan söz
+      ediyor; <strong>F4 (MLOps), F5 (sistemler) ve F6 (sistem tasarımı)</strong> üniteleri
+      JSON’da yok, bu yüzden burada da yok.
+    </p>
+    <p>Duraklar ünitelerdir; her durakta dersler sırayla açılır.</p>
+  </div>
+</section>

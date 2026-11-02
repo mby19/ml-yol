@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { area, formatMinutes, pagesOfKind, phases, shortUnitTitle } from "../../lib/course";
+
+export function getStaticPaths() {
+  return area.units.map((unit) => ({
+    params: { id: unit.id },
+    props: { unit },
+  }));
+}
+
+const { unit } = Astro.props;
+const phase = phases.find((candidate) => candidate.units.includes(unit));
+if (!phase) throw new Error(`Ünite bir hatta bağlı değil: ${unit.id}`);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+const lineClass =
+  phase.key === "baslangic" ? "line-b" : phase.key === "araclar" ? "line-a" : `line-${phase.key}`;
+
+const short = shortUnitTitle(unit);
+const pages = unit.lessons.reduce((sum, lesson) => sum + lesson.pages.length, 0);
+const checks = unit.lessons.reduce((sum, lesson) => sum + pagesOfKind(lesson, "check").length, 0);
+const minutes = unit.lessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
+const stationIndex = phase.units.findIndex((candidate) => candidate.id === unit.id) + 1;
+const prevUnit = phase.units[stationIndex - 2];
+const nextUnit = phase.units[stationIndex];
+
+const lessonsData = unit.lessons.map((lesson) => ({
+  id: lesson.id,
+  title: lesson.title,
+  minutes: lesson.minutes,
+  unit: unit.id,
+  phase: phase.key,
+}));
+---
+
+<BaseLayout title={short} description={`${unit.title} · ${unit.lessons.length} ders`}>
+  <header class={`unit-head ${lineClass}`}>
+    <div class="wrap">
+      <div class="unit-topline">
+        <a href={href(`/hat/${phase.key}`)}>{phase.longName}</a>
+        <span class="sep">/</span>
+        <span>Durak {String(stationIndex).padStart(2, "0")}</span>
+        <span class="code">{phase.code}-{String(stationIndex).padStart(2, "0")}</span>
+      </div>
+      <h1 class="unit-title">{short}</h1>
+      <div class="unit-meta">
+        <span><strong data-progress-unit={unit.id} data-total={unit.lessons.length}>0/{unit.lessons.length}</strong> ders tamam</span>
+        <span><strong>{formatMinutes(minutes)}</strong> yazılı süre</span>
+        <span>{unit.lessons.length} ders</span>
+        <span>{pages} sayfa</span>
+        <span>{checks} kontrol</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap page">
+    <ol class="timetable">
+      {
+        unit.lessons.map((lesson, index) => {
+          const lessonChecks = pagesOfKind(lesson, "check").length;
+          return (
+            <li class="timetable-row">
+              <a
+                href={href(`/ders/${lesson.id}`)}
+                data-lesson-link={lesson.id}
+                data-unit-lesson={unit.id}
+              >
+                <span class="tt-num">{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  <span class="tt-title">{lesson.title}</span>
+                  <span class="tt-sub">
+                    {lesson.pages.length} sayfa · {lessonChecks} kontrol
+                  </span>
+                </span>
+                <span class="tt-time">{formatMinutes(lesson.minutes)}</span>
+                <span class="tt-state" data-lesson-state></span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    <div class="unit-foot">
+      <div>
+        <a href={href(`/hat/${phase.key}`)}>← {phase.name} hattı</a>
+      </div>
+      <div style="display:flex;gap:1.5rem">
+        {prevUnit && <a href={href(`/unite/${prevUnit.id}`)}>← {shortUnitTitle(prevUnit)}</a>}
+        {nextUnit && <a href={href(`/unite/${nextUnit.id}`)}>{shortUnitTitle(nextUnit)} →</a>}
+      </div>
+    </div>
+  </div>
+
+  <script type="application/json" id="lesson-list-data" set:html={JSON.stringify(lessonsData)} />
+</BaseLayout>

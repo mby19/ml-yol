@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Arama" description="Ders metinlerinde tam metin arama" pagefindIgnore>
+  <header class="search-head">
+    <div class="wrap">
+      <h1>Arama</h1>
+      <p>
+        Ders anlatımında, pratikte, kontrol sorularında ve özetlerde arar; kod blokları ve formüller dizine girmez.
+        Sonuçlar ders sayfasına gider. Dizin site derlenirken üretilir.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <form class="search-box" id="search-form" role="search">
+      <input
+        id="search-input"
+        type="search"
+        name="q"
+        placeholder="Örneğin: cross-validation, dikkat, sızıntı, perplexity"
+        aria-label="Derslerde ara"
+        autocomplete="off"
+        autofocus
+      />
+    </form>
+    <p class="search-status" id="search-status" aria-live="polite">
+      Aramak için bir kelime yaz.
+    </p>
+    <ol class="search-results" id="search-results"></ol>
+    <p class="plan-note" id="search-hint">
+      İpucu: <kbd>/</kbd> tuşu her sayfadan aramayı açar. Kelimenin tamamını yazmak
+      zorunda değilsin; bir parçası da sonuç verir.
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/search";
+</script>

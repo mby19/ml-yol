@@ -1,0 +1,106 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { glossary } from "../lib/course";
+import { glossaryWithHtml } from "../lib/glossary";
+
+const terms = await glossaryWithHtml();
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+
+function normalize(value: string): string {
+  return value
+    .toLocaleLowerCase("tr-TR")
+    .replaceAll("ı", "i")
+    .replaceAll("İ", "i")
+    .replaceAll("ş", "s")
+    .replaceAll("ğ", "g")
+    .replaceAll("ü", "u")
+    .replaceAll("ö", "o")
+    .replaceAll("ç", "c")
+    .replaceAll("â", "a")
+    .replaceAll("î", "i")
+    .replaceAll("û", "u");
+}
+
+const letters = Array.from(
+  new Set(terms.map((term) => term.term.slice(0, 1).toLocaleUpperCase("tr-TR"))),
+).sort((a, b) => a.localeCompare(b, "tr"));
+---
+
+<BaseLayout title="Sözlük" description={`${terms.length} terimlik Türkçe ML sözlüğü`}>
+  <header class="glossary-head">
+    <div class="wrap">
+      <h1>Sözlük</h1>
+      <p>
+        Derslerde ilk geçtiği yerde bağlanan {terms.length} terim. Her giriş kısa bir
+        tanım, İngilizce karşılık ve gerektiğinde formül ya da örnek içerir. Ders
+        içindeki noktalı alt çizgili terimlere dokunduğunda bu tanım yan panelde açılır.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="glossary-tools">
+      <input
+        class="glossary-search"
+        id="glossary-search"
+        type="search"
+        placeholder="Terim, İngilizce karşılık veya tanımda ara"
+        aria-label="Sözlükte ara"
+        autocomplete="off"
+      />
+      <div class="alpha" id="alpha" role="group" aria-label="Harfe göre filtrele">
+        <button type="button" data-letter="" aria-pressed="true">Tümü</button>
+        {
+          letters.map((letter) => (
+            <button type="button" data-letter={letter} aria-pressed="false">
+              {letter}
+            </button>
+          ))
+        }
+      </div>
+      <span class="glossary-count" id="glossary-count" aria-live="polite">
+        {terms.length} terim
+      </span>
+    </div>
+
+    <div class="glossary-list" id="glossary-list">
+      {
+        terms.map((term) => (
+          <article
+            class="term"
+            id={term.id}
+            data-term-entry
+            data-initial={term.term.slice(0, 1).toLocaleUpperCase("tr-TR")}
+            data-search={normalize(`${term.term} ${term.en} ${term.short}`)}
+          >
+            <h2>
+              <a href={`#${term.id}`}>{term.term}</a>
+            </h2>
+            <p class="term-en">{term.en}</p>
+            <p>{term.short}</p>
+            {term.mdHtml && <div class="term-md" set:html={term.mdHtml} />}
+            {term.seeAlso?.length ? (
+              <div class="term-see">
+                <span class="label">Ayrıca bak</span>
+                {term.seeAlso.map((id) => {
+                  const related = glossary.find((candidate) => candidate.id === id);
+                  return (
+                    <a href={href(`/sozluk/#${id}`)} data-term={id}>
+                      {related?.term ?? id}
+                    </a>
+                  );
+                })}
+              </div>
+            ) : null}
+          </article>
+        ))
+      }
+    </div>
+    <p class="search-status" id="glossary-empty" hidden>Bu filtreye uyan terim yok.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/glossary";
+</script>

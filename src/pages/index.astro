@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import RouteMap from "../components/RouteMap.astro";
+import {
+  allLessons,
+  courseInfo,
+  formatHours,
+  lessonById,
+  phases,
+  shortUnitTitle,
+} from "../lib/course";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+const first = allLessons[0];
+const startGuides = [
+  lessonById.get("u0-l1-yol-haritasi"),
+  lessonById.get("u0-l2-nasil-ogrenilir"),
+  lessonById.get("u0-l3-calisma-ortami"),
+].filter((lesson): lesson is NonNullable<typeof lesson> => Boolean(lesson));
+
+const lessonData = allLessons.map((lesson) => ({
+  id: lesson.id,
+  title: lesson.title,
+  minutes: lesson.minutes,
+  unit: lesson.unit.id,
+  unitTitle: shortUnitTitle(lesson.unit),
+  phase: lesson.phase.key,
+}));
+
+const guideCopy = [
+  "Senior ML mühendisinin işi, yedi faz ve gerçekçi süre hesabı.",
+  "Sıfırdan yazmak, öğretmek ve proje günlüğü tutmak üzerine çalışma düzeni.",
+  "Python, uv, Jupyter, Git ve ücretsiz GPU ile ortamı kurma.",
+];
+---
+
+<BaseLayout title="ML Mühendisliği Yolu">
+  <div class="wrap">
+    <section class="home-intro">
+      <div>
+        <h1 class="display">ML Mühendisliği{" "}<br />Yolu</h1>
+        <p class="home-lede">
+          Python bilen bir yazılımcıdan senior ML mühendisine giden hat.{" "}
+          <strong>{courseInfo.units} ünite</strong>,{" "}
+          <strong>{courseInfo.lessons} ders</strong>,{" "}
+          <strong>{courseInfo.pages} sayfa</strong>; her ders sezgi, mekanizma, çalışan kod,
+          pratik/proje, kontrol sorusu ve özetle kendi başına okunur.
+        </p>
+        <div class="home-actions">
+          <a class="btn" href={href("/plan")}>
+            Haftalık planı kur
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn-ghost" href={href("/hakkinda")}>Kapsam ve yöntem</a>
+        </div>
+      </div>
+
+      <div class="continue" data-continue data-total={courseInfo.lessons}>
+        <div class="label">
+          <span>Kaldığın yer</span>
+          <span>{courseInfo.lessons} ders</span>
+        </div>
+        <p class="continue-title" data-continue-title>{first.title}</p>
+        <p class="continue-meta" data-continue-meta>
+          {first.phase.name} · {first.minutes} dk · sıradaki
+        </p>
+        <a class="continue-link" data-continue-link href={href(`/ders/${first.id}`)}>
+          <span>Derse git</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <RouteMap />
+
+    <section class="guides" aria-label="Başlangıç dersleri">
+      {
+        startGuides.map((lesson, index) => (
+          <a class="guide" href={href(`/ders/${lesson.id}`)}>
+            <span class="guide-index">Başlangıç {String(index + 1).padStart(2, "0")}</span>
+            <span class="guide-title">{lesson.title}</span>
+            <p>{guideCopy[index]}</p>
+            <span class="guide-index">{lesson.minutes} dk</span>
+          </a>
+        ))
+      }
+    </section>
+
+    <section class="network-foot" aria-label="Müfredat rakamları">
+      <p>
+        Yazılı süre toplamı <strong>{courseInfo.minutes.toLocaleString("tr-TR")} dakika</strong>{" "}
+        ({formatHours(courseInfo.minutes)}); {phases.length} hat, {courseInfo.terms} sözlük
+        terimi ve {courseInfo.checks} kontrol sorusu aynı dosyadan geliyor.
+      </p>
+      <p>
+        Okuma sırası hatlara göre değil, derslerin dosyadaki sırasına göre ilerler. Plan
+        sayfası bu sırayı haftalara böler.
+      </p>
+    </section>
+  </div>
+
+  <script
+    type="application/json"
+    id="lesson-list-data"
+    set:html={JSON.stringify(lessonData)}
+  />
+</BaseLayout>

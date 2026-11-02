@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { allLessons, shortUnitTitle } from "../lib/course";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+
+const data = allLessons.map((lesson, order) => ({
+  id: lesson.id,
+  order,
+  title: lesson.title,
+  minutes: lesson.minutes,
+  unit: lesson.unit.id,
+  unitTitle: shortUnitTitle(lesson.unit),
+  phase: lesson.phase.longName,
+  phaseKey: lesson.phase.key,
+  track: lesson.phase.key === "f0" ? "math" : "main",
+}));
+const totalMinutes = allLessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
+---
+
+<BaseLayout title="Çalışma planı" description="Müfredatın kendi sürelerinden haftalık plan">
+  <header class="plan-head">
+    <div class="wrap">
+      <h1>Çalışma planı</h1>
+      <p>
+        Plan, derslerin dosyadaki sırasını ve her dersin kendi <code>minutes</code> değerini
+        kullanır. Başlangıç tarihi ile haftalık saati sen seçersin; site haftalara böler,
+        uzun proje derslerini böler ve bugünün nerede olduğunu gösterir. Hiçbir süre tahmin
+        edilmez.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <form class="plan-controls" id="plan-form">
+      <div class="field">
+        <label for="plan-start">Başlangıç</label>
+        <input type="date" id="plan-start" name="start" />
+        <span class="hint">İlk hafta bu tarihte başlar.</span>
+      </div>
+      <div class="field">
+        <label for="plan-hours">Haftalık saat</label>
+        <input type="number" id="plan-hours" name="hours" min="1" max="60" step="1" value="15" />
+        <span class="hint">Okuma + kod + pratik toplamı.</span>
+      </div>
+      <div class="field">
+        <label for="plan-mode">Sıra</label>
+        <select id="plan-mode" name="mode">
+          <option value="parallel">Paralel</option>
+          <option value="sequential">Ardışık</option>
+        </select>
+        <span class="hint">Başlangıç+Araçlar bitince F0 yan hatta girer.</span>
+      </div>
+      <button class="btn" type="submit">Yeniden hesapla</button>
+    </form>
+
+    <div class="plan-summary" id="plan-summary" aria-live="polite"></div>
+
+    <section class="plan-today" id="plan-today" aria-label="Şu an"></section>
+
+    <ol class="week-list" id="week-list"></ol>
+
+    <p class="plan-note">
+      Proje dersleri 2.100–2.400 dakika (35–40 saat) olarak yazılmış; plan bunları haftalık
+      dilime böler ve “devam” olarak işaretler. Ders tamamlanması dersin tamamı bitince
+      sayılır. Toplam yazılı süre {Math.round(totalMinutes / 60)} saat. Matematik hattını
+      paralel çalıştırma önerisi <a href={href("/ders/u0-l1-yol-haritasi")}>yol haritası</a> ve{" "}
+      <a href={href("/ders/u0-l2-nasil-ogrenilir")}>çalışma düzeni</a> derslerinden geliyor.
+    </p>
+
+    <noscript>
+      <p class="plan-note">
+        Plan hesabı tarayıcıda yapılır; JavaScript kapalıyken haftalık çizelge
+        oluşturulamaz. Ders sırası için <a href={href("/")}>yol haritasına</a> bakabilirsin.
+      </p>
+    </noscript>
+  </div>
+
+  <script type="application/json" id="plan-data" set:html={JSON.stringify(data)} />
+</BaseLayout>
+
+<script>
+  import "../scripts/plan";
+</script>

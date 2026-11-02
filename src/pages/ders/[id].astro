@@ -1,0 +1,222 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  allLessons,
+  formatMinutes,
+  pagesOfKind,
+  shortUnitTitle,
+} from "../../lib/course";
+import { renderLesson } from "../../lib/markdown";
+
+export function getStaticPaths() {
+  return allLessons.map((lesson) => ({
+    params: { id: lesson.id },
+    props: { lesson },
+  }));
+}
+
+const { lesson } = Astro.props;
+const rendered = await renderLesson(lesson);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+const lineClass =
+  lesson.phase.key === "baslangic"
+    ? "line-b"
+    : lesson.phase.key === "araclar"
+      ? "line-a"
+      : `line-${lesson.phase.key}`;
+
+const prev = allLessons[lesson.globalIndex - 1];
+const next = allLessons[lesson.globalIndex + 1];
+const checks = pagesOfKind(lesson, "check").length;
+const codePages = pagesOfKind(lesson, "code").length;
+
+const kindLabel: Record<string, string> = {
+  text: "Anlatım",
+  code: "Kod",
+  check: "Kontrol",
+  summary: "Özet",
+};
+
+---
+
+<BaseLayout title={lesson.title} description={`${lesson.unit.title} · ${lesson.minutes} dk`}>
+  <div class={`read-progress ${lineClass}`} aria-hidden="true"></div>
+
+  <header class={`lesson-head ${lineClass}`}>
+    <div class="wrap">
+      <div class="lesson-topline">
+        <a href={href(`/hat/${lesson.phase.key}`)}>{lesson.phase.longName}</a>
+        <span class="sep">/</span>
+        <a href={href(`/unite/${lesson.unit.id}`)}>{lesson.station}</a>
+        <span class="sep">/</span>
+        <span>Ders {lesson.lessonIndex}</span>
+        <span class="lesson-code">{lesson.stationCode} · {String(lesson.lessonIndex).padStart(2, "0")}</span>
+      </div>
+      <h1 class="lesson-title" data-pagefind-meta="title">{lesson.title}</h1>
+      <div class="lesson-meta">
+        <span><strong>{formatMinutes(lesson.minutes)}</strong> yazılı süre</span>
+        <span>{lesson.pages.length} sayfa</span>
+        <span>{codePages} kod sayfası</span>
+        <span>{checks} kontrol sorusu</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="lesson-shell">
+      <aside class="rail" aria-label="Ders gezinmesi">
+        <div class={`rail-group ${lineClass}`}>
+          <div class="rail-heading">
+            <span>{lesson.phase.code} · {lesson.phase.name}</span>
+            <a href={href(`/hat/${lesson.phase.key}`)}>hat</a>
+          </div>
+          <ol class="rail-stations">
+            {
+              lesson.phase.units.map((unit, index) => (
+                <li>
+                  <a
+                    href={href(`/unite/${unit.id}`)}
+                    aria-current={unit.id === lesson.unit.id ? "true" : undefined}
+                  >
+                    <span>{shortUnitTitle(unit)}</span>
+                    <code>{lesson.phase.code}-{String(index + 1).padStart(2, "0")}</code>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div class={`rail-group ${lineClass}`}>
+          <div class="rail-heading">
+            <span>Bu durak</span>
+            <span>{lesson.unit.lessons.length} ders</span>
+          </div>
+          <ol class="rail-list">
+            {
+              lesson.unit.lessons.map((item) => (
+                <li>
+                  <a
+                    class="rail-lesson"
+                    href={href(`/ders/${item.id}`)}
+                    data-lesson-link={item.id}
+                    aria-current={item.id === lesson.id ? "page" : undefined}
+                  >
+                    <span class="rail-lesson-title">
+                      {item.title}
+                      <span class="rail-lesson-meta">
+                        {formatMinutes(item.minutes)} · {item.pages.length} sayfa
+                      </span>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div class="rail-group">
+          <div class="rail-heading"><span>Bu derste</span><span>{lesson.pages.length}</span></div>
+          <ol class="rail-stations">
+            {
+              rendered.pages.map((page, index) => (
+                <li>
+                  <a href={`#${page.id}`}>
+                    <span>
+                      {String(index + 1).padStart(2, "0")} ·{" "}
+                      {page.label || kindLabel[page.kind]}
+                    </span>
+                    <code>{kindLabel[page.kind]}</code>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </aside>
+
+      <article class="lesson-article" data-pagefind-body>
+        <details class="mobile-toc" data-pagefind-ignore>
+          <summary>Bu dersin içeriği · {lesson.pages.length} sayfa</summary>
+          <ol>
+            {
+              rendered.pages.map((page, index) => (
+                <li>
+                  <a href={`#${page.id}`}>
+                    <span>{String(index + 1).padStart(2, "0")} · {page.label || kindLabel[page.kind]}</span>
+                    <span class="toc-kind">{kindLabel[page.kind]}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ol>
+        </details>
+
+        <div class="lesson-pages">
+          {
+            rendered.pages.map((page, index) => (
+              <section class="page-section" id={page.id} data-kind={page.kind}>
+                <div class="page-flag" data-pagefind-ignore>
+                  {kindLabel[page.kind]}
+                  <span>{String(index + 1).padStart(2, "0")} / {String(lesson.pages.length).padStart(2, "0")}</span>
+                </div>
+                {page.kind === "check" ? (
+                  <div class="check">
+                    <div class="prose check-q" set:html={page.html} />
+                    <details class="check-details">
+                      <summary>Cevabı göster</summary>
+                      <div class="prose check-answer" data-pagefind-ignore set:html={page.answerHtml ?? ""} />
+                    </details>
+                  </div>
+                ) : (
+                  <div class="prose" set:html={page.html} />
+                )}
+              </section>
+            ))
+          }
+        </div>
+
+        <div class="lesson-actions" data-pagefind-ignore>
+          <button class="complete-btn" type="button" data-complete={lesson.id} aria-pressed="false">
+            <span class="tick" aria-hidden="true"></span>
+            <span data-complete-label>Dersi tamamladım</span>
+          </button>
+          <span class="label">{lesson.stationCode} · {formatMinutes(lesson.minutes)}</span>
+        </div>
+
+        <nav class="lesson-pager" aria-label="Dersler arası gezinme" data-pagefind-ignore>
+          {
+            prev ? (
+              <a class="pager-link" href={href(`/ders/${prev.id}`)}>
+                <span class="pager-label">← Önceki durak</span>
+                <span class="pager-title">{prev.title}</span>
+                <span class="pager-meta">{prev.stationCode} · {formatMinutes(prev.minutes)}</span>
+              </a>
+            ) : (
+              <span class="pager-link pager-empty">
+                <span class="pager-label">Hat başı</span>
+                <span class="pager-meta">Önceki ders yok</span>
+              </span>
+            )
+          }
+          {
+            next ? (
+              <a class="pager-link" href={href(`/ders/${next.id}`)}>
+                <span class="pager-label">Sonraki durak →</span>
+                <span class="pager-title">{next.title}</span>
+                <span class="pager-meta">{next.stationCode} · {formatMinutes(next.minutes)}</span>
+              </a>
+            ) : (
+              <span class="pager-link pager-empty" style="text-align:right;align-items:flex-end">
+                <span class="pager-label">Hat sonu</span>
+                <span class="pager-meta">Sonraki ders yok</span>
+              </span>
+            )
+          }
+        </nav>
+      </article>
+    </div>
+  </div>
+</BaseLayout>

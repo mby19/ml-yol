@@ -1,0 +1,72 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatMinutes, pagesOfKind, phases, shortUnitTitle } from "../../lib/course";
+
+export function getStaticPaths() {
+  return phases.map((phase) => ({
+    params: { key: phase.key },
+    props: { phase },
+  }));
+}
+
+const { phase } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+const lineClass =
+  phase.key === "baslangic" ? "line-b" : phase.key === "araclar" ? "line-a" : `line-${phase.key}`;
+
+const pages = phase.lessons.reduce((sum, lesson) => sum + lesson.pages.length, 0);
+const checks = phase.lessons.reduce((sum, lesson) => sum + pagesOfKind(lesson, "check").length, 0);
+const firstLesson = phase.lessons[0];
+---
+
+<BaseLayout title={phase.longName} description={`${phase.units.length} durak · ${phase.lessons.length} ders`}>
+  <header class={`line-head ${lineClass}`}>
+    <div class="wrap">
+      <h1>{phase.name}</h1>
+      <div class="line-stats">
+        {phase.code} hattı · {phase.units.length} durak · {phase.lessons.length} ders ·{" "}
+        {pages} sayfa · {checks} kontrol · {formatMinutes(phase.minutes)} yazılı süre
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap page">
+    <ol class="line-units">
+      {
+        phase.units.map((unit, index) => {
+          const unitLessons = unit.lessons.length;
+          const unitMinutes = unit.lessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
+          return (
+            <li>
+              <a class="line-unit" href={href(`/unite/${unit.id}`)}>
+                <span class="line-unit-code">
+                  {phase.code}-{String(index + 1).padStart(2, "0")}
+                </span>
+                <span>
+                  <span class="line-unit-title">
+                    {shortUnitTitle(unit)}
+                  </span>
+                  <span class="line-unit-sub">
+                    {unitLessons} ders · {unit.lessons.reduce((sum, lesson) => sum + lesson.pages.length, 0)} sayfa
+                  </span>
+                </span>
+                <span class="line-unit-time">{formatMinutes(unitMinutes)}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ol>
+
+    {firstLesson && (
+      <div class="unit-foot">
+        <a class="btn" href={href(`/ders/${firstLesson.id}`)}>
+          Hattın ilk dersi: {firstLesson.title}
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a href={href("/plan")}>Bu hattı plana yerleştir</a>
+      </div>
+    )}
+  </div>
+</BaseLayout>
