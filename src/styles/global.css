@@ -1057,6 +1057,8 @@ hr {
   text-underline-offset: 0.18em;
 }
 .rail-stations code {
+  flex: none;
+  white-space: nowrap;
   font-size: 0.65rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
@@ -2520,7 +2522,7 @@ html[data-theme="dark"] .prose pre span {
   .plan-summary {
     background: #fff !important;
     color: #000 !important;
-    border: 1px solid #000;
+    border: 1px solid #000 !important;
     margin-inline: 0;
     padding: 1rem 0;
   }
@@ -3033,7 +3035,7 @@ html[data-theme="dark"] .theme-icon-light { display: none; }
   position: relative;
   background: var(--board);
   color: var(--board-ink);
-  border-bottom: 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.14);
   padding: 1.7rem 1.5rem 1.6rem;
   margin-inline: calc(var(--pad) * -1);
   grid-template-columns: repeat(4, minmax(0, 1fr));
