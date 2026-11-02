@@ -1,0 +1,403 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { allLessons, courseInfo } from "../lib/course";
+import {
+  phaseLineClass,
+  sourceEntries,
+  sourceStats,
+  type SourceEntry,
+} from "../lib/sources";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+
+const projectUnits = new Set(["f1-u6-proje", "f2-u7-proje", "f3-u8-proje"]);
+const projectLessons = allLessons.filter((lesson) => projectUnits.has(lesson.unit.id));
+const projectMinutes = projectLessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
+const projectShare = Math.round((projectMinutes / courseInfo.minutes) * 100);
+const practiceTasks = allLessons.reduce(
+  (sum, lesson) =>
+    sum +
+    lesson.pages.filter(
+      (page) => page.kind === "text" && page.md.startsWith("# Pratik"),
+    ).length,
+  0,
+);
+
+const scenarios = [
+  {
+    name: "Sadece okuma",
+    does: "Ders metinlerini okur; kodu çalıştırmaz, kontrol sorularını yanıtlamaz, proje yapmaz.",
+    learns: "Kavram haritası, terminoloji, hangi fazın neyi kapsadığı.",
+    loses:
+      "Kod yazma ve hata ayıklama, ölçüm/deney, proje kanıtı, mülakat anlatısı. 189 kod sayfası, 334 kontrol ve 107 pratik görevi pasif kalır.",
+    impact: "Kritik",
+    risk: "high",
+    enough: "Genel ön okuma veya kavram taraması; ML mühendisliği hedefi için değil.",
+  },
+  {
+    name: "Okuma + pratik, proje yok",
+    does: "Dersleri okur, kodu çalıştırır, kontrolleri yanıtlar; faz projelerini atlar.",
+    learns: "Bileşen düzeyinde kod, API kullanımı, küçük deneyler ve hata ayıklama.",
+    loses:
+      "Uçtan uca veri hattı, model seçimi, değerlendirme raporu, teslim disiplini ve portföy kanıtı.",
+    impact: "Yüksek",
+    risk: "high",
+    enough: "Küçük görevler ve öğrenme; iş görüşmesinde proje anlatmak için zayıf.",
+  },
+  {
+    name: "Okuma + pratik + projeler, Derinleşme yok",
+    does:
+      "Dersleri okur, kodu ve kontrolleri yapar, üç faz projesini bitirir; “Derinleşmek için” kaynaklarını atlar.",
+    learns:
+      "Uçtan uca sistem kurma, ölçme, raporlama, hata ayıklama ve portföy; 375 “eşlik eden” kaynak hâlâ elinin altında.",
+    loses:
+      "Birincil makale okuma, bazı türetimler, kütüphane uç durumları ve F2/F3’teki araştırma ayrıntıları. En fazla 94 benzersiz kaynak yalnız bu katmanda.",
+    impact: "Düşük–orta",
+    risk: "medium",
+    enough:
+      "Uygulamalı ML işleri ve junior/mid seviye için sağlam taban; senior/research iddiası için yeterli değil.",
+  },
+  {
+    name: "3 + seçili Derinleşme",
+    does:
+      "Yukarıdakine ek olarak faz başına 1–2, takıldığı konuda 1 kaynak seçer; 193 kaynağın tamamını kovalamaz.",
+    learns:
+      "Birincil kaynak okuma, türetim ve varsayım görme, uç durumlar, araştırma dilini anlama.",
+    loses: "Takvimden zaman; yine de tüm araştırma literatürünü kapsamaz.",
+    impact: "En iyi getiri",
+    risk: "low",
+    enough:
+      "Senior yol haritası, LLM/araştırma ağırlıklı işler ve derin teknik mülakatlar için önerilen senaryo.",
+  },
+];
+
+const phaseNotes: Record<string, string> = {
+  baslangic:
+    "Kariyer çerçevesi ve iş seviyeleri; teknik kayıp düşük, yön kaybı olabilir.",
+  araclar:
+    "Kütüphane dokümanları ve uç durumlar; pratikle büyük ölçüde telafi edilir.",
+  f0:
+    "Kitap bölümleri, türetimler ve olasılık/lineer cebir köprüleri; 9 bağlantısız bölüm var.",
+  f1:
+    "Tekrar eden kaynak oranı yüksek: 32 kayıtta 15 benzersiz URL. Öz kaynak ve metrik sezgisi.",
+  f2:
+    "Makale ve doküman ağırlıklı; mimari, başlatma, eğitim döngüsü ve donanım ayrıntıları.",
+  f3:
+    "Makale ve repo ağırlıklı; frontier, post-training ve üretim ayrıntıları en çok burada.",
+};
+
+const phaseRisk: Record<string, { label: string; className: string }> = {
+  baslangic: { label: "Düşük", className: "risk-low" },
+  araclar: { label: "Düşük", className: "risk-low" },
+  f0: { label: "Orta–yüksek", className: "risk-medium" },
+  f1: { label: "Orta", className: "risk-medium" },
+  f2: { label: "Yüksek", className: "risk-high" },
+  f3: { label: "Yüksek", className: "risk-high" },
+};
+
+const typeNotes: Record<string, string> = {
+  Makale: "Yöntem, varsayım ve ablasyon; araştırma okuryazarlığı.",
+  Dokümantasyon: "API sözleşmesi, varsayılan ve uç durumlar; en hızlı düzeltme.",
+  Kitap: "Türetim ve biçimsel temel; matematikte kalıcılık.",
+  Ders: "Alternatif anlatım ve sıralı yol; tıkanınca ikinci bakış.",
+  "Kod deposu": "Yeniden üretim, uygulama kalıbı ve test etme.",
+  Yazı: "Mühendislik tercihleri ve mental model.",
+  Video: "Sezgi ve canlı demo; türetimin yerini tutmaz.",
+  Platform: "Model/veri aracı; ürün ve servis bağlamı.",
+  "Bağlantısız bölüm": "Kitap bölümü; bağlantı yok, künyeden bulunur.",
+  Diğer: "Sınıflandırılamayan bağlantı; metin ve domain belirleyici.",
+};
+
+const picks = [
+  "3blue1brown.com/lessons/vectors",
+  "mml-book.github.io",
+  "ocw.mit.edu/courses/18-06sc",
+  "seeing-theory.brown.edu/compound-probability",
+  "statlearning.com",
+  "scikit-learn.org/stable/modules/preprocessing",
+  "karpathy.ai/zero-to-hero",
+  "cs231n.github.io/neural-networks-1",
+  "d2l.ai/chapter_multilayer-perceptrons",
+  "arxiv.org/abs/1706.03762",
+  "arxiv.org/abs/2005.14165",
+  "arxiv.org/abs/2203.15556",
+  "arxiv.org/abs/2203.02155",
+  "arxiv.org/abs/2106.09685",
+  "arxiv.org/abs/2305.18290",
+  "huggingface.co/learn/llm-course",
+  "github.com/stanford-cs336/assignment1-basics",
+  "jalammar.github.io/illustrated-transformer",
+];
+
+const selected = picks
+  .map((fragment) =>
+    sourceEntries.find((entry) => entry.urls.some((url) => url.includes(fragment))),
+  )
+  .filter((entry): entry is SourceEntry => Boolean(entry));
+---
+
+<BaseLayout
+  title="Derinleşme rehberi"
+  description="Derinleşmek için kaynaklarını atlamak ne kaybettirir? Senaryolar, faz etkileri ve kaynak katmanı."
+  pagefindIgnore
+>
+  <header class="guide-head">
+    <div class="network-stripe" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+    <div class="wrap">
+      <h1>Derinleşme<br /><em class="display-accent">rehberi</em></h1>
+      <p class="guide-lede">
+        “Derinleşmek için” bölümünü atlamak ne kaybettirir? Sadece okumak yeter
+        mi, projeler yeter mi? Bu sayfa müfredatın kendi sayılarıyla dört
+        senaryoyu karşılaştırır; hangi kaynağın ne öğrettiğini ve nerede
+        durmanın makul olduğunu gösterir.
+      </p>
+      <p class="guide-facts">
+        {courseInfo.lessons} ders · {sourceStats.entries} kaynak kaydı ·{" "}
+        {sourceStats.deepeningEntries} derinleşme · {sourceStats.uniqueUrls} benzersiz URL
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap page">
+    <section class="verdict" aria-labelledby="verdict-title">
+      <p class="label" id="verdict-title">Kısa cevap</p>
+      <p class="verdict-lead">
+        Sadece okumak <strong>yetmez</strong>. Okuma + pratik + projeler
+        <strong> sağlam bir taban</strong>; “Derinleşmek için” katmanını atlamak
+        çoğu uygulamalı iş için kabul edilebilir. Bedeli en çok
+        <strong> F3/LLM, F2 ve matematik türetmelerinde</strong>; F4–F6 zaten bu
+        dosyada yok.
+      </p>
+      <ul class="verdict-points">
+        <li><span class="risk risk-high">Kritik</span> Sadece okuma: kavram okuryazarlığı verir, mühendislik davranışı vermez.</li>
+        <li><span class="risk risk-medium">Taban</span> Okuma + pratik + üç proje: uygulamalı iş için yeterli; derinleşme ikinci katman.</li>
+        <li><span class="risk risk-low">Getiri</span> Faz başına 1–2 seçili kaynak: senior/research yolunda en yüksek getiri.</li>
+      </ul>
+    </section>
+
+    <section class="guide-section" aria-labelledby="evidence-title">
+      <h2 id="evidence-title">Müfredatın kendi cevabı</h2>
+      <p>
+        Müfredat “oku ve geç” için tasarlanmamış. Yazarın çalışma kuralı
+        <a href={href("/ders/u0-l2-nasil-ogrenilir")}> Nasıl öğrenilir</a>{" "}
+        dersinde açık: telefonda oku, PC’de kodu elle yaz ve çalıştır; her derste
+        önce sıfırdan yaz, sonra kütüphaneyle karşılaştır. Bu yüzden “sadece
+        okuma” senaryosu, içeriğin yarısını tüketmeden bitirmek olur.
+      </p>
+      <div class="evidence-strip">
+        <div><strong>{courseInfo.codePages}</strong><span>kod sayfası</span></div>
+        <div><strong>{courseInfo.checks}</strong><span>kontrol sorusu</span></div>
+        <div><strong>{practiceTasks}</strong><span>pratik görevi</span></div>
+        <div><strong>{projectLessons.length}</strong><span>proje dersi</span></div>
+        <div><strong>{Math.round(projectMinutes / 60)} sa</strong><span>proje süresi</span></div>
+      </div>
+      <p>
+        Üç faz projesi <a href={href("/unite/f1-u6-proje")}>F1</a>,{" "}
+        <a href={href("/unite/f2-u7-proje")}>F2</a> ve{" "}
+        <a href={href("/unite/f3-u8-proje")}>F3</a> sonunda; toplam{" "}
+        {projectMinutes.toLocaleString("tr-TR")} dakika, yazılı sürenin yaklaşık
+        %{projectShare}’i. Projeleri atlamak, derinleşmeyi atlamaktan daha büyük
+        bir kayıptır; çünkü portföy, uçtan uca hata ayıklama ve değerlendirme
+        kanıtı orada üretilir.
+      </p>
+    </section>
+
+    <section class="guide-section" aria-labelledby="source-layer-title">
+      <h2 id="source-layer-title">İki kaynak katmanı: neyi atlıyorsun?</h2>
+      <p>
+        Her ders özeti iki listeyle biter: <strong>Bu derse eşlik eden</strong>{" "}
+        (dersi destekleyen ilk katman) ve <strong>Derinleşmek için</strong>{" "}
+        (isteğe bağlı ikinci katman). Derinleşmeyi atlamak, bütün kaynakları
+        değil ikinci katmanı atlamak demek.
+      </p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Tablo; yatay kaydırmak için kaydırın">
+        <table class="guide-table">
+          <thead><tr><th>Katman</th><th>Kayıt</th><th>Benzersiz URL</th><th>Ne işe yarar?</th></tr></thead>
+          <tbody>
+            <tr><td>Bu derse eşlik eden</td><td class="num">{sourceStats.companionEntries}</td><td class="num">{sourceStats.companionUrls}</td><td>Dersin ana anlatımını destekleyen ilk kaynak; pratikle birlikte çekirdek.</td></tr>
+            <tr><td>Derinleşmek için</td><td class="num">{sourceStats.deepeningEntries}</td><td class="num">{sourceStats.deepeningUrls}</td><td>Birincil kaynak, ileri ayrıntı, türetim ve araştırma okuryazarlığı.</td></tr>
+            <tr><td>Toplam</td><td class="num">{sourceStats.entries}</td><td class="num">{sourceStats.uniqueUrls}</td><td>{sourceStats.overlapUrls} URL iki katmanda da; yalnız derinleşmede {sourceStats.deepeningOnlyUrls} benzersiz URL.</td></tr>
+            <tr><td>Bağlantısız bölüm</td><td class="num">{sourceStats.noLinkEntries}</td><td class="num">—</td><td>Kitap bölümü gibi URL’siz kaynak; künyeden elle bulunur.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="guide-note">
+        Dar ekranda tablolar yatay kaydırılır.{" "}
+        {sourceStats.lessonsWithDeepening}/{sourceStats.lessons} derste
+        “Derinleşmek için” var.{" "}
+        {sourceStats.lessonsWithoutDeepening.map((lesson) => (
+          <span>
+            <a href={href(`/ders/${lesson.id}`)}>{lesson.title}</a>
+            {lesson !== sourceStats.lessonsWithoutDeepening.at(-1) ? ", " : ""}
+          </span>
+        ))}{" "}
+        derslerinde bu bölüm yok.
+      </p>
+    </section>
+
+    <section class="guide-section" aria-labelledby="scenario-title">
+      <h2 id="scenario-title">Hangi senaryo ne öğretir?</h2>
+      <p class="guide-note">
+        Etki etiketleri ölçüm değil, müfredatın yapısına dayalı editöryel
+        değerlendirme. Hedef: senior ML mühendisliği; yalnızca genel kültür
+        hedefiyseniz “sadece okuma” yeterli olabilir.
+      </p>
+      <div class="scenarios">
+        {
+          scenarios.map((scenario, index) => (
+            <article class="scenario">
+              <div class="scenario-head">
+                <span class="scenario-num">{String(index + 1).padStart(2, "0")}</span>
+                <h3>{scenario.name}</h3>
+                <span class={`risk ${scenario.risk === "high" ? "risk-high" : scenario.risk === "medium" ? "risk-medium" : "risk-low"}`}>
+                  {scenario.impact}
+                </span>
+              </div>
+              <div class="scenario-grid">
+                <div><span class="scenario-label">Ne yaparsın</span><p>{scenario.does}</p></div>
+                <div><span class="scenario-label">Ne öğrenirsin</span><p>{scenario.learns}</p></div>
+                <div><span class="scenario-label">Ne kaybedersin</span><p>{scenario.loses}</p></div>
+                <div><span class="scenario-label">Kime yeter</span><p>{scenario.enough}</p></div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+      <p class="guide-note">
+        Beşinci bir senaryo olarak 193 derinleşme kaydının tamamını okumak var;
+        zorunlu değil. Kaynak sayısı arttıkça getiri azalır, projelerden çalınan
+        zaman artar. Önce pratik ve proje, sonra seçili derinleşme.
+      </p>
+    </section>
+
+    <section class="guide-section" aria-labelledby="phase-title">
+      <h2 id="phase-title">Faz faz kayıp</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Tablo; yatay kaydırmak için kaydırın">
+        <table class="guide-table">
+          <thead>
+            <tr><th>Hat</th><th>Derinleşme</th><th>Benzersiz</th><th>Ne ekler?</th><th>Atlama riski</th></tr>
+          </thead>
+          <tbody>
+            {sourceStats.byPhase.map((item) => (
+              <tr>
+                <td>
+                  <a class={`phase-chip ${phaseLineClass(item.phase.key)}`} href={href(`/hat/${item.phase.key}`)}>
+                    {item.phase.code}
+                  </a>
+                  <span class="phase-name">{item.phase.name}</span>
+                </td>
+                <td class="num">{item.entries}</td>
+                <td class="num">{item.unique}</td>
+                <td>{phaseNotes[item.phase.key]}</td>
+                <td><span class={`risk ${phaseRisk[item.phase.key].className}`}>{phaseRisk[item.phase.key].label}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="guide-note">
+        F1’de 32 kayda karşı 15 benzersiz URL var; aynı kaynaklar birkaç derste
+        tekrar ediyor. F3’te ise 53 kaydın 41’i benzersiz; atlamanın en pahalı
+        olduğu hat burası.
+      </p>
+      <div class="guide-callout">
+        <p class="label">Bu dosyanın sınırı</p>
+        <p>
+          Müfredat yedi fazdan söz ediyor ama JSON’da <strong>F4 (MLOps), F5
+          (sistemler) ve F6 (sistem tasarımı)</strong> üniteleri yok. Bu sayfadaki
+          hiçbir senaryo o yetkinlikleri tamamlamaz; derinleşme kaynakları da
+          onların yerini tutmaz. Senior hedefi için bu üç alan ayrıca
+          çalışılmalı.
+        </p>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="type-title">
+      <h2 id="type-title">Kaynak türleri ne öğretir?</h2>
+      <p class="guide-note">
+        Türler bağlantı adresinden sezgisel sınıflandırılır; kesin tür değil,
+        çalışma biçimi göstergesidir.
+      </p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Tablo; yatay kaydırmak için kaydırın">
+        <table class="guide-table">
+          <thead><tr><th>Tür</th><th>Kayıt</th><th>Ne öğretir?</th></tr></thead>
+          <tbody>
+            {sourceStats.byType.map(([kind, count]) => (
+              <tr><td>{kind}</td><td class="num">{count}</td><td>{typeNotes[kind] ?? "Bağlantı ve metne göre değerlendirilir."}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="decision-title">
+      <h2 id="decision-title">Karar kuralı: ne zaman derinleş, ne zaman geç?</h2>
+      <ol class="priority-list">
+        <li><span class="priority-num">01</span><div><h3>Önce pratik ve kontrol</h3><p>Her dersin kodunu çalıştır, kontrol sorusunu cevabı açmadan yanıtla. Bir kontrol iki kez tıkanıyorsa o dersin derinleşme kaynağına dön.</p></div></li>
+        <li><span class="priority-num">02</span><div><h3>Sonra faz projesi</h3><p>Üç projeyi bitirmeden derinleşme okumak, kanıt üretmeden bilgi toplamaktır. Proje tıkanırsa dokümantasyon veya makale oku; genel okuma listesine dönme.</p></div></li>
+        <li><span class="priority-num">03</span><div><h3>Sonra eşlik eden kaynak</h3><p>Dersin “Bu derse eşlik eden” listesi zaten 375 kayıt; bunlar ana anlatımın uzantısı. Derinleşmeden önce bu katmanı tüket.</p></div></li>
+        <li><span class="priority-num">04</span><div><h3>Seçili derinleşme</h3><p>Haftada 15 saat çalışıyorsan faz başına 1–2 kaynak yeter. F3’te makale/repo, F0’da türetim, F2’de eğitim ayrıntısı öncelikli.</p></div></li>
+        <li><span class="priority-num">05</span><div><h3>Tüm listeyi bitirme</h3><p>193 kaydın tamamı hedef değil. Araştırma/LLM uzmanlığı istemiyorsan tamamını okumak, projelerden çalınan zamanla sonuçlanır.</p></div></li>
+      </ol>
+      <div class="decision-cols">
+        <div><span class="label">Hedef uygulamalı ML</span><p>Pratik + üç proje + eşlik eden kaynaklar + faz başına bir seçki. Derinleşmenin tamamı gerekmez.</p></div>
+        <div><span class="label">Hedef LLM / araştırma</span><p>F3’ün makale ve repo listesi neredeyse zorunlu; F2’de optimizasyon ve eğitim makaleleri. Yine de projeyi ikame etmez.</p></div>
+        <div><span class="label">Süre kısıtlı</span><p>Derinleşmeyi ilk bırak; pratik, kontrol ve projeleri koru. Derinleşme ikinci katman.</p></div>
+      </div>
+    </section>
+
+    <section class="guide-section" aria-labelledby="picks-title">
+      <h2 id="picks-title">Seçilmiş kaynaklar</h2>
+      <p>
+        Aşağıdaki {selected.length} kaynak, kendi başına bir başlangıç seti.
+        Tamamı JSON’dan; her biri ilgili derse bağlı. Bütün {sourceStats.entries}{" "}
+        kayıt için <a href={href("/kaynaklar")}>kaynak kataloğuna</a> geç.
+      </p>
+      <div class="pick-list">
+        {
+          selected.map((entry) => (
+            <article class={`pick ${phaseLineClass(entry.phaseKey)}`}>
+              <div class="pick-head">
+                <span class="phase-chip">{entry.phaseCode}</span>
+                <span class="source-type">{entry.kind}</span>
+              </div>
+              <p class="pick-text">{entry.description}</p>
+              {entry.urls.length > 0 && (
+                <p class="source-links">
+                  {entry.urls.map((url) => (
+                    <a href={url} rel="noopener noreferrer">
+                      {url.replace(/^https?:\/\//, "")}
+                    </a>
+                  ))}
+                </p>
+              )}
+              <a class="source-lesson" href={href(`/ders/${entry.lessonId}`)}>
+                {entry.lessonTitle}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+      <a class="guide-cta" href={href("/kaynaklar")}>
+        Bütün kaynakları filtrele
+        <span aria-hidden="true">→</span>
+      </a>
+    </section>
+
+    <section class="guide-section" aria-labelledby="method-title">
+      <h2 id="method-title">Yöntem ve sınırlar</h2>
+      <p>
+        Bütün sayılar <code>data/course.json</code> içindeki özet sayfalarından
+        üretilir: {sourceStats.entries} kayıt, {sourceStats.uniqueUrls} benzersiz
+        URL. {sourceStats.noLinkEntries} kayıtta URL yok; bunlar kitap bölümü
+        gibi künyeyle bulunur. Kaynak türleri bağlantı adresinden sezgisel
+        sınıflandırılır. Dış bağlantıların güncelliği bu sitede otomatik
+        doğrulanmaz. Etki etiketleri ölçüm değil, müfredatın yapısına dayalı
+        değerlendirmedir.
+      </p>
+    </section>
+  </div>
+</BaseLayout>

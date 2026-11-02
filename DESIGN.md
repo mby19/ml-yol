@@ -135,6 +135,21 @@ heading; labels exist only as data labels or section flags inside a lesson.
 - **Empty/error** — no-results text for search and glossary filters; a 404
   page with the same network grammar.
 
+## Guide and source surfaces
+
+- **Guide header** — paper, a six-segment line stripe, a display title with a
+  serif italic second line, a lede and a data line. No color field: this page
+  is a report, not a station.
+- **Verdict** — a top/bottom-ruled statement block, then risk rows; no card.
+- **Scenario rows** — numbered border-bottom rows with a four-column
+  does/learns/loses/enough grid; risk square on the head row.
+- **Guide tables** — 13px sans, tabular numerals, ink header rule; the wrapper
+  is a focusable horizontal scroll region on small screens.
+- **Source catalog** — sticky filter bar (search, layer, phase, type), then
+  one row per source: phase chip, layer, inferred type, description, links,
+  lesson. Phase colour is a dot, never coloured small text.
+- **Selected picks** — two-column list on paper, one column on mobile.
+
 ## Motion
 
 The signature motion is the route: rails draw across (or down) the network and

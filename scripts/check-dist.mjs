@@ -52,6 +52,8 @@ const required = [
   "index.html",
   "404.html",
   "plan/index.html",
+  "rehber/index.html",
+  "kaynaklar/index.html",
   "sozluk/index.html",
   "sozluk/veri.json",
   "arama/index.html",
@@ -67,8 +69,15 @@ for (const file of required) {
   }
 }
 
+const sourceHtml = await read("kaynaklar/index.html");
+const sourceTotal = Number(sourceHtml.match(/data-source-total="(\d+)"/)?.[1] ?? 0);
+const sourceArticles = (sourceHtml.match(/<article[^>]*data-source-entry/g) ?? []).length;
+if (!sourceTotal || sourceArticles !== sourceTotal) {
+  errors.push(`kaynak listesi: ${sourceArticles} kayıt, ${sourceTotal} bekleniyor`);
+}
+
 console.log(
-  `çıktı: ${lessonDirs} ders · ${sections} sayfa · ${answers} kontrol · ${termCount} terim · ${termLinks} terim bağlantısı · ${katexErrors} KaTeX hatası`,
+  `çıktı: ${lessonDirs} ders · ${sections} sayfa · ${answers} kontrol · ${termCount} terim · ${termLinks} terim bağlantısı · ${sourceArticles} kaynak · ${katexErrors} KaTeX hatası`,
 );
 
 if (errors.length) {

@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  phaseLineClass,
+  sourceEntries,
+  sourceStats,
+} from "../lib/sources";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+
+const modes = [
+  { key: "all", label: "Tümü", count: sourceStats.entries },
+  { key: "companion", label: "Eşlik eden", count: sourceStats.companionEntries },
+  { key: "deepening", label: "Derinleşme", count: sourceStats.deepeningEntries },
+];
+
+const types = sourceStats.byType.map(([kind]) => kind);
+const phases = sourceStats.byPhase.map((item) => item.phase);
+---
+
+<BaseLayout
+  title="Kaynaklar"
+  description={`${sourceStats.entries} kaynak kaydı, ${sourceStats.uniqueUrls} benzersiz URL`}
+  pagefindIgnore
+>
+  <header class="source-head">
+    <div class="wrap">
+      <h1>Kaynaklar</h1>
+      <p>
+        Müfredatın özet sayfalarındaki bütün kaynak önerileri:{" "}
+        <strong>{sourceStats.entries} kayıt</strong>,{" "}
+        <strong>{sourceStats.uniqueUrls} benzersiz URL</strong>.{" "}
+        {sourceStats.companionEntries} kayıt derse eşlik eden ilk katman,{" "}
+        {sourceStats.deepeningEntries} kayıt “Derinleşmek için” ikinci katman.
+        Türler bağlantı adresinden sezgisel sınıflandırılır; kitap bölümü gibi
+        bağlantısız {sourceStats.noLinkEntries} kayıt ayrıca işaretlidir.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="source-filters" role="search">
+      <input
+        id="source-search"
+        class="source-search"
+        type="search"
+        placeholder="Kaynak, ders, faz veya site ara"
+        aria-label="Kaynaklarda ara"
+        autocomplete="off"
+      />
+      <div class="source-mode-group" role="group" aria-label="Kaynak katmanı">
+        {
+          modes.map((mode) => (
+            <button
+              type="button"
+              class="source-mode-btn"
+              data-mode-filter={mode.key}
+              aria-pressed={mode.key === "all" ? "true" : "false"}
+            >
+              {mode.label} <span>{mode.count}</span>
+            </button>
+          ))
+        }
+      </div>
+      <label class="source-select">
+        <span class="sr-only">Hat</span>
+        <select id="source-phase">
+          <option value="all">Tüm hatlar</option>
+          {phases.map((phase) => (
+            <option value={phase.key}>{phase.code} · {phase.name}</option>
+          ))}
+        </select>
+      </label>
+      <label class="source-select">
+        <span class="sr-only">Tür</span>
+        <select id="source-type">
+          <option value="all">Tüm türler</option>
+          {types.map((kind) => <option value={kind}>{kind}</option>)}
+        </select>
+      </label>
+      <span class="source-count" id="source-count" aria-live="polite">
+        {sourceStats.entries} kaynak
+      </span>
+    </div>
+
+    <div class="source-list" id="source-list" data-source-total={sourceStats.entries}>
+      {
+        sourceEntries.map((entry) => (
+          <article
+            class={`source ${phaseLineClass(entry.phaseKey)}`}
+            id={entry.id}
+            data-source-entry
+            data-mode={entry.mode}
+            data-phase={entry.phaseKey}
+            data-kind={entry.kind}
+            data-search={entry.search}
+          >
+            <div class="source-meta">
+              <span class="phase-chip">{entry.phaseCode}</span>
+              <span class={`source-mode source-mode-${entry.mode}`}>
+                {entry.mode === "deepening" ? "Derinleşme" : "Eşlik eden"}
+              </span>
+              <span class="source-type">{entry.kind}</span>
+            </div>
+            <p class="source-text">{entry.description}</p>
+            {entry.urls.length > 0 ? (
+              <p class="source-links">
+                {entry.urls.map((url) => (
+                  <a href={url} rel="noopener noreferrer">
+                    {url.replace(/^https?:\/\//, "")}
+                  </a>
+                ))}
+              </p>
+            ) : (
+              <p class="source-nolink">
+                Bağlantı yok; kaynak metinde bölüm/başlık adı verilmiş.
+              </p>
+            )}
+            <a class="source-lesson" href={href(`/ders/${entry.lessonId}`)}>
+              {entry.phaseCode} · {entry.lessonTitle}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+    <p class="source-empty" id="source-empty" hidden>
+      Bu filtreye uyan kaynak yok.
+    </p>
+    <p class="source-footnote">
+      Kaynaklar JSON’daki özet sayfalarından üretilir; dış sitelerin güncelliği
+      ayrıca doğrulanmamıştır. {sourceStats.noLinkEntries} kayıtta URL yok,
+      {" "}{sourceStats.lessonsWithoutDeepening.length} derste “Derinleşmek
+      için” bölümü bulunmuyor. <a href={href("/rehber")}>Derinleşme rehberi</a>.
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/sources";
+</script>

@@ -2,6 +2,7 @@
 import "katex/dist/katex.min.css";
 import "../styles/global.css";
 import { courseInfo } from "../lib/course";
+import { sourceStats } from "../lib/sources";
 
 interface Props {
   title: string;
@@ -20,6 +21,8 @@ const desc =
 const nav = [
   { href: "/", label: "Yol haritası", match: (p: string) => p === "/" || p.startsWith("/ders") || p.startsWith("/unite") || p.startsWith("/hat") },
   { href: "/plan", label: "Plan", match: (p: string) => p.startsWith("/plan") },
+  { href: "/rehber", label: "Rehber", match: (p: string) => p.startsWith("/rehber") },
+  { href: "/kaynaklar", label: "Kaynaklar", match: (p: string) => p.startsWith("/kaynaklar") },
   { href: "/sozluk", label: "Sözlük", match: (p: string) => p.startsWith("/sozluk") },
   { href: "/arama", label: "Arama", match: (p: string) => p.startsWith("/arama") },
 ];
@@ -113,7 +116,15 @@ const hourLabel = Math.round(minutes / 60).toLocaleString("tr-TR");
         nav.map((item) => (
           <a href={href(item.href)}>
             {item.label}
-            <span>{item.href === "/sozluk" ? `${courseInfo.terms} terim` : ""}</span>
+            <span>
+              {item.href === "/sozluk"
+                ? `${courseInfo.terms} terim`
+                : item.href === "/kaynaklar"
+                  ? `${sourceStats.entries} kayıt`
+                  : item.href === "/rehber"
+                    ? "4 senaryo"
+                    : ""}
+            </span>
           </a>
         ))
       }
@@ -139,6 +150,8 @@ const hourLabel = Math.round(minutes / 60).toLocaleString("tr-TR");
             <span class="label">Kapsam</span>
             <div class="foot-links">
               <a href={href("/hakkinda")}>Veri, kapsam ve yöntem</a>
+              <a href={href("/rehber")}>Derinleşme rehberi</a>
+              <a href={href("/kaynaklar")}>Bütün kaynaklar</a>
               <a href={href("/plan")}>Çalışma planı</a>
               <a href={href("/sozluk")}>Sözlük</a>
             </div>

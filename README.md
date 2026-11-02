@@ -19,6 +19,10 @@ gösterir, üstüne okuma sırası, haftalık plan ve cihazda kalan ilerleme ekl
   bağlantıları. Ders içindeki noktalı terim bağlantısı yan panelde tanım açar.
 - **Arama** — derleme sırasında Pagefind ile üretilen tam metin dizini. Kod
   blokları, formüller ve kontrol cevapları dizin dışında tutulur.
+- **Derinleşme rehberi** — “Derinleşmek için” kaynaklarını atlamanın etkisini
+  dört senaryo, faz tablosu ve karar kurallarıyla anlatır.
+- **Kaynaklar** — özetlerdeki 568 kaynak kaydı, 361 benzersiz URL; katman, hat,
+  tür ve metinle filtrelenir. 21 kayıtta URL yoktur, ayrıca işaretlenir.
 - **İlerleme** — “Dersi tamamladım” yalnız `localStorage` içinde (`mlyol.v1`)
   saklanır. Hesap, sunucu, çerez ve analitik yoktur.
 - Koyu/açık tema, yazdırma düzeni, klavye kısayolu (`/` arama, `Esc` panel/menü).
@@ -120,6 +124,10 @@ src/pages/hat/[key]       faz hattı
 src/pages/unite/[id]      ünite ve ders listesi
 src/pages/ders/[id]       ders sayfası
 src/pages/plan.astro      haftalık plan
+src/pages/rehber.astro    derinleşme senaryoları
+src/pages/kaynaklar.astro kaynak kataloğu
+src/lib/sources.ts        kaynak ayrıştırma ve istatistikler
+src/scripts/sources.ts    kaynak filtreleri
 src/pages/sozluk.astro    sözlük
 src/pages/sozluk/veri.json.ts  sözlük paneli verisi
 src/pages/arama.astro     Pagefind arayüzü
