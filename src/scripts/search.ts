@@ -1,7 +1,7 @@
 interface PagefindResultData {
   url: string;
   excerpt: string;
-  meta: { title?: string };
+  meta: { title?: string; hat?: string };
 }
 
 interface PagefindSearch {
@@ -115,7 +115,16 @@ async function bootSearch(): Promise<void> {
         title.textContent = item.meta.title ?? "Ders";
         const excerpt = document.createElement("p");
         excerpt.innerHTML = item.excerpt;
-        link.append(title, excerpt);
+        const hat = item.meta.hat?.trim();
+        if (hat) {
+          const chip = document.createElement("span");
+          chip.className = "hat-chip";
+          chip.textContent = hat;
+          link.dataset.hat = hat.split(" ")[0];
+          link.append(chip, title, excerpt);
+        } else {
+          link.append(title, excerpt);
+        }
         li.appendChild(link);
         results.appendChild(li);
       }

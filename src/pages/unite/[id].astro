@@ -56,7 +56,7 @@ const lessonsData = unit.lessons.map((lesson) => ({
   </header>
 
   <div class="wrap page">
-    <ol class="timetable">
+    <ol class={`timetable ${lineClass}`}>
       {
         unit.lessons.map((lesson, index) => {
           const lessonChecks = pagesOfKind(lesson, "check").length;

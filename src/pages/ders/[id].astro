@@ -47,7 +47,7 @@ const kindLabel: Record<string, string> = {
   <header class={`lesson-head ${lineClass}`}>
     <div class="wrap">
       <div class="lesson-topline">
-        <a href={href(`/hat/${lesson.phase.key}`)}>{lesson.phase.longName}</a>
+        <a href={href(`/hat/${lesson.phase.key}`)} data-pagefind-meta="hat">{lesson.phase.longName}</a>
         <span class="sep">/</span>
         <a href={href(`/unite/${lesson.unit.id}`)}>{lesson.station}</a>
         <span class="sep">/</span>

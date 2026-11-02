@@ -130,6 +130,8 @@ src/styles/global.css     tasarım sistemi
 ## Tasarım notu
 
 Görsel dil bir toplu taşıma ağı: hat renkleri, durak kodları, sefer tarifesi
-mantığı. Amaç süs değil yön bulma; okuma yüzeyi serif, gezinme ve sayılar
-grotesk, kod mono. Renkler altı hattı ayırır; metin daima yüksek kontrastlı
-mürekkep rengindedir.
+mantığı. Ders/ünite/hat sayfaları solid hat rengi bir istasyon başlığıyla
+açılır; ünite dersleri dikey hat üzerinde durak daireleri olarak dizilir; plan
+özeti altı renkli çizgili bir kalkış tahtasıdır. Ana başlıkta “Yolu” serif
+italik, gövde Source Serif, gezinme/sayılar Archivo, kod mono. Amaç süs değil
+yön bulma; renkli alanlarda metin beyaz ve en düşük kontrast 5,36:1.

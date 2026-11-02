@@ -14,8 +14,10 @@ the page refuses the landing-page hero, the course-card grid, and the
 dashboard-of-progress-rings.
 
 OWN-WORLD: Cool paper ground, ink-black rules, six saturated line colours used
-as rails and stops, expanded grotesk signage, a serif reading surface, station
-codes, tabular numerals, squared corners.
+as rails, chips, and full-bleed station headers; expanded grotesk signage; a
+serif reading surface with an italic display accent; station codes, tabular
+numerals, squared corners. Lesson, unit, and line pages open on a solid line
+colour field with white signage type; the reading surface below stays paper.
 
 STORY: The reader sees the whole network first, understands that each stop is a
 unit and each line a phase, then enters a lesson that reads like a printed
@@ -48,23 +50,30 @@ Light (default tokens in `:root`):
 | `--line-f1` | `#2b7233` | Klasik ML |
 | `--line-f2` | `#b4440d` | Derin öğrenme |
 | `--line-f3` | `#8c1c56` | Transformer/LLM |
+| `--band` | line colour | solid header field per line |
+| `--on-line` | `#fff` / `#0c0f0b` | badge chip text, adapts per theme |
+| `--board` | `#12150f` | plan departure board |
+| `--board-ink` | `#f3f4ec` | board numerals |
+| `--board-muted` | `#b9bdb1` | board labels |
 
 Dark replaces the ground with `#0c0f0b`, surface `#12160f`, ink `#edefe5`,
 and lifts the six line colours (`#e8eae0`, `#3fb3a4`, `#8aa4f5`, `#74bd79`,
 `#ed9560`, `#db7a9e`). Every text/background pair in both themes clears 4.5:1;
 line colours clear 4.84:1 on the light ground.
 
-Colour is **field, not garnish**: the rail is the line, the header carries a
-2px line rule, the badge carries a short line-colour bar, and the stations use
-the line colour. Label text stays ink/muted so small type always clears AA;
-the line is identified by its field, not by coloured words. Selection uses `--selection`, focus uses `--focus`.
+Colour is **field, not garnish**: lesson/unit/line headers are solid line-colour
+fields with white text; home badges are line-colour chips; the route rail and
+station dots carry the line; the plan summary is a dark departure board with a
+six-colour network stripe. Band text is solid white on saturated colour
+(minimum 5.36:1); line-coloured words are avoided so small type always clears
+AA. Selection uses `--selection`, focus uses `--focus`.
 
 ## Type
 
 | Face | Use | Notes |
 |---|---|---|
 | Archivo variable (wdth 62–125, wght 100–900) | headings, navigation, labels, numbers | `font-stretch: 112–118%`, tracking −0.02 to −0.038em |
-| Source Serif 4 variable | lesson prose, ledes | 17px mobile / 18px desktop, line-height 1.68, measure 68ch |
+| Source Serif 4 variable | lesson prose, ledes, home display accent | 17px mobile / 18px desktop, line-height 1.68, measure 68ch; italic 520wt for “Yolu” |
 | JetBrains Mono | code | 13–13.5px, 1.6 line-height; custom Shiki palette from the line colours |
 | KaTeX fonts | formulas | `katex/dist/katex.min.css` |
 
@@ -88,16 +97,30 @@ heading; labels exist only as data labels or section flags inside a lesson.
 
 ## Components and states
 
-- **Line row** — badge (line colour bar + code), line name, stop count, route
-  rail, stop code, stop name. States: plain, hover (dot fills), done (dot
-  filled, name muted), current (ring around filled dot).
+- **Station header** — full line-colour field, white breadcrumb, white display
+  title, white meta, and a white station-code plate in line colour. Used on
+  every lesson, unit, and line page.
+- **Line row** — line-colour code chip, line name, stop count, route rail, stop
+  code, stop name. The rail draws in on load, stops pop in sequence. States:
+  plain, hover (dot fills), done (dot filled, name muted), current (ring plus a
+  slow ping).
 - **Lesson rail** — phase stops, current unit's lessons, page list. Current
   lesson is a filled dot + bold title; done lessons fill the dot. Page list
   uses the page's first heading (or question prefix for checks).
+- **Unit timetable** — lessons as station stops: a vertical line-colour rail,
+  numbered circles, title/sub, time, done state; the rail is the unit's line.
 - **Page section** — a hairline rule, a flag with kind + `NN / NN`, then
-  content. Check sections sit in a surface panel with a 2px warning top rule
-  and a native `<details>` reveal. Summaries get a surface panel with an ink
-  top rule.
+  content; the flag bar is line-colour for text, blue for code, orange for
+  checks, ink for summaries. Check sections sit in a surface panel with a 2px
+  warning top rule and a native `<details>` reveal. Summaries get a surface
+  panel with an ink top rule.
+- **Plan departure board** — four stats on a near-black board, pastel
+  six-line stripe on top, white numerals, muted labels; current week remains a
+  paper band. On mobile it becomes 2×2.
+- **Glossary A–Z** — letters as station buttons (circles, “Tümü” as a pill);
+  active is a filled ink station, not a text underline.
+- **Search results** — each result carries a line chip (code + phase, colour
+  square) from Pagefind metadata.
 - **Buttons** — square 2px radius; solid ink primary, hairline ghost. Copy
   code appears on hover/focus and on touch.
 - **Continue panel** — top rule, label row, next lesson, minutes, a full-width
@@ -114,10 +137,12 @@ heading; labels exist only as data labels or section flags inside a lesson.
 
 ## Motion
 
-One authored transition: the term drawer slides on `cubic-bezier(0.16,1,0.3,1)`
-over 260ms. Buttons, links, dots and the copy control use 120–200ms
-colour/transform transitions. The reading progress rule is a 2px line updated
-on scroll. `prefers-reduced-motion` collapses all durations and smooth scroll.
+The signature motion is the route: rails draw across (or down) the network and
+stops pop in sequence over ~700ms; the current stop has a slow ping. The term
+drawer slides on `cubic-bezier(0.16,1,0.3,1)` over 260ms. Buttons, links, dots
+and the copy control use 120–200ms colour/transform transitions. The reading
+progress rule is a 2px line updated on scroll. `prefers-reduced-motion` removes
+the route/ping motion and collapses all durations and smooth scroll.
 
 ## Browser surfaces
 
@@ -128,10 +153,11 @@ scroll inside their own boxes, never the page.
 
 ## Print
 
-Masthead, rail, pager, actions, term drawer and footer are removed. Lesson
-head keeps the line rule; sections avoid page breaks; code wraps; external
-links append their URL only when the visible text is not already the URL;
-internal term links never do.
+Masthead, rail, pager, actions, term drawer and footer are removed. Station
+header colour fields flatten to black on white; the departure board becomes a
+white board with a black rule; checks and summaries avoid page breaks while
+long sections may flow; code wraps; external links append their URL only when
+the visible text is not already the URL; internal term links never do.
 
 ## Accessibility
 
@@ -139,4 +165,6 @@ Semantic landmarks and one `h1` per page; skip link; visible focus; native
 `details` for answers; `aria-current` on navigation, rail, and station links;
 `aria-pressed` on completion and theme controls; `aria-live` for search and
 plan summaries; `inert` on the closed drawer; no content behind hover; all
-body text ≥ 4.5:1 in both themes.
+body text ≥ 4.5:1 in both themes. Band text is solid white on the saturated
+line field (≥5.36:1); the plan board uses white on `#12150f` with `#b9bdb1`
+labels.

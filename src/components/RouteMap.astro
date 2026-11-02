@@ -14,8 +14,8 @@ const lineClass = (key: string) =>
   </div>
   <ol class="network">
     {
-      phases.map((phase) => (
-        <li class={`line-row ${lineClass(phase.key)}`}>
+      phases.map((phase, index) => (
+        <li class={`line-row ${lineClass(phase.key)}`} style={`--i:${index}`}>
           <a class="line-label" href={href(`/hat/${phase.key}`)}>
             <span class="line-badge">{phase.code}</span>
             <span class="line-name">{phase.name}</span>

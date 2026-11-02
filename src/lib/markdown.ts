@@ -107,7 +107,7 @@ const DARK_THEME: ThemeRegistration = {
     },
     {
       scope: ["entity.name.type", "support.type", "entity.name.class"],
-      settings: { foreground: "#3fb3a4" },
+      settings: { foreground: "#d7b56d" },
     },
     {
       scope: ["punctuation", "keyword.operator"],
