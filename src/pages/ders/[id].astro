@@ -35,6 +35,8 @@ const kindLabel: Record<string, string> = {
   code: "Kod",
   check: "Kontrol",
   summary: "Özet",
+  choice: "Soru",
+  input: "Soru",
 };
 
 ---
@@ -167,7 +169,34 @@ const kindLabel: Record<string, string> = {
                   {kindLabel[page.kind]}
                   <span>{String(index + 1).padStart(2, "0")} / {String(lesson.pages.length).padStart(2, "0")}</span>
                 </div>
-                {page.kind === "check" ? (
+                {page.kind === "choice" || page.kind === "input" ? (
+                  <form class="quiz" data-quiz={page.kind} data-accept={page.accept ? JSON.stringify(page.accept) : undefined} data-pagefind-ignore>
+                    <div class="prose quiz-q" set:html={page.html} />
+                    {page.kind === "choice" ? (
+                      <fieldset class="quiz-options">
+                        <legend class="sr-only">Seçenekler</legend>
+                        {(page.options ?? []).map((opt) => (
+                          <label class="quiz-option" data-correct={opt.correct ? "1" : "0"}>
+                            <input type="radio" name={page.id} value={opt.id} />
+                            <span class="quiz-letter">{opt.id.toUpperCase()}</span>
+                            <span class="prose quiz-text" set:html={opt.html} />
+                            {opt.whyHtml && <span class="prose quiz-why" set:html={opt.whyHtml} />}
+                          </label>
+                        ))}
+                      </fieldset>
+                    ) : (
+                      <label class="quiz-input">
+                        <span class="sr-only">Cevabın</span>
+                        <input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Cevabını yaz" />
+                      </label>
+                    )}
+                    <div class="quiz-actions">
+                      <button class="btn quiz-submit" type="submit">Kontrol et</button>
+                      <p class="quiz-result" aria-live="polite"></p>
+                    </div>
+                    {page.explainHtml && <div class="prose quiz-explain" hidden set:html={page.explainHtml} />}
+                  </form>
+                ) : page.kind === "check" ? (
                   <div class="check">
                     <div class="prose check-q" set:html={page.html} />
                     <details class="check-details">
@@ -224,4 +253,7 @@ const kindLabel: Record<string, string> = {
       </article>
     </div>
   </div>
+  <script>
+    import "../../scripts/quiz";
+  </script>
 </BaseLayout>

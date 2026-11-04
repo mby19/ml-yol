@@ -1,13 +1,17 @@
 import courseJson from "../../data/course.json";
 import derinJson from "../../data/derin.json";
 
-export type PageKind = "text" | "code" | "check" | "summary";
+export type PageKind = "text" | "code" | "check" | "summary" | "choice" | "input";
 
 export interface CoursePage {
   id: string;
   kind: PageKind;
   md: string;
   answer?: string;
+  options?: { id?: string; md: string; why?: string }[];
+  correct?: string | string[];
+  accept?: string[];
+  explain?: string;
 }
 
 export interface CourseLesson {

@@ -346,8 +346,7 @@ html[data-theme="light"] .lesson-code, html[data-theme="light"] .unit-head .code
 
 /* rail: lessons as a vertical neuron chain */
 .rail-heading { font-family: var(--sans); }
-.rail-lesson { position: relative; padding-left: 1.6rem !important; }
-.rail-lesson::before { content: ""; position: absolute; left: 0.25rem; top: 0.55rem; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--rule-strong); background: var(--ground); transition: all 0.3s var(--spring); }
+.rail-lesson::before { border-color: var(--rule-strong); transition: all 0.3s var(--spring); }
 .rail-lesson.is-done::before { background: var(--layer, var(--signal)); border-color: var(--layer, var(--signal)); }
 .rail-lesson[aria-current="page"]::before { background: var(--ink); border-color: var(--ink); box-shadow: 0 0 0 4px color-mix(in oklab, var(--layer, var(--signal)) 30%, transparent); }
 
@@ -417,3 +416,35 @@ html[data-theme="light"] .lesson-code, html[data-theme="light"] .unit-head .code
   .derin-index { flex-wrap: nowrap; overflow-x: auto; border-radius: var(--r); scrollbar-width: none; margin-inline: calc(var(--pad) * -1); padding-inline: var(--pad); }
   .derin-index .chip-link { flex: none; }
 }
+
+/* ---------- quiz pages ---------- */
+.page-section[data-kind="choice"] .page-flag::before, .page-section[data-kind="input"] .page-flag::before { background: var(--l-f5); }
+.quiz { border: 1px solid var(--rule); border-radius: var(--r); background: var(--surface); padding: clamp(1rem, 3vw, 1.5rem); display: grid; gap: 1rem; }
+.quiz-options { border: 0; padding: 0; margin: 0; display: grid; gap: 0.55rem; }
+.quiz-option { display: grid; grid-template-columns: auto 1fr; gap: 0.15rem 0.8rem; align-items: start; padding: 0.75rem 0.9rem; border: 1.5px solid var(--rule); border-radius: var(--r-s); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+.quiz-option:hover { border-color: var(--rule-strong); }
+.quiz-option input { position: absolute; opacity: 0; pointer-events: none; }
+.quiz-option:has(input:checked) { border-color: var(--signal); background: color-mix(in oklab, var(--signal) 8%, transparent); }
+.quiz-option:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+.quiz-letter { width: 1.8rem; height: 1.8rem; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--rule-strong); font: 700 0.8rem/1 var(--sans); grid-row: span 2; }
+.quiz-option:has(input:checked) .quiz-letter { background: var(--signal); border-color: var(--signal); color: var(--signal-ink); }
+.quiz-text > :first-child, .quiz-why > :first-child, .quiz-q > :first-child { margin-top: 0; }
+.quiz-text > :last-child, .quiz-why > :last-child, .quiz-q > :last-child { margin-bottom: 0; }
+.quiz-why { display: none; grid-column: 2; font-size: 0.92rem; color: var(--muted); }
+.quiz-option.is-right { border-color: var(--done); background: color-mix(in oklab, var(--done) 10%, transparent); }
+.quiz-option.is-right .quiz-letter { background: var(--done); border-color: var(--done); color: var(--surface); }
+.quiz-option.is-picked:not(.is-right) { border-color: var(--warn); }
+.quiz-option.is-picked:not(.is-right) .quiz-letter { background: var(--warn); border-color: var(--warn); color: var(--surface); }
+.quiz-option.is-rest .quiz-why, .quiz-option.is-picked .quiz-why { display: block; }
+.quiz-input input { width: 100%; font: 500 1.05rem/1.3 var(--sans); padding: 0.8rem 1rem; border-radius: var(--r-s); border: 1.5px solid var(--rule-strong); background: var(--ground); color: var(--ink); }
+.quiz-input input:focus { border-color: var(--signal); outline: none; }
+.quiz[data-answered="right"] .quiz-input input { border-color: var(--done); }
+.quiz[data-answered="wrong"] .quiz-input input { border-color: var(--warn); }
+.quiz-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.quiz-submit { padding: 0.7rem 1.2rem; background: var(--ink); color: var(--ground); border: 0; font-weight: 700; cursor: pointer; }
+.quiz-submit:disabled { opacity: 0.45; cursor: default; }
+.quiz-result { margin: 0; font: 600 0.95rem/1.3 var(--sans); }
+.quiz[data-answered="right"] .quiz-result { color: var(--done); }
+.quiz[data-answered="wrong"] .quiz-result { color: var(--warn); }
+.quiz-explain { border-top: 1px solid var(--rule); padding-top: 0.9rem; font-size: 0.98rem; animation: reveal 0.4s var(--ease); }
+@keyframes reveal { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }

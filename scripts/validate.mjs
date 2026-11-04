@@ -54,7 +54,7 @@ for (const unit of area?.units ?? []) {
     }
     for (const page of lesson.pages ?? []) {
       checkId(page.id, "page");
-      if (!["text", "code", "check", "summary"].includes(page.kind)) {
+      if (!["text", "code", "check", "summary", "choice", "input"].includes(page.kind)) {
         errors.push(`bilinmeyen sayfa türü: ${page.id} ${page.kind}`);
       }
       if (typeof page.md !== "string" || page.md.trim() === "") {

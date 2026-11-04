@@ -26,6 +26,9 @@ export interface RenderedPage {
   kind: CoursePage["kind"];
   html: string;
   answerHtml?: string;
+  options?: { id: string; html: string; whyHtml?: string; correct: boolean }[];
+  accept?: string[];
+  explainHtml?: string;
   toc: TocEntry[];
   label: string;
 }
@@ -370,8 +373,20 @@ export function renderLesson(lesson: CourseLesson): Promise<RenderedLesson> {
         });
         answerHtml = rendered.html;
       }
+      const mini = async (md?: string) =>
+        md ? (await renderMarkdown(md, { slugger: new GithubSlugger(), shift: 1 })).html : undefined;
+      let options: RenderedPage["options"];
+      if (page.kind === "choice" && page.options) {
+        const correct = new Set([page.correct ?? []].flat());
+        options = [];
+        for (const [i, opt] of page.options.entries()) {
+          const id = opt.id ?? String.fromCharCode(97 + i);
+          options.push({ id, html: (await mini(opt.md)) ?? "", whyHtml: await mini(opt.why), correct: correct.has(id) });
+        }
+      }
+      const explainHtml = await mini(page.explain);
       const rawLabel =
-        page.kind === "check"
+        page.kind === "check" || page.kind === "choice" || page.kind === "input"
           ? page.md
               .replace(/[#*_`>$]/g, " ")
               .replace(/\\[a-zA-Z]+/g, " ")
@@ -381,7 +396,7 @@ export function renderLesson(lesson: CourseLesson): Promise<RenderedLesson> {
           : pageToc[0]?.text ?? "";
       const label =
         rawLabel.length > 74 ? `${rawLabel.slice(0, 71).trimEnd()}…` : rawLabel;
-      pages.push({ id: page.id, kind: page.kind, html, answerHtml, toc: pageToc, label });
+      pages.push({ id: page.id, kind: page.kind, html, answerHtml, options, accept: page.accept, explainHtml, toc: pageToc, label });
       toc.push(...pageToc);
     }
 
