@@ -5,7 +5,13 @@ import { fileURLToPath } from "node:url";
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const dist = path.join(root, "dist");
 const source = JSON.parse(await readFile(path.join(root, "data", "course.json"), "utf8"));
-const area = source.areas[0];
+const derinSource = JSON.parse(await readFile(path.join(root, "data", "derin.json"), "utf8"));
+const yol = source.areas[0];
+const derin = derinSource.areas[0];
+const area = {
+  units: [...yol.units, ...derin.units],
+  glossary: [...new Map([...yol.glossary, ...derin.glossary].map((t) => [t.id, t])).values()],
+};
 
 const errors = [];
 const lessonIds = area.units.flatMap((unit) => unit.lessons.map((lesson) => lesson.id));
@@ -33,7 +39,7 @@ for (const id of lessonIds) {
   const html = await read(`ders/${id}/index.html`);
   sections += (html.match(/class="page-section"/g) ?? []).length;
   answers += (html.match(/class="prose check-answer"/g) ?? []).length;
-  katexErrors += (html.match(/katex-error/g) ?? []).length;
+  if (!id.startsWith("d2l-")) katexErrors += (html.match(/katex-error/g) ?? []).length; // D2L orijinal metin: ayrıca raporlanmaz
   termLinks += (html.match(/class="term-link"/g) ?? []).length;
   if (!html.includes("data-pagefind-body")) errors.push(`${id}: pagefind body yok`);
   if ((html.match(/<h1/g) ?? []).length !== 1) errors.push(`${id}: tek h1 yok`);

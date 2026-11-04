@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { derinGroups, derinInfo, derinKind, formatHours, shortUnitTitle } from "../lib/course";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9ıöüşçğ]+/g, "-").replace(/^-|-$/g, "");
+---
+
+<BaseLayout title="ML Derinleşme" description={`${derinInfo.units} ünite, ${derinInfo.lessons} derslik yan katman: kitap rehberleri, makaleler, uzmanlıklar, vakalar ve D2L.`}>
+  <header class="derin-head">
+    <div class="wrap">
+      <h1 class="display">Derinleşme <span class="display-turn">yan katmanı</span></h1>
+      <p class="home-lede">
+        Ana yolu izler, öne geçmez. Her grup bir fazın yanında okunur: önce o fazın projesini bitir,
+        sonra buradan derinleş.
+      </p>
+      <dl class="home-figures">
+        <div><dt>Ders</dt><dd>{derinInfo.lessons}</dd></div>
+        <div><dt>Ünite</dt><dd>{derinInfo.units}</dd></div>
+        <div><dt>Yazılı süre</dt><dd>{formatHours(derinInfo.minutes)}</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <div class="wrap derin-body">
+    <nav class="derin-index" aria-label="Fazlar">
+      {derinGroups.map((g) => <a class={`chip-link layer-${g.phase?.key ?? "f1"}`} href={`#${slug(g.key)}`}>{g.label}</a>)}
+    </nav>
+    {derinGroups.map((g) => (
+      <section class={`derin-group layer-${g.phase?.key ?? "f1"}`} id={slug(g.key)} aria-labelledby={`h-${slug(g.key)}`}>
+        <h2 id={`h-${slug(g.key)}`}><span class="chip">{g.phase?.code ?? ""}</span>{g.label}<span class="derin-group-meta">{g.units.length} ünite · {formatHours(g.minutes)}</span></h2>
+        <ol class="derin-units">
+          {g.units.map((u) => (
+            <li>
+              <a href={href(`/unite/${u.id}`)}>
+                <span class="derin-kind">{derinKind(u)}</span>
+                <span class="derin-title">{shortUnitTitle(u)}</span>
+                <span class="derin-meta">{u.lessons.length} ders · {formatHours(u.lessons.reduce((s, l) => s + l.minutes, 0))}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

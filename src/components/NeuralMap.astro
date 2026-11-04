@@ -1,0 +1,239 @@
+---
+import { area, derinGroups, phases, phaseOf, shortUnitTitle, unitCodes } from "../lib/course";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (value: string) => `${base}${value}`;
+
+type Pt = { x: number; y: number };
+interface Node extends Pt { id: string; layer: number; title: string; code: string; minutes: number; lessons: number }
+
+/** Bir yerleşim: katmanlar yatayda (masaüstü) ya da dikeyde (telefon). */
+function layout(horizontal: boolean) {
+  const W = horizontal ? 1240 : 400;
+  const H = horizontal ? 620 : 1240;
+  const pad = horizontal ? { a: 80, b: 120 } : { a: 92, b: 70 };
+  const nodes: Node[] = [];
+  phases.forEach((phase, li) => {
+    const along = pad.a + (li * ((horizontal ? W : H) - pad.a * 2)) / (phases.length - 1);
+    const n = phase.units.length;
+    const span = horizontal ? H - pad.b * 2 + 40 : W - pad.b * 2;
+    const step = n > 1 ? Math.min(span / (n - 1), horizontal ? 64 : 46) : 0;
+    const start = (horizontal ? H / 2 - 20 : W / 2) - (step * (n - 1)) / 2;
+    phase.units.forEach((unit, ui) => {
+      const across = start + ui * step + (horizontal ? 0 : (li % 2 ? 10 : -10));
+      nodes.push({
+        id: unit.id, layer: li, title: shortUnitTitle(unit), code: unitCodes.get(unit.id) ?? "",
+        minutes: unit.lessons.reduce((s, l) => s + l.minutes, 0), lessons: unit.lessons.length,
+        x: horizontal ? along : across, y: horizontal ? across : along,
+      });
+    });
+  });
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const curve = (a: Pt, b: Pt) => {
+    if (horizontal) {
+      const mx = (b.x - a.x) * 0.5;
+      return `M${a.x.toFixed(1)} ${a.y.toFixed(1)} C${(a.x + mx).toFixed(1)} ${a.y.toFixed(1)} ${(b.x - mx).toFixed(1)} ${b.y.toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+    }
+    const my = (b.y - a.y) * 0.5;
+    return `M${a.x.toFixed(1)} ${a.y.toFixed(1)} C${a.x.toFixed(1)} ${(a.y + my).toFixed(1)} ${b.x.toFixed(1)} ${(b.y - my).toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+  };
+  // Komşu katmanlar arası tam bağlantı (sönük): ağın dokusu.
+  const mesh: string[] = [];
+  for (let li = 0; li < phases.length - 1; li++) {
+    const left = nodes.filter((n) => n.layer === li);
+    const right = nodes.filter((n) => n.layer === li + 1);
+    left.forEach((a) => right.forEach((b) => mesh.push(curve(a, b))));
+  }
+  // Okuma sırası: dosyadaki ünite sırası. İleri geçişin gerçek yolu.
+  const path = area.units.slice(1).map((u, i) => {
+    const a = byId.get(area.units[i].id)!;
+    const b = byId.get(u.id)!;
+    return { from: a.id, to: b.id, d: curve(a, b) };
+  });
+  // Derinleşme: her katmanın altında sönük uydu nöronlar.
+  const sats = phases.flatMap((phase, li) => {
+    const groups = derinGroups.filter((g) => g.phase?.key === phase.key);
+    const units = groups.flatMap((g) => g.units);
+    const along = pad.a + (li * ((horizontal ? W : H) - pad.a * 2)) / (phases.length - 1);
+    return units.map((u, k) => {
+      const col = k % 4, row = Math.floor(k / 4);
+      return horizontal
+        ? { id: u.id, x: along - 15 + col * 10, y: H - 52 + row * 10, key: groups.find((g) => g.units.includes(u))!.key }
+        : { id: u.id, x: W - 54 + col * 10, y: along - 8 + row * 10, key: groups.find((g) => g.units.includes(u))!.key };
+    });
+  });
+  const labels = phases.map((phase, li) => {
+    const along = pad.a + (li * ((horizontal ? W : H) - pad.a * 2)) / (phases.length - 1);
+    return { key: phase.key, code: phase.code, name: phase.name, x: horizontal ? along : 18, y: horizontal ? 40 : along - 30 };
+  });
+  return { W, H, nodes, mesh, path, sats, labels };
+}
+
+const views = [
+  { name: "h", ...layout(true) },
+  { name: "v", ...layout(false) },
+];
+
+const mapData = {
+  units: area.units.map((u) => ({
+    id: u.id,
+    phase: phaseOf(u).key,
+    layer: phaseOf(u).name,
+    code: unitCodes.get(u.id),
+    title: shortUnitTitle(u),
+    lessons: u.lessons.map((l) => l.id),
+    minutes: u.lessons.reduce((s, l) => s + l.minutes, 0),
+  })),
+};
+---
+
+<section class="nmap" aria-labelledby="nmap-title" data-nmap>
+  <h2 class="sr-only" id="nmap-title">Müfredat ağı: {phases.length} katman, {area.units.length} ünite</h2>
+  {
+    views.map((v) => (
+      <svg class={`nmap-svg nmap-${v.name}`} viewBox={`0 0 ${v.W} ${v.H}`} role="img" aria-label="Müfredatın sinir ağı haritası" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id={`glow-${v.name}`}>
+            <stop offset="0" stop-color="var(--signal)" stop-opacity=".55" />
+            <stop offset="1" stop-color="var(--signal)" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id={`sweep-${v.name}`} x1={v.name === "h" ? "0" : "0"} y1="0" x2={v.name === "h" ? "1" : "0"} y2={v.name === "h" ? "0" : "1"}>
+            <stop offset="0" stop-color="var(--signal)" stop-opacity="0" />
+            <stop offset=".5" stop-color="var(--signal)" stop-opacity=".16" />
+            <stop offset="1" stop-color="var(--signal)" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        {v.labels.map((l) => (
+          <a href={href(`/hat/${l.key}`)} class="nmap-layer" style={`--l:${phases.findIndex((p) => p.key === l.key)}`}>
+            <text x={l.x} y={l.y} text-anchor={v.name === "h" ? "middle" : "start"}>
+              <tspan class="nmap-layer-code">{l.code}</tspan>
+              {v.name === "h" ? <tspan x={l.x} dy="15" class="nmap-layer-name">{l.name}</tspan> : <tspan dx="8" class="nmap-layer-name">{l.name}</tspan>}
+            </text>
+          </a>
+        ))}
+        <g class="nmap-mesh" aria-hidden="true">{v.mesh.map((d) => <path d={d} />)}</g>
+        <rect class="nmap-sweep" aria-hidden="true" x={v.name === "h" ? -240 : 0} y={v.name === "h" ? 0 : -240} width={v.name === "h" ? 240 : v.W} height={v.name === "h" ? v.H : 240} fill={`url(#sweep-${v.name})`} />
+        <g class="nmap-path" aria-hidden="true">
+          {v.path.map((e, i) => <path id={`p-${v.name}-${i}`} d={e.d} data-from={e.from} data-to={e.to} pathLength="1" style={`--i:${i}`} />)}
+        </g>
+        <g class="nmap-sats" aria-hidden="true">
+          {v.sats.map((s) => <circle cx={s.x} cy={s.y} r="2.6" data-sat={s.key} />)}
+        </g>
+        <g class="nmap-nodes">
+          {v.nodes.map((n) => (
+            <a href={href(`/unite/${n.id}`)} class="nmap-node" data-unit={n.id} style={`--l:${n.layer}`} aria-label={`${n.code} ${n.title}, ${n.lessons} ders`}>
+              <circle class="nmap-halo" cx={n.x} cy={n.y} r="22" fill={`url(#glow-${v.name})`} />
+              <circle class="nmap-ring" cx={n.x} cy={n.y} r="11" />
+              <circle class="nmap-core" cx={n.x} cy={n.y} r="6.5" />
+              <circle class="nmap-hit" cx={n.x} cy={n.y} r="20" />
+            </a>
+          ))}
+        </g>
+        <g class="nmap-particles" aria-hidden="true" data-particles={v.name}></g>
+      </svg>
+    ))
+  }
+  <div class="nmap-hud" aria-live="polite" data-hud>
+    <span class="nmap-hud-code" data-hud-code>Ağ</span>
+    <strong data-hud-title>{area.units.length} ünite · {phases.length} katman</strong>
+    <span data-hud-meta>Bir nörona dokun: ünitesini, süresini ve ona gelen yolu gösterir.</span>
+  </div>
+  <script type="application/json" id="nmap-data" set:html={JSON.stringify(mapData)} />
+</section>
+
+<script>
+  import { readProgress } from "../scripts/storage";
+
+  type Unit = { id: string; phase: string; layer: string; code: string; title: string; lessons: string[]; minutes: number };
+  const root = document.querySelector<HTMLElement>("[data-nmap]");
+  const raw = document.getElementById("nmap-data");
+  if (root && raw) {
+    const { units } = JSON.parse(raw.textContent || "{}") as { units: Unit[] };
+    const byId = new Map(units.map((u) => [u.id, u]));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hud = {
+      code: root.querySelector<HTMLElement>("[data-hud-code]")!,
+      title: root.querySelector<HTMLElement>("[data-hud-title]")!,
+      meta: root.querySelector<HTMLElement>("[data-hud-meta]")!,
+    };
+    const fmt = (m: number) => (m < 60 ? `${m} dk` : `${Math.round(m / 6) / 10} sa`.replace(".", ","));
+
+    const paint = () => {
+      const { done } = readProgress();
+      let current = "";
+      const state = new Map<string, string>();
+      units.forEach((u) => {
+        const n = u.lessons.filter((id) => done[id]).length;
+        const s = n === u.lessons.length ? "done" : n > 0 ? "partial" : "todo";
+        state.set(u.id, s);
+        if (!current && s !== "done") current = u.id;
+      });
+      if (current) state.set(current, "current");
+      root.querySelectorAll<SVGElement>("[data-unit]").forEach((el) => (el.dataset.state = state.get(el.dataset.unit!) ?? "todo"));
+      root.querySelectorAll<SVGPathElement>(".nmap-path path").forEach((p) => {
+        const a = state.get(p.dataset.from!), b = state.get(p.dataset.to!);
+        p.dataset.lit = a === "done" ? (b === "done" ? "on" : "edge") : "off";
+      });
+      const doneCount = [...state.values()].filter((s) => s === "done").length;
+      root.dataset.progress = String(doneCount);
+      // Sinyal: yanan yollarda akan parçacıklar (en fazla 14).
+      root.querySelectorAll<SVGGElement>("[data-particles]").forEach((g) => {
+        g.replaceChildren();
+        if (reduce) return;
+        const lit = [...g.ownerSVGElement!.querySelectorAll<SVGPathElement>('.nmap-path path[data-lit="on"], .nmap-path path[data-lit="edge"]')];
+        const pick = lit.slice(-14);
+        pick.forEach((p, k) => {
+          const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          c.setAttribute("r", p.dataset.lit === "edge" ? "3.4" : "2.4");
+          const m = document.createElementNS("http://www.w3.org/2000/svg", "animateMotion");
+          m.setAttribute("dur", `${1.6 + (k % 5) * 0.35}s`);
+          m.setAttribute("begin", `${(k % 7) * 0.3}s`);
+          m.setAttribute("repeatCount", "indefinite");
+          const mp = document.createElementNS("http://www.w3.org/2000/svg", "mpath");
+          mp.setAttribute("href", `#${p.id}`);
+          m.append(mp);
+          c.append(m);
+          g.append(c);
+        });
+      });
+      return current;
+    };
+
+    let current = paint();
+    window.addEventListener("mlyol:progress", () => (current = paint()));
+
+    const show = (id: string | null) => {
+      root.querySelectorAll(".is-trace").forEach((el) => el.classList.remove("is-trace"));
+      if (!id) {
+        const u = byId.get(current);
+        hud.code.textContent = u ? `${u.code} · sıradaki` : "Ağ";
+        hud.title.textContent = u ? u.title : "Bütün nöronlar yandı";
+        hud.meta.textContent = u ? `${u.layer} · ${u.lessons.length} ders · ${fmt(u.minutes)}` : "Müfredatın tamamı bitti.";
+        return;
+      }
+      const u = byId.get(id)!;
+      const { done } = readProgress();
+      const n = u.lessons.filter((l) => done[l]).length;
+      hud.code.textContent = `${u.code} · ${u.layer}`;
+      hud.title.textContent = u.title;
+      hud.meta.textContent = `${u.lessons.length} ders · ${fmt(u.minutes)} · ${n}/${u.lessons.length} tamam`;
+      // Bu nörona gelen yolu geriye doğru aydınlat.
+      const order = units.map((x) => x.id);
+      const idx = order.indexOf(id);
+      root.querySelectorAll<SVGPathElement>(".nmap-path path").forEach((p) => {
+        const t = order.indexOf(p.dataset.to!);
+        if (t <= idx && t > idx - 4) p.classList.add("is-trace");
+      });
+      root.querySelectorAll(`[data-unit="${id}"]`).forEach((el) => el.classList.add("is-trace"));
+    };
+    show(null);
+    root.querySelectorAll<SVGAElement>(".nmap-node").forEach((a) => {
+      const id = a.dataset.unit!;
+      a.addEventListener("pointerenter", () => show(id));
+      a.addEventListener("focus", () => show(id));
+      a.addEventListener("pointerleave", () => show(null));
+      a.addEventListener("blur", () => show(null));
+    });
+    requestAnimationFrame(() => root.classList.add("is-live"));
+  }
+</script>

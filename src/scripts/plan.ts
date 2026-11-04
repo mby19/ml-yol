@@ -197,14 +197,14 @@ function bootPlan(): void {
     state.plan = {
       start: startInput.value || saved.start,
       hours: Math.min(60, Math.max(1, Number(hoursInput.value) || 15)),
-      mode: modeInput.value === "sequential" ? "sequential" : "parallel",
+      mode: modeInput.value === "parallel" ? "parallel" : "sequential",
     };
     writeProgress(state);
   };
 
   const render = () => {
     const hours = Math.min(60, Math.max(1, Number(hoursInput.value) || 15));
-    const mode = modeInput.value === "sequential" ? "sequential" : "parallel";
+    const mode = modeInput.value === "parallel" ? "parallel" : "sequential";
     const start = parseDay(startInput.value || saved.start);
     const weekly = hours * 60;
     const weeks = buildWeeks(lessons, weekly, mode);

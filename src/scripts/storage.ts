@@ -25,7 +25,7 @@ function defaults(): ProgressState {
   return {
     v: 1,
     done: {},
-    plan: { start: todayISO(), hours: 15, mode: "parallel" },
+    plan: { start: todayISO(), hours: 15, mode: "sequential" },
   };
 }
 
@@ -47,7 +47,7 @@ export function readProgress(): ProgressState {
             ? plan.start
             : todayISO(),
         hours: Number(plan.hours) > 0 ? Number(plan.hours) : 15,
-        mode: plan.mode === "sequential" ? "sequential" : "parallel",
+        mode: plan.mode === "parallel" ? "parallel" : "sequential",
       },
       last: record.last,
     };

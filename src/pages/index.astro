@@ -1,23 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import RouteMap from "../components/RouteMap.astro";
-import {
-  allLessons,
-  courseInfo,
-  formatHours,
-  lessonById,
-  phases,
-  shortUnitTitle,
-} from "../lib/course";
+import NeuralMap from "../components/NeuralMap.astro";
+import { allLessons, area, courseInfo, derinInfo, formatHours, phases, shortUnitTitle } from "../lib/course";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const href = (value: string) => `${base}${value}`;
 const first = allLessons[0];
-const startGuides = [
-  lessonById.get("u0-l1-yol-haritasi"),
-  lessonById.get("u0-l2-nasil-ogrenilir"),
-  lessonById.get("u0-l3-calisma-ortami"),
-].filter((lesson): lesson is NonNullable<typeof lesson> => Boolean(lesson));
+const guideUnit = area.units[0];
 
 const lessonData = allLessons.map((lesson) => ({
   id: lesson.id,
@@ -27,88 +16,74 @@ const lessonData = allLessons.map((lesson) => ({
   unitTitle: shortUnitTitle(lesson.unit),
   phase: lesson.phase.key,
 }));
-
-const guideCopy = [
-  "Senior ML mühendisinin işi, yedi faz ve gerçekçi süre hesabı.",
-  "Sıfırdan yazmak, öğretmek ve proje günlüğü tutmak üzerine çalışma düzeni.",
-  "Python, uv, Jupyter, Git ve ücretsiz GPU ile ortamı kurma.",
-];
 ---
 
 <BaseLayout title="ML Mühendisliği Yolu">
-  <div class="wrap">
-    <section class="home-intro">
-      <div>
-        <h1 class="display">ML Mühendisliği{" "}<br /><em class="display-accent">Yolu</em></h1>
-        <p class="home-lede">
-          Python bilen bir yazılımcıdan senior ML mühendisine giden hat.{" "}
-          <strong>{courseInfo.units} ünite</strong>,{" "}
-          <strong>{courseInfo.lessons} ders</strong>,{" "}
-          <strong>{courseInfo.pages} sayfa</strong>; her ders sezgi, mekanizma, çalışan kod,
-          pratik/proje, kontrol sorusu ve özetle kendi başına okunur.
-        </p>
-        <div class="home-actions">
-          <a class="btn" href={href("/plan")}>
-            Haftalık planı kur
-            <span class="arrow" aria-hidden="true">→</span>
-          </a>
-          <a class="btn btn-ghost" href={href("/hakkinda")}>Kapsam ve yöntem</a>
-        </div>
-      </div>
+  <section class="home-stage">
+    <div class="home-copy">
+      <h1 class="display">ML Mühendisliği <span class="display-turn">Yolu</span></h1>
+      <p class="home-lede">
+        Sıfırdan senior ML mühendisliğine {phases.length} katmanlı bir ağ. Her nöron bir ünite;
+        bitirdiğin dersler yanar, sinyal ileri doğru akar.
+      </p>
+      <dl class="home-figures">
+        <div><dt>Ders</dt><dd>{courseInfo.lessons}</dd></div>
+        <div><dt>Ünite</dt><dd>{courseInfo.units}</dd></div>
+        <div><dt>Yazılı süre</dt><dd>{formatHours(courseInfo.minutes)}</dd></div>
+        <div><dt>Derinleşme</dt><dd>{derinInfo.lessons}</dd></div>
+      </dl>
+    </div>
 
-      <div class="continue" data-continue data-total={courseInfo.lessons}>
-        <div class="label">
-          <span>Kaldığın yer</span>
-          <span>{courseInfo.lessons} ders</span>
-        </div>
-        <p class="continue-title" data-continue-title>{first.title}</p>
-        <p class="continue-meta" data-continue-meta>
-          {first.phase.name} · {first.minutes} dk · sıradaki
-        </p>
-        <a class="continue-link" data-continue-link href={href(`/ders/${first.id}`)}>
-          <span>Derse git</span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
+    <NeuralMap />
+
+    <div class="continue" data-continue data-total={courseInfo.lessons}>
+      <span class="continue-label">Kaldığın yer</span>
+      <p class="continue-title" data-continue-title>{first.title}</p>
+      <p class="continue-meta" data-continue-meta>{first.phase.name} · {first.minutes} dk · sıradaki</p>
+      <a class="continue-link" data-continue-link href={href(`/ders/${first.id}`)}>
+        <span>Derse devam et</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="wrap home-below">
+    <section class="home-row" aria-labelledby="start-title">
+      <h2 id="start-title">Önce bunları oku</h2>
+      <ol class="home-start">
+        {guideUnit.lessons.map((lesson, i) => (
+          <li style={`--i:${i}`}>
+            <a href={href(`/ders/${lesson.id}`)} data-lesson-link={lesson.id}>
+              <span class="home-start-n">{i + 1}</span>
+              <span class="home-start-title">{lesson.title}</span>
+              <span class="home-start-min">{lesson.minutes} dk</span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </section>
 
-    <RouteMap />
-
-    <section class="guides" aria-label="Başlangıç dersleri">
-      {
-        startGuides.map((lesson, index) => (
-          <a class="guide" href={href(`/ders/${lesson.id}`)}>
-            <span class="guide-index">Başlangıç {String(index + 1).padStart(2, "0")}</span>
-            <span class="guide-title">{lesson.title}</span>
-            <p>{guideCopy[index]}</p>
-            <span class="guide-index">{lesson.minutes} dk</span>
-          </a>
-        ))
-      }
+    <section class="home-row home-layers" aria-labelledby="layers-title">
+      <h2 id="layers-title">Katmanlar</h2>
+      <ol>
+        {phases.map((p) => (
+          <li class={`layer-${p.key}`}>
+            <a href={href(`/hat/${p.key}`)}>
+              <span class="chip">{p.code}</span>
+              <span class="home-layer-name">{p.name}</span>
+              <span class="home-layer-meta">{p.units.length} ünite · {p.lessons.length} ders · {formatHours(p.minutes)}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
     </section>
 
-    <a class="home-guide" href={href("/rehber")} aria-label="Çalışma rehberi: Derinleşme kaynaklarını atlamak ne kaybettirir?">
-      <span class="label">Çalışma rehberi</span>
-      <span class="home-guide-title">Derinleşme kaynaklarını atlamak ne kaybettirir?</span>
-      <span class="home-guide-arrow" aria-hidden="true">→</span>
+    <a class="home-derin" href={href("/derin")}>
+      <span class="home-derin-title">Yan katman: ML Derinleşme</span>
+      <span class="home-derin-meta">{derinInfo.units} ünite · {derinInfo.lessons} ders · kitap rehberleri, 40 makale, uzmanlıklar, vakalar ve D2L</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
     </a>
-
-    <section class="network-foot" aria-label="Müfredat rakamları">
-      <p>
-        Yazılı süre toplamı <strong>{courseInfo.minutes.toLocaleString("tr-TR")} dakika</strong>{" "}
-        ({formatHours(courseInfo.minutes)}); {phases.length} hat, {courseInfo.terms} sözlük
-        terimi ve {courseInfo.checks} kontrol sorusu aynı dosyadan geliyor.
-      </p>
-      <p>
-        Okuma sırası hatlara göre değil, derslerin dosyadaki sırasına göre ilerler. Plan
-        sayfası bu sırayı haftalara böler.
-      </p>
-    </section>
   </div>
 
-  <script
-    type="application/json"
-    id="lesson-list-data"
-    set:html={JSON.stringify(lessonData)}
-  />
+  <script type="application/json" id="lesson-list-data" set:html={JSON.stringify(lessonData)} />
 </BaseLayout>

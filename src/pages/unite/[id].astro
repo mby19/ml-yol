@@ -1,17 +1,18 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { area, formatMinutes, pagesOfKind, phases, shortUnitTitle } from "../../lib/course";
+import { area, derinArea, derinGroups, formatMinutes, pagesOfKind, phases, shortUnitTitle } from "../../lib/course";
 
 export function getStaticPaths() {
-  return area.units.map((unit) => ({
+  return [...area.units, ...derinArea.units].map((unit) => ({
     params: { id: unit.id },
     props: { unit },
   }));
 }
 
 const { unit } = Astro.props;
-const phase = phases.find((candidate) => candidate.units.includes(unit));
-if (!phase) throw new Error(`Ünite bir hatta bağlı değil: ${unit.id}`);
+const derinGroup = derinGroups.find((g) => g.units.includes(unit));
+const phase = phases.find((candidate) => candidate.units.includes(unit)) ?? derinGroup?.phase ?? phases[0];
+const siblings = derinGroup ? derinGroup.units : phase.units;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const href = (value: string) => `${base}${value}`;
@@ -22,9 +23,9 @@ const short = shortUnitTitle(unit);
 const pages = unit.lessons.reduce((sum, lesson) => sum + lesson.pages.length, 0);
 const checks = unit.lessons.reduce((sum, lesson) => sum + pagesOfKind(lesson, "check").length, 0);
 const minutes = unit.lessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
-const stationIndex = phase.units.findIndex((candidate) => candidate.id === unit.id) + 1;
-const prevUnit = phase.units[stationIndex - 2];
-const nextUnit = phase.units[stationIndex];
+const stationIndex = siblings.findIndex((candidate) => candidate.id === unit.id) + 1;
+const prevUnit = siblings[stationIndex - 2];
+const nextUnit = siblings[stationIndex];
 
 const lessonsData = unit.lessons.map((lesson) => ({
   id: lesson.id,
@@ -39,7 +40,7 @@ const lessonsData = unit.lessons.map((lesson) => ({
   <header class={`unit-head ${lineClass}`}>
     <div class="wrap">
       <div class="unit-topline">
-        <a href={href(`/hat/${phase.key}`)}>{phase.longName}</a>
+        {derinGroup ? <a href={href("/derin")}>Derinleşme · {derinGroup.label}</a> : <a href={href(`/hat/${phase.key}`)}>{phase.longName}</a>}
         <span class="sep">/</span>
         <span>Durak {String(stationIndex).padStart(2, "0")}</span>
         <span class="code">{phase.code}-{String(stationIndex).padStart(2, "0")}</span>
@@ -85,7 +86,7 @@ const lessonsData = unit.lessons.map((lesson) => ({
 
     <div class="unit-foot">
       <div>
-        <a href={href(`/hat/${phase.key}`)}>← {phase.name} hattı</a>
+        {derinGroup ? <a href={href("/derin")}>← Derinleşme</a> : <a href={href(`/hat/${phase.key}`)}>← {phase.name} katmanı</a>}
       </div>
       <div style="display:flex;gap:1.5rem">
         {prevUnit && <a href={href(`/unite/${prevUnit.id}`)}>← {shortUnitTitle(prevUnit)}</a>}

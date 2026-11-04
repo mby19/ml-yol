@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ML Yolu · 4 yön</title>
+<style>
+*{box-sizing:border-box;margin:0}body{font:15px/1.4 system-ui,sans-serif;background:#d9dad4;color:#111;padding:24px 16px}
+h1{font-size:18px;margin-bottom:4px}p.n{color:#555;margin-bottom:20px;font-size:13px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;max-width:1300px}
+.k h2{font-size:14px;margin:0 0 8px}.k small{display:block;color:#555;font-size:12px;margin-top:8px}
+.ph{height:540px;border-radius:22px;overflow:hidden;position:relative;border:6px solid #111}
+/* 1 defter */
+.d{background:#0d1014;color:#d7dde4;font:13px/1.5 ui-monospace,Menlo,monospace;padding:18px 14px}
+.d .t{font:600 11px/1 ui-monospace,monospace;color:#6b7785;letter-spacing:.08em;margin-bottom:14px;display:flex;justify-content:space-between}
+.c{display:grid;grid-template-columns:44px 1fr;gap:8px;margin-bottom:10px;opacity:0;animation:in .4s forwards}
+.c b{color:#58a6ff;font-weight:400;text-align:right}.c.md b{color:transparent}
+.c .x{border-left:2px solid #232a33;padding-left:10px}.c.md .x{font:17px/1.35 Georgia,serif;color:#eef2f6;border:0;padding:0}
+.c.cd .x{background:#151a21;border-radius:4px;padding:8px;border-left:2px solid #58a6ff}
+.c.o .x{color:#7ee787;border-color:#7ee787}.c.as .x{border-color:#f0b429;color:#f0b429}
+.c:nth-child(2){animation-delay:.1s}.c:nth-child(3){animation-delay:.5s}.c:nth-child(4){animation-delay:1.6s}.c:nth-child(5){animation-delay:2.1s}.c:nth-child(6){animation-delay:2.6s}
+.run b::before{content:"[*]";animation:cnt 1.4s steps(1) .5s forwards}
+@keyframes cnt{0%{content:"[*]"}99%{content:"[*]"}100%{content:"[12]"}}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.nm{color:#79c0ff}
+.bar{position:absolute;left:14px;right:14px;bottom:16px;display:flex;gap:8px;font:12px ui-monospace,monospace}
+.bar span{flex:1;padding:10px;border:1px solid #2b333d;border-radius:6px;text-align:center}.bar span:first-child{background:#58a6ff;color:#0d1014;border:0;font-weight:700}
+/* 2 egitim */
+.e{background:#f4f1ea;padding:20px 16px;color:#1a1a1a}
+.e .lb{font:700 11px/1 system-ui;letter-spacing:.12em;color:#7a6f5f}
+.e .big{font:800 54px/1 system-ui;letter-spacing:-.04em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+.e svg{width:100%;height:210px;margin:10px 0}
+.e .ln{fill:none;stroke:#e4572e;stroke-width:3;stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.4s ease-out forwards}
+.e .gh{fill:none;stroke:#c9bfae;stroke-width:1.5;stroke-dasharray:4 5}
+.e .dot{fill:#e4572e;animation:pl 1.6s 2.4s infinite}
+@keyframes draw{to{stroke-dashoffset:0}}@keyframes pl{50%{r:9;opacity:.4}}
+.e .ph2{display:flex;gap:4px;margin:4px 0 14px}.e .ph2 i{flex:1;height:6px;border-radius:3px;background:#ddd3c3}.e .ph2 i.on{background:#1a1a1a}.e .ph2 i.cur{background:#e4572e}
+.e .nx{border-top:2px solid #1a1a1a;padding-top:10px}.e .nx strong{display:block;font-size:19px;letter-spacing:-.02em;margin:4px 0}
+/* 3 kurgu */
+.f{background:#0b0b0b;color:#f2efe7;font-family:"Arial Narrow",Arial,sans-serif}
+.f .top{background:#ff6a13;color:#0b0b0b;padding:18px 16px 14px;font:800 30px/.95 "Arial Narrow",Impact,sans-serif;text-transform:uppercase;letter-spacing:-.01em}
+.f .top em{display:block;font:700 11px/1 Arial;letter-spacing:.14em;font-style:normal;margin-bottom:8px}
+.strip{position:relative;height:150px;background:#ff6a13;margin-top:26px;overflow:hidden}
+.strip::before,.strip::after{content:"";position:absolute;left:0;right:0;height:12px;background:radial-gradient(circle,#0b0b0b 3.5px,transparent 4px) 0 0/16px 12px}
+.strip::before{top:4px}.strip::after{bottom:4px}
+.rail{display:flex;gap:10px;position:absolute;top:22px;left:16px;animation:scrub 6s cubic-bezier(.2,.8,.2,1) infinite alternate}
+.fr{width:96px;height:106px;background:#f2efe7;color:#0b0b0b;padding:7px;font:700 11px/1.15 Arial;text-transform:uppercase;position:relative;flex:none}
+.fr small{display:block;font-size:9px;opacity:.6;margin-bottom:4px;letter-spacing:.1em}
+.fr.dn::after{content:"";position:absolute;inset:18px 8px 8px;background:linear-gradient(45deg,transparent 47%,#fff 47% 53%,transparent 53%),linear-gradient(-45deg,transparent 47%,#fff 47% 53%,transparent 53%);mix-blend-mode:difference}
+.fr.fl::before{content:"KALDIN";position:absolute;top:-16px;left:-2px;background:#f2efe7;color:#ff6a13;font:800 9px/1 Arial;padding:4px 6px;letter-spacing:.1em}
+@keyframes scrub{0%{transform:translateX(0)}100%{transform:translateX(-212px)}}
+.pins{padding:22px 16px;display:flex;gap:16px}.pin{width:70px;font:700 10px/1.2 Arial;text-transform:uppercase;color:#bdb6a8;transform-origin:top center;animation:sw 3s ease-in-out infinite}
+.pin::before{content:"";display:block;width:6px;height:6px;border-radius:50%;background:#ff6a13;margin:0 auto 6px}
+.pin span{display:block;border:1px solid #444;padding:6px;height:70px}.pin:nth-child(2){animation-delay:-1s}
+@keyframes sw{50%{transform:rotate(3deg)}}
+/* 4 standart */
+.s{background:#fff;padding:22px 18px;color:#14161a}
+.s .hd{font:700 22px/1.2 system-ui;letter-spacing:-.02em}.s .sb{color:#666;font-size:13px;margin:4px 0 18px}
+.s .rs{background:#f3f5f8;border-radius:12px;padding:14px;margin-bottom:18px}.s .rs b{display:block;font-size:16px;margin:4px 0 10px}
+.s .pr{height:6px;background:#e3e7ee;border-radius:3px}.s .pr i{display:block;height:100%;width:0;background:#3b6ef5;border-radius:3px;animation:gr 1.2s .3s ease-out forwards}
+@keyframes gr{to{width:34%}}
+.s li{list-style:none;display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #edf0f4;font-size:14px}.s li span{color:#888}.s li.ok::before{content:"✓";color:#3b6ef5;margin-right:8px}
+/* 5 zirve */
+.z{background:#e9e4d4;color:#23301f;font-family:Georgia,serif}
+.z svg.map{position:absolute;inset:0;width:100%;height:100%}
+.z .ct{fill:none;stroke:#b9b08f;stroke-width:1}.z .ct.t{stroke:#8f8566}
+.z .path{fill:none;stroke:#c2391b;stroke-width:3;stroke-dasharray:6 6;stroke-dashoffset:400;animation:walk 3s ease-out forwards}
+@keyframes walk{from{stroke-dasharray:0 400}to{stroke-dasharray:6 6;stroke-dashoffset:0}}
+.z .camp{fill:#23301f}.z .me{fill:#c2391b;animation:pl 1.6s 3s infinite}
+.z .lbl{font:italic 13px Georgia;fill:#23301f}.z .alt{font:700 9px system-ui;fill:#6d6650;letter-spacing:.1em}
+.z .card{position:absolute;left:14px;right:14px;bottom:14px;background:#f6f2e6;border:1.5px solid #23301f;padding:12px}
+.z .card .k1{font:700 10px system-ui;letter-spacing:.14em;color:#6d6650}.z .card b{display:block;font-size:18px;margin:4px 0}
+.z .prof{height:34px;margin-top:8px;background:linear-gradient(#c2391b,#c2391b) 0 100%/38% 3px no-repeat;clip-path:polygon(0 100%,8% 80%,18% 85%,30% 55%,42% 60%,55% 35%,68% 40%,82% 15%,100% 0,100% 100%);background-color:#d8d0b8}
+/* 6 ag */
+.a{background:#06111f;color:#cfe3ff}
+.a svg{position:absolute;inset:0;width:100%;height:100%}
+.a .ed{stroke:#1d3554;stroke-width:1}.a .ed.on{stroke:#3d8bff;stroke-width:1.6}
+.a .pulse{fill:#9fd0ff;filter:drop-shadow(0 0 4px #3d8bff)}
+.a .nd{fill:#0d2240;stroke:#2c5c99;stroke-width:1.4}.a .nd.dn{fill:#3d8bff;stroke:#9fd0ff}.a .nd.cur{fill:#fff;animation:pl 1.4s infinite}
+.a .ly{font:700 9px ui-monospace,monospace;fill:#5b7da8;letter-spacing:.12em}
+.a .hud{position:absolute;left:14px;right:14px;bottom:14px;font:12px ui-monospace,monospace;border-top:1px solid #1d3554;padding-top:10px}
+.a .hud b{display:block;font:600 17px system-ui;color:#fff;margin:4px 0}
+.a .hd2{position:absolute;top:16px;left:14px;font:700 10px ui-monospace,monospace;letter-spacing:.14em;color:#5b7da8}
+/* 7 tablo */
+.p{background:#fbfaf6;padding:16px 12px;color:#151515}
+.p .hd{font:900 24px/1 system-ui;letter-spacing:-.03em}.p .hd span{font-weight:400;color:#888;font-size:12px;display:block;letter-spacing:0;margin-top:4px}
+.pt{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin:14px 0}
+.el{aspect-ratio:1;border-radius:3px;padding:3px 4px;font:700 8px/1 system-ui;color:#fff;position:relative;opacity:0;animation:pop .35s forwards}
+.el b{display:block;font:900 15px/1 system-ui;margin-top:6px}.el.no{background:#e8e5dc!important;color:#a9a497}
+.el.cu{outline:3px solid #151515;outline-offset:1px}
+.c0{background:#1f49c9}.c1{background:#2b7233}.c2{background:#b4440d}.c3{background:#8c1c56}.c4{background:#006b66}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.p .big{border:2px solid #151515;display:grid;grid-template-columns:86px 1fr;gap:10px;padding:10px;align-items:center}
+.p .big .sym{background:#2b7233;color:#fff;aspect-ratio:1;padding:6px;font:700 10px system-ui}.p .big .sym b{display:block;font:900 34px/1 system-ui;margin-top:8px}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important}}
+</style></head><body>
+<h1>ML Yolu · yedi yön</h1><p class="n">Her kutu telefonda ana ekran/ders hissi. Gerçek içerik: F1-U2, Lojistik regresyon. Animasyonlar birkaç saniye oynar; yenilemek için sayfayı yenile.</p>
+<div class="g">
+
+<div class="k"><h2>1 · Çalışan defter</h2><div class="ph d">
+<div class="t"><span>ml-yol / f1-u2-l3.ipynb</span><span>● çalışıyor</span></div>
+<div class="c md"><b></b><div class="x">Lojistik regresyon: sıfırdan ve sklearn</div></div>
+<div class="c"><b>[ ]</b><div class="x">Lineer skor her sayıyı üretir; olasılık 0–1 arası olmalı. Skoru sigmoid'den geçir.</div></div>
+<div class="c cd run"><b></b><div class="x"><span class="kw">def</span> <span class="fn">sigmoid</span>(z):<br>&nbsp;&nbsp;<span class="kw">return</span> <span class="nm">1</span>/(<span class="nm">1</span>+np.exp(-z))<br>sigmoid(<span class="nm">2</span>)</div></div>
+<div class="c o"><b>Out</b><div class="x">0.8808</div></div>
+<div class="c as"><b>assert</b><div class="x">σ(0) kaçtır? <u>cevabı göster</u></div></div>
+<div class="bar"><span>▶ Dersi çalıştır</span><span>[*] kaldığın yer</span></div>
+</div><small>Her ders bir defter; bitirmek = hücreyi çalıştırmak, sayaç ilerler. Ana sayfa tüm müfredatı "Run All" gibi akıtır.</small></div>
+
+<div class="k"><h2>2 · Eğitim koşusu</h2><div class="ph e">
+<div class="lb">EPOCH · BİTEN DERS</div><div class="big">37 / 164</div>
+<div class="lb">kayıp: bilmediklerin</div>
+<svg viewBox="0 0 300 210"><path class="gh" d="M0 20 C80 40 140 120 300 190"/><path class="ln" d="M0 22 C30 30 50 70 70 66 S110 110 130 104 S165 135 186 130"/><circle class="dot" cx="186" cy="130" r="6"/></svg>
+<div class="ph2"><i class="on"></i><i class="on"></i><i class="cur"></i><i></i><i></i><i></i><i></i></div>
+<div class="nx"><div class="lb">SIRADAKİ ADIM · F1 KLASİK ML</div><strong>Lojistik regresyon: sıfırdan ve sklearn</strong><span style="color:#7a6f5f">Okuma ~15 dk · Kod ve pratik ~165 dk</span></div>
+</div><small>İlerlemen bir modelin eğitimi gibi: her ders bir epoch, eğri seninle iner. Fazlar eğitim evreleri.</small></div>
+
+<div class="k"><h2>3 · Kurgu masası</h2><div class="ph f">
+<div class="top"><em>F1 · KLASİK ML · ŞERİT 2</em>Lineer<br>modeller</div>
+<div class="strip"><div class="rail">
+<div class="fr dn"><small>L1</small>Lineer regresyon</div><div class="fr dn"><small>L2</small>Ridge ve Lasso</div><div class="fr fl"><small>L3</small>Lojistik regresyon</div><div class="fr"><small>L4</small>Softmax</div><div class="fr"><small>U3</small>Karar ağaçları</div></div></div>
+<div class="pins"><div class="pin">İğnede<span>MML Bölüm 7 rehberi</span></div><div class="pin">İğnede<span>Adam makalesi</span></div></div>
+</div><small>Dersler delikli şeritte kare kare. Biten kareye çarpı, kaldığın yere bayrak, ertelenenler iğnede asılı. Şerit sürüklenir, kareye oturur.</small></div>
+
+<div class="k"><h2>4 · Bilinen kurs sitesi</h2><div class="ph s">
+<div class="hd">ML Mühendisliği Yolu</div><div class="sb">164 ders · 52 ünite</div>
+<div class="rs"><span style="font-size:12px;color:#666">Devam et</span><b>Lojistik regresyon: sıfırdan ve sklearn</b><div class="pr"><i></i></div></div>
+<ul><li class="ok">Lineer regresyon<span>150 dk</span></li><li class="ok">Ridge ve Lasso<span>120 dk</span></li><li>Lojistik regresyon<span>180 dk</span></li><li>Softmax<span>120 dk</span></li></ul>
+</div><small>Kategorinin standardı, sakin ve çok iyi işlenmiş. Güvenli ama şaşırtmaz.</small></div>
+
+<div class="k"><h2>5 · Zirve rotası</h2><div class="ph z">
+<svg class="map" viewBox="0 0 300 540"><g>
+<path class="ct" d="M-10 470 C80 430 200 480 320 440"/><path class="ct" d="M-10 420 C70 380 210 430 320 390"/><path class="ct t" d="M-10 370 C90 330 190 370 320 330"/>
+<path class="ct" d="M-10 320 C60 270 220 320 320 270"/><path class="ct" d="M10 260 C80 210 200 250 300 200"/><path class="ct t" d="M40 205 C100 160 190 190 270 150"/>
+<path class="ct" d="M80 150 C120 115 180 130 230 100"/><path class="ct" d="M120 100 C150 80 180 85 200 70"/></g>
+<path class="path" d="M40 455 C90 420 70 380 120 360 S170 300 140 260 S190 210 170 170 S200 110 185 78"/>
+<circle class="camp" cx="40" cy="455" r="5"/><text class="lbl" x="52" y="460">Araçlar</text>
+<circle class="camp" cx="120" cy="360" r="5"/><text class="lbl" x="132" y="364">F1 kampı</text>
+<circle class="me" cx="140" cy="262" r="7"/><text class="lbl" x="153" y="266">Buradasın · F2</text>
+<circle class="camp" cx="185" cy="78" r="5" style="fill:none;stroke:#23301f;stroke-width:2"/><text class="lbl" x="120" y="62">Zirve · Senior</text>
+<text class="alt" x="14" y="24">RAKIM · BİTEN SAAT 212 / 555</text></svg>
+<div class="card"><div class="k1">SIRADAKİ ETAP · ~3 SAAT</div><b>Ağırlık başlatma ve aktivasyonlar</b><span style="font-size:12px;color:#6d6650">F2 · Eğitim sanatı</span><div class="prof"></div></div>
+</div><small>Müfredat bir dağ: fazlar kamp, dersler etap, rakım biten saat. Rota yürüdükçe çizilir; altta yükseklik profili.</small></div>
+
+<div class="k"><h2>6 · Sinir ağı haritası</h2><div class="ph a">
+<div class="hd2">İLERİ GEÇİŞ · 7 KATMAN</div>
+<svg viewBox="0 0 300 540">
+<g id="e"><line class="ed on" x1="40" y1="120" x2="110" y2="90"/><line class="ed on" x1="40" y1="120" x2="110" y2="170"/><line class="ed on" x1="40" y1="220" x2="110" y2="170"/><line class="ed on" x1="40" y1="220" x2="110" y2="250"/>
+<line class="ed on" x1="110" y1="90" x2="180" y2="130"/><line class="ed on" x1="110" y1="170" x2="180" y2="130"/><line class="ed" x1="110" y1="250" x2="180" y2="210"/><line class="ed" x1="110" y1="170" x2="180" y2="290"/>
+<line class="ed" x1="180" y1="130" x2="250" y2="170"/><line class="ed" x1="180" y1="210" x2="250" y2="170"/><line class="ed" x1="180" y1="290" x2="250" y2="250"/><line class="ed" x1="180" y1="210" x2="250" y2="330"/></g>
+<circle class="pulse" r="3.5"><animateMotion dur="1.6s" repeatCount="indefinite" path="M40 120 L110 170 L180 130"/></circle>
+<circle class="pulse" r="3"><animateMotion dur="2.1s" repeatCount="indefinite" path="M40 220 L110 170 L180 130"/></circle>
+<circle class="nd dn" cx="40" cy="120" r="9"/><circle class="nd dn" cx="40" cy="220" r="9"/><circle class="nd dn" cx="110" cy="90" r="9"/><circle class="nd dn" cx="110" cy="170" r="9"/><circle class="nd" cx="110" cy="250" r="9"/>
+<circle class="nd cur" cx="180" cy="130" r="9"/><circle class="nd" cx="180" cy="210" r="9"/><circle class="nd" cx="180" cy="290" r="9"/><circle class="nd" cx="250" cy="170" r="9"/><circle class="nd" cx="250" cy="250" r="9"/><circle class="nd" cx="250" cy="330" r="9"/>
+<text class="ly" x="22" y="380">ARAÇ</text><text class="ly" x="98" y="380">F0</text><text class="ly" x="168" y="380">F1</text><text class="ly" x="238" y="380">F2</text></svg>
+<div class="hud">aktivasyon: lojistik regresyon dersi<b>Lojistik regresyon: sıfırdan ve sklearn</b>önkoşullar yandı: türev · olasılık · lineer regresyon</div>
+</div><small>Dersler nöron, önkoşullar bağlantı. Bitirdiğin dersler yanar, sinyal ileri doğru akar; bir derse dokununca ona giden yol aydınlanır.</small></div>
+
+<div class="k"><h2>7 · Element tablosu</h2><div class="ph p">
+<div class="hd">ML elementleri<span>Her ders bir element · rengi fazı</span></div>
+<div class="pt">
+<div class="el c4" style="animation-delay:.05s">1<b>Np</b></div><div class="el c4" style="animation-delay:.1s">2<b>Pd</b></div><div class="el c4" style="animation-delay:.15s">3<b>Mp</b></div><div class="el c4" style="animation-delay:.2s">4<b>Sk</b></div><div class="el c0" style="animation-delay:.25s">5<b>Vk</b></div><div class="el c0" style="animation-delay:.3s">6<b>Mx</b></div>
+<div class="el c0" style="animation-delay:.35s">7<b>Dv</b></div><div class="el c0" style="animation-delay:.4s">8<b>Gr</b></div><div class="el c1" style="animation-delay:.45s">9<b>Pf</b></div><div class="el c1" style="animation-delay:.5s">10<b>Bv</b></div><div class="el c1" style="animation-delay:.55s">11<b>Lr</b></div><div class="el c1 cu" style="animation-delay:.6s">12<b>Lg</b></div>
+<div class="el c1 no" style="animation-delay:.65s">13<b>Sm</b></div><div class="el c1 no" style="animation-delay:.7s">14<b>Dt</b></div><div class="el c2 no" style="animation-delay:.75s">15<b>Mlp</b></div><div class="el c2 no" style="animation-delay:.8s">16<b>Bp</b></div><div class="el c2 no" style="animation-delay:.85s">17<b>Mg</b></div><div class="el c3 no" style="animation-delay:.9s">18<b>At</b></div>
+</div>
+<div class="big"><div class="sym">12 · F1<b>Lg</b></div><div><b style="font-size:16px">Lojistik regresyon</b><div style="font-size:12px;color:#666;margin-top:4px">sıfırdan ve sklearn · 180 dk<br>bağ: Pf, Lr → Sm</div></div></div>
+</div><small>Müfredat bir periyodik tablo: her ders kısaltmalı bir element, renk fazı. Biten elementler dolu, solgun olanlar sırada. Toplamaya çağıran bir koleksiyon hissi.</small></div>
+
+</div></body></html>

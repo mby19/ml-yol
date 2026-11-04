@@ -12,11 +12,11 @@ Astro + static output; Pagefind for search; KaTeX for formulas; self-hosted font
 
 ## Users
 
-One reader, the project owner: a working software developer who knows Python and has no ML or university-math background, studying toward a senior ML engineer role. Studies ~15 hours/week. Reads on a phone, runs the code on a PC. Turkish is the working language; English technical terms are introduced in parentheses. (Source: `mufredat/YAZIM-KURALLARI.md`; confirmed by the request "buna çalışacağım".)
+One reader, the project owner: a university student who can code (Python) and has no ML or university-math background, studying toward a senior ML engineer role. Studies 8–10 hours/week in term time and 20–25 hours in holidays. Reads on a phone, runs the code on a PC. Turkish is the working language; English technical terms are introduced in parentheses. (Source: `mufredat/YAZIM-KURALLARI.md`; confirmed by the request "buna çalışacağım".)
 
 ## Product Purpose
 
-Turn the single source of truth — `mufredat/ders-ml-yol.json` (32 units, 110 lessons, 991 pages, 655 glossary terms) — into a study site that lets that reader answer three questions at any moment: what is in the curriculum, what do I do next, and what exactly do I do in this lesson. Success means the reader never has to open the JSON or guess an order: every lesson, practice instruction, check question with its answer, code sample, summary, term, unit, and time estimate is reachable and readable.
+Turn the two sources of truth — `mufredat/ders-ml-yol.json` (main path, phases B–F6) and `mufredat/derin/ders-ml-derin.json` (ML Derinleşme side layer) — into a study site that lets that reader answer three questions at any moment: what is in the curriculum, what do I do next, and what exactly do I do in this lesson. Success means the reader never has to open the JSON or guess an order: every lesson, practice instruction, check question with its answer, code sample, summary, term, unit, and time estimate is reachable and readable.
 
 ## Positioning
 
@@ -28,14 +28,14 @@ A curriculum viewer that is also a study instrument: the full authored text is r
 - Lesson pages follow a fixed rhythm: explanation, code, practice task, check questions with answers, summary with sources.
 - Code samples are meant to be copied to a PC and run.
 - The reader returns over months, often mid-lesson, and needs to resume where they stopped.
-- The source JSON covers phases Başlangıç/Araçlar and F0–F3; it contains no F4–F6 units even though lesson u0-l1 names seven phases. The site must show this absence as a fact, not fill it.
+- Both JSON files are copied into `data/` (`course.json`, `derin.json`); unit order in the file is the reading order (math units sit before the ML units that need them).
 
 ## Capabilities and Constraints
 
 - Static site, no accounts, no server. Progress and plan live in `localStorage`.
 - All content comes from the JSON verbatim. Site chrome (navigation, plan, glossary shell, search) is written by the build.
 - Turkish UI. Markdown supports `term:` links, KaTeX, fenced code.
-- 991 content pages must build without hand-written routes; URLs derive from unit/lesson ids.
+- All lesson pages of both areas build without hand-written routes; URLs derive from unit/lesson ids (ids never collide across areas).
 - Mobile reading is first-class; code blocks must scroll horizontally, not wrap.
 - Search must cover lesson prose, practice, check questions and summaries (Pagefind index of built HTML); code blocks, formulas and answers stay out of the index.
 - Base path must be configurable for GitHub Pages.

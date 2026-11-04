@@ -94,6 +94,9 @@ const phaseRisk: Record<string, { label: string; className: string }> = {
   f1: { label: "Orta", className: "risk-medium" },
   f2: { label: "Yüksek", className: "risk-high" },
   f3: { label: "Yüksek", className: "risk-high" },
+  f4: { label: "Orta", className: "risk-medium" },
+  f5: { label: "Yüksek", className: "risk-high" },
+  f6: { label: "Orta", className: "risk-medium" },
 };
 
 const typeNotes: Record<string, string> = {
@@ -168,8 +171,7 @@ const selected = picks
         Sadece okumak <strong>yetmez</strong>. Okuma + pratik + projeler
         <strong> sağlam bir taban</strong>; “Derinleşmek için” katmanını atlamak
         çoğu uygulamalı iş için kabul edilebilir. Bedeli en çok
-        <strong> F3/LLM, F2 ve matematik türetmelerinde</strong>; F4–F6 zaten bu
-        dosyada yok.
+        <strong> F3/LLM, F2 ve matematik türetmelerinde</strong>.
       </p>
       <ul class="verdict-points">
         <li><span class="risk risk-high">Kritik</span> Sadece okuma: kavram okuryazarlığı verir, mühendislik davranışı vermez.</li>
@@ -299,18 +301,16 @@ const selected = picks
         </table>
       </div>
       <p class="guide-note">
-        F1’de 32 kayda karşı 15 benzersiz URL var; aynı kaynaklar birkaç derste
-        tekrar ediyor. F3’te ise 53 kaydın 41’i benzersiz; atlamanın en pahalı
-        olduğu hat burası.
+        Kayıt ve URL sayıları yukarıdaki tablodadır; tekrar eden kaynaklar birkaç
+        derste ortaktır.
       </p>
       <div class="guide-callout">
-        <p class="label">Bu dosyanın sınırı</p>
+        <p class="label">Ayrı derinleşme alanı</p>
         <p>
-          Müfredat yedi fazdan söz ediyor ama JSON’da <strong>F4 (MLOps), F5
-          (sistemler) ve F6 (sistem tasarımı)</strong> üniteleri yok. Bu sayfadaki
-          hiçbir senaryo o yetkinlikleri tamamlamaz; derinleşme kaynakları da
-          onların yerini tutmaz. Senior hedefi için bu üç alan ayrıca
-          çalışılmalı.
+          Bu sayfa derslerin özetindeki “Derinleşmek için” bağlantılarını ele alır.
+          Bunlardan ayrı olarak <a href={href("/derin")}>ML Derinleşme</a> alanı
+          kitap rehberleri, makaleler ve uzmanlık üniteleriyle aynı işi daha
+          sistemli yapar.
         </p>
       </div>
     </section>

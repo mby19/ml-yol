@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { allLessons, courseInfo, formatHours } from "../lib/course";
+import { derinInfo } from "../lib/course";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const href = (value: string) => `${base}${value}`;
@@ -13,11 +14,7 @@ const byKind = {
   summary: pages.filter((page) => page.kind === "summary").length,
 };
 const totalMinutes = allLessons.reduce((sum, lesson) => sum + lesson.minutes, 0);
-const missingPhases = [
-  "F4 · MLOps",
-  "F5 · Sistemler",
-  "F6 · Sistem tasarımı",
-];
+
 ---
 
 <BaseLayout title="Site ve kaynak" description="Veri Kaynağı, kapsam ve site davranışı" pagefindIgnore>
@@ -54,17 +51,16 @@ const missingPhases = [
       <p>
         İlk ders yedi fazdan söz ediyor: Başlangıç+Araçlar, F0 matematik, F1 klasik ML, F2
         derin öğrenme, F3 transformer/LLM, F4 MLOps, F5 sistemler, F6 sistem tasarımı.
-        Bu JSON’da yalnız Başlangıç, Araçlar ve F0–F3 üniteleri yazılmış. Site{" "}
-        <strong>{missingPhases.join(", ")}</strong> için sayfa üretmiyor; olmayan dersi
-        varmış gibi göstermiyor.
+        Yedisinin de üniteleri dosyada var ve sitede her biri bir katman. Ayrıca{" "}
+        <a href={href("/derin")}>ML Derinleşme</a> yan katmanı {derinInfo.lessons} ders içerir:
+        kitap rehberleri, makaleler, uzmanlıklar, vakalar ve D2L.
       </p>
       <p>
         Yazılı sürelerin toplamı {totalMinutes.toLocaleString("tr-TR")} dakika (
         {formatHours(totalMinutes)}). Bu, dosyadaki derslerin <code>minutes</code>{" "}
         değerlerinin toplamı; okuma, kod ve pratik için yazılmış tahminlerdir, ölçülmüş
-        süre değildir. Yol haritası dersindeki 1.300–1.800 saatlik tahmin yedi fazın
-        tamamı içindir ve bu dosyada F4–F6 olmadığı için buradaki toplamla aynı şey
-        değildir.
+        süre değildir. Yol haritası dersindeki 1.300–1.800 saatlik tahmin tekrarları, projeleri ve
+        derinleşmeyi de kapsar; bu yüzden buradaki toplamdan büyüktür.
       </p>
 
       <h2>Nereden başlarım?</h2>
@@ -165,7 +161,7 @@ const missingPhases = [
       <h2>Bilerek yapılmayanlar</h2>
       <ul>
         <li>Ders metni üretmek, genişletmek veya “daha iyi” hale getirmek.</li>
-        <li>Olmayan F4–F6 içeriğini taslak, “yakında” veya yapay derslerle doldurmak.</li>
+        <li>Dosyada olmayan dersi taslak, “yakında” veya yapay derslerle doldurmak.</li>
         <li>Ölçülmemiş başarı, hız veya tamamlanma iddiası.</li>
         <li>Sunucu, hesap, e-posta veya analitik.</li>
       </ul>
@@ -180,13 +176,12 @@ const missingPhases = [
           <dt>Sayfa</dt><dd>{courseInfo.pages}</dd>
           <dt>Terim</dt><dd>{courseInfo.terms}</dd>
           <dt>Süre</dt><dd>{courseInfo.minutes.toLocaleString("tr-TR")} dk</dd>
-          <dt>Kapsam</dt><dd>F0–F3</dd>
-          <dt>Eksik</dt><dd>F4–F6</dd>
+          <dt>Kapsam</dt><dd>B–F6</dd>
+          <dt>Derinleşme</dt><dd>{derinInfo.lessons} ders</dd>
           <dt>İlerleme</dt><dd>yerel</dd>
         </dl>
         <p>
-          Bütün sayılar JSON’dan okunur. F4–F6 üniteleri dosyada olmadığı için
-          burada da yok.
+          Bütün sayılar iki JSON dosyasından okunur.
         </p>
       </aside>
     </div>

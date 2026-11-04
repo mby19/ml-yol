@@ -134,6 +134,13 @@ function getHighlighter(): Promise<Highlighter> {
  * `<unk>` or `<belge id="3">` is displayed instead of being swallowed as HTML.
  * Content deliberately contains no raw HTML; math and code must keep `<`.
  */
+/** Matematik içindeki para işareti (\$) remark kaçışına takılmasın: KaTeX'in \textdollar komutuna çevrilir. */
+function dollarInMath(markdown: string): string {
+  return markdown.replace(/(^|[^\\$])\$((?:\\\$|[^$\n])+?)\$(?!\$)/g, (whole, pre: string, body: string) =>
+    body.includes("\\$") ? `${pre}$${body.replace(/\\\$/g, "\\textdollar{}")}$` : whole,
+  );
+}
+
 export function escapeAngleBrackets(markdown: string): string {
   let out = "";
   let i = 0;
@@ -333,7 +340,7 @@ export async function renderMarkdown(
   const toc = options.toc ?? [];
   const slugger = options.slugger ?? new GithubSlugger();
   const processor = createProcessor(slugger, toc, options.shift ?? 0);
-  const file = await processor.process(escapeAngleBrackets(markdown));
+  const file = await processor.process(escapeAngleBrackets(dollarInMath(markdown)));
   return { html: String(file), toc };
 }
 

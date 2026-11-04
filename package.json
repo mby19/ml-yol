@@ -12,6 +12,8 @@
     "build:pages": "BASE_PATH=${BASE_PATH:-/ml-yol} npm run build"
   },
   "dependencies": {
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource-variable/literata": "^5.3.0",
     "astro": "^7.4.4",
     "github-slugger": "^2.0.0",
     "katex": "^0.19.1",

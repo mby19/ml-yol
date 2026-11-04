@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
   allLessons,
+  derinLessons,
   formatMinutes,
   pagesOfKind,
   shortUnitTitle,
@@ -9,7 +10,7 @@ import {
 import { renderLesson } from "../../lib/markdown";
 
 export function getStaticPaths() {
-  return allLessons.map((lesson) => ({
+  return [...allLessons, ...derinLessons].map((lesson) => ({
     params: { id: lesson.id },
     props: { lesson },
   }));
@@ -20,15 +21,12 @@ const rendered = await renderLesson(lesson);
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const href = (value: string) => `${base}${value}`;
-const lineClass =
-  lesson.phase.key === "baslangic"
-    ? "line-b"
-    : lesson.phase.key === "araclar"
-      ? "line-a"
-      : `line-${lesson.phase.key}`;
-
-const prev = allLessons[lesson.globalIndex - 1];
-const next = allLessons[lesson.globalIndex + 1];
+const lineClass = `layer-${lesson.phase.key}`;
+const isDerin = lesson.area === "derin";
+const order = isDerin ? derinLessons : allLessons;
+const prev = order[lesson.globalIndex - 1];
+const next = order[lesson.globalIndex + 1];
+const unitLessonIndex = lesson.lessonIndex - 1;
 const checks = pagesOfKind(lesson, "check").length;
 const codePages = pagesOfKind(lesson, "code").length;
 
@@ -47,14 +45,21 @@ const kindLabel: Record<string, string> = {
   <header class={`lesson-head ${lineClass}`}>
     <div class="wrap">
       <div class="lesson-topline">
-        <a href={href(`/hat/${lesson.phase.key}`)} data-pagefind-meta="hat">{lesson.phase.longName}</a>
+        {isDerin ? <a href={href("/derin")} data-pagefind-meta="hat">Derinleşme · {lesson.stationCode}</a> : <a href={href(`/hat/${lesson.phase.key}`)} data-pagefind-meta="hat">{lesson.phase.longName}</a>}
         <span class="sep">/</span>
         <a href={href(`/unite/${lesson.unit.id}`)}>{lesson.station}</a>
         <span class="sep">/</span>
         <span>Ders {lesson.lessonIndex}</span>
-        <span class="lesson-code">{lesson.stationCode} · {String(lesson.lessonIndex).padStart(2, "0")}</span>
+        <span class="lesson-code">{isDerin ? lesson.phase.code : lesson.stationCode} · {String(lesson.lessonIndex).padStart(2, "0")}</span>
       </div>
       <h1 class="lesson-title" data-pagefind-meta="title">{lesson.title}</h1>
+      <ol class="activation" aria-label={`Ünitedeki dersler: ${lesson.unit.lessons.length}`}>
+        {lesson.unit.lessons.map((item, i) => (
+          <li data-lesson-link={item.id} aria-current={item.id === lesson.id ? "step" : undefined} class={i < unitLessonIndex ? "is-before" : undefined} style={`--i:${i}`}>
+            <a href={href(`/ders/${item.id}`)} aria-label={item.title} title={item.title}></a>
+          </li>
+        ))}
+      </ol>
       <div class="lesson-meta">
         <span><strong>{formatMinutes(lesson.minutes)}</strong> yazılı süre</span>
         <span>{lesson.pages.length} sayfa</span>
@@ -67,7 +72,7 @@ const kindLabel: Record<string, string> = {
   <div class="wrap">
     <div class="lesson-shell">
       <aside class="rail" aria-label="Ders gezinmesi">
-        <div class={`rail-group ${lineClass}`}>
+        {!isDerin && <div class={`rail-group ${lineClass}`}>
           <div class="rail-heading">
             <span>{lesson.phase.code} · {lesson.phase.name}</span>
             <a href={href(`/hat/${lesson.phase.key}`)}>hat</a>
@@ -87,11 +92,11 @@ const kindLabel: Record<string, string> = {
               ))
             }
           </ol>
-        </div>
+        </div>}
 
         <div class={`rail-group ${lineClass}`}>
           <div class="rail-heading">
-            <span>Bu durak</span>
+            <span>Bu ünite</span>
             <span>{lesson.unit.lessons.length} ders</span>
           </div>
           <ol class="rail-list">
@@ -190,13 +195,13 @@ const kindLabel: Record<string, string> = {
           {
             prev ? (
               <a class="pager-link" href={href(`/ders/${prev.id}`)}>
-                <span class="pager-label">← Önceki durak</span>
+                <span class="pager-label">← Önceki ders</span>
                 <span class="pager-title">{prev.title}</span>
                 <span class="pager-meta">{prev.stationCode} · {formatMinutes(prev.minutes)}</span>
               </a>
             ) : (
               <span class="pager-link pager-empty">
-                <span class="pager-label">Hat başı</span>
+                <span class="pager-label">Başlangıç</span>
                 <span class="pager-meta">Önceki ders yok</span>
               </span>
             )
@@ -204,13 +209,13 @@ const kindLabel: Record<string, string> = {
           {
             next ? (
               <a class="pager-link" href={href(`/ders/${next.id}`)}>
-                <span class="pager-label">Sonraki durak →</span>
+                <span class="pager-label">Sonraki ders →</span>
                 <span class="pager-title">{next.title}</span>
                 <span class="pager-meta">{next.stationCode} · {formatMinutes(next.minutes)}</span>
               </a>
             ) : (
               <span class="pager-link pager-empty" style="text-align:right;align-items:flex-end">
-                <span class="pager-label">Hat sonu</span>
+                <span class="pager-label">Son ders</span>
                 <span class="pager-meta">Sonraki ders yok</span>
               </span>
             )

@@ -47,10 +47,10 @@ const totalMinutes = allLessons.reduce((sum, lesson) => sum + lesson.minutes, 0)
       <div class="field">
         <label for="plan-mode">Sıra</label>
         <select id="plan-mode" name="mode">
-          <option value="parallel">Paralel</option>
-          <option value="sequential">Ardışık</option>
+          <option value="sequential">Liste sırası (önerilen)</option>
+          <option value="parallel">Ayrı matematik hattı</option>
         </select>
-        <span class="hint">Başlangıç+Araçlar bitince F0 yan hatta girer.</span>
+        <span class="hint">Matematik üniteleri zaten ihtiyaç duyulduğu yere dağıtılmış; liste sırası bunu izler.</span>
       </div>
       <button class="btn" type="submit">Yeniden hesapla</button>
     </form>
