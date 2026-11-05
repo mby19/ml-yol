@@ -1,0 +1,358 @@
+<!DOCTYPE html><html lang="tr" data-base="/ml-yol"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Large-Scale Pretraining with Transformers · ML Yolu</title><meta name="description" content="D2L 11 · Attention Mechanisms and Transformers [F3 sonrası] · 29 dk"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#f2f4fa" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)"><link rel="icon" href="/ml-yol/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://mby19.github.io/ml-yol/ders/d2l-attention-mechanisms-and-transformers-large-pretraining-transformers/"><meta property="og:title" content="Large-Scale Pretraining with Transformers · ML Yolu"><meta property="og:description" content="D2L 11 · Attention Mechanisms and Transformers [F3 sonrası] · 29 dk"><meta property="og:type" content="website"><script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("mlyol.theme");
+          const dark =
+            saved === "dark" || !saved;
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="stylesheet" href="/ml-yol/_astro/BaseLayout.pN6K18VX.css"></head><body><a class="skip-link" href="#main">İçeriğe geç</a><header class="masthead" data-pagefind-ignore><div class="masthead-inner"><a class="wordmark" href="/ml-yol/" aria-label="ML Yolu, yol haritası"><svg class="wordmark-mark" viewBox="0 0 28 20" aria-hidden="true"><path d="M3 4 14 10 3 16M14 10 25 4M14 10 25 16"></path><circle cx="3" cy="4" r="2.4"></circle><circle cx="3" cy="16" r="2.4"></circle><circle cx="14" cy="10" r="3"></circle><circle cx="25" cy="4" r="2.4"></circle><circle cx="25" cy="16" r="2.4"></circle></svg>ML Yolu</a><nav aria-label="Ana gezinme"><a class="nav-link" href="/ml-yol/" aria-current="true">Ağ</a><a class="nav-link" href="/ml-yol/derin">Derinleşme</a><a class="nav-link" href="/ml-yol/plan">Plan</a><a class="nav-link" href="/ml-yol/rehber">Rehber</a><a class="nav-link" href="/ml-yol/kaynaklar">Kaynaklar</a><a class="nav-link" href="/ml-yol/sozluk">Sözlük</a><a class="nav-link" href="/ml-yol/arama">Arama</a><button class="icon-btn" id="theme-toggle" type="button" aria-label="Temayı değiştir"><svg class="theme-icon-light" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg><svg class="theme-icon-dark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg></button><button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mobile-nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button></nav></div></header><div class="mobile-nav" id="mobile-nav" data-open="false" data-pagefind-ignore><a href="/ml-yol/">Ağ<span></span></a><a href="/ml-yol/derin">Derinleşme<span></span></a><a href="/ml-yol/plan">Plan<span></span></a><a href="/ml-yol/rehber">Rehber<span>4 senaryo</span></a><a href="/ml-yol/kaynaklar">Kaynaklar<span>894 kayıt</span></a><a href="/ml-yol/sozluk">Sözlük<span>1828 terim</span></a><a href="/ml-yol/arama">Arama<span></span></a><a href="/ml-yol/hakkinda">Site ve kaynak <span>bilgi</span></a></div><main id="main"><div class="read-progress layer-f3" aria-hidden="true"></div><header class="lesson-head layer-f3"><div class="wrap"><div class="lesson-topline"><a href="/ml-yol/derin" data-pagefind-meta="hat">Derinleşme · D2L</a><span class="sep">/</span><a href="/ml-yol/unite/d2l-11-attention-mechanisms-and-transformers">Attention Mechanisms and Transformers</a><span class="sep">/</span><span>Ders 10</span><span class="lesson-code">F3 · 10</span></div><h1 class="lesson-title" data-pagefind-meta="title">Large-Scale Pretraining with Transformers</h1><ol class="activation" aria-label="Ünitedeki dersler: 10"><li data-lesson-link="d2l-attention-mechanisms-and-transformers-giris" class="is-before" style="--i:0"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-giris" aria-label="Attention Mechanisms and Transformers: giriş" title="Attention Mechanisms and Transformers: giriş"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-queries-keys-values" class="is-before" style="--i:1"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-queries-keys-values" aria-label="Queries, Keys, and Values" title="Queries, Keys, and Values"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-pooling" class="is-before" style="--i:2"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-pooling" aria-label="Attention Pooling by Similarity" title="Attention Pooling by Similarity"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-scoring-functions" class="is-before" style="--i:3"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-scoring-functions" aria-label="Attention Scoring Functions" title="Attention Scoring Functions"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-bahdanau-attention" class="is-before" style="--i:4"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-bahdanau-attention" aria-label="The Bahdanau Attention Mechanism" title="The Bahdanau Attention Mechanism"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-multihead-attention" class="is-before" style="--i:5"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-multihead-attention" aria-label="Multi-Head Attention" title="Multi-Head Attention"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding" class="is-before" style="--i:6"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding" aria-label="Self-Attention and Positional Encoding" title="Self-Attention and Positional Encoding"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-transformer" class="is-before" style="--i:7"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-transformer" aria-label="The Transformer Architecture" title="The Transformer Architecture"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-vision-transformer" class="is-before" style="--i:8"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-vision-transformer" aria-label="Transformers for Vision" title="Transformers for Vision"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" aria-current="step" style="--i:9"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" aria-label="Large-Scale Pretraining with Transformers" title="Large-Scale Pretraining with Transformers"></a></li></ol><div class="lesson-meta"><span><strong>29 dk</strong> yazılı süre</span><span>9 sayfa</span><span>0 kod sayfası</span><span>0 kontrol sorusu</span></div></div></header><div class="wrap"><div class="lesson-shell"><aside class="rail" aria-label="Ders gezinmesi"><div class="rail-group layer-f3"><div class="rail-heading"><span>Bu ünite</span><span>10 ders</span></div><ol class="rail-list"><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-giris" data-lesson-link="d2l-attention-mechanisms-and-transformers-giris"><span class="rail-lesson-title">Attention Mechanisms and Transformers: giriş<span class="rail-lesson-meta">10 dk · 1 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-queries-keys-values" data-lesson-link="d2l-attention-mechanisms-and-transformers-queries-keys-values"><span class="rail-lesson-title">Queries, Keys, and Values<span class="rail-lesson-meta">24 dk · 6 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-pooling" data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-pooling"><span class="rail-lesson-title">Attention Pooling by Similarity<span class="rail-lesson-meta">52 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-scoring-functions" data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-scoring-functions"><span class="rail-lesson-title">Attention Scoring Functions<span class="rail-lesson-meta">1 sa 1 dk · 8 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-bahdanau-attention" data-lesson-link="d2l-attention-mechanisms-and-transformers-bahdanau-attention"><span class="rail-lesson-title">The Bahdanau Attention Mechanism<span class="rail-lesson-meta">45 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-multihead-attention" data-lesson-link="d2l-attention-mechanisms-and-transformers-multihead-attention"><span class="rail-lesson-title">Multi-Head Attention<span class="rail-lesson-meta">23 dk · 6 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding" data-lesson-link="d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding"><span class="rail-lesson-title">Self-Attention and Positional Encoding<span class="rail-lesson-meta">37 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-transformer" data-lesson-link="d2l-attention-mechanisms-and-transformers-transformer"><span class="rail-lesson-title">The Transformer Architecture<span class="rail-lesson-meta">1 sa 46 dk · 10 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-vision-transformer" data-lesson-link="d2l-attention-mechanisms-and-transformers-vision-transformer"><span class="rail-lesson-title">Transformers for Vision<span class="rail-lesson-meta">44 dk · 9 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" data-lesson-link="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" aria-current="page"><span class="rail-lesson-title">Large-Scale Pretraining with Transformers<span class="rail-lesson-meta">29 dk · 9 sayfa</span></span></a></li></ol></div><div class="rail-group"><div class="rail-heading"><span>Bu derste</span><span>9</span></div><ol class="rail-stations"><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p1"><span>01 · Large-Scale Pretraining with Transformers</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p2"><span>02 · Encoder-Only</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p3"><span>03 · Encoder--Decoder</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p4"><span>04 · Decoder-Only</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p5"><span>05 · Scalability</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p6"><span>06 · Large Language Models</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p7"><span>07 · Summary and Discussion</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p8"><span>08 · Exercises</span><code>Anlatım</code></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p9"><span>09 · Özet</span><code>Özet</code></a></li></ol></div></aside><article class="lesson-article" data-pagefind-body><details class="mobile-toc" data-pagefind-ignore><summary>Bu dersin içeriği · 9 sayfa</summary><ol><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p1"><span>01 · Large-Scale Pretraining with Transformers</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p2"><span>02 · Encoder-Only</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p3"><span>03 · Encoder--Decoder</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p4"><span>04 · Decoder-Only</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p5"><span>05 · Scalability</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p6"><span>06 · Large Language Models</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p7"><span>07 · Summary and Discussion</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p8"><span>08 · Exercises</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p9"><span>09 · Özet</span><span class="toc-kind">Özet</span></a></li></ol></details><div class="lesson-pages"><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p1" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>01 / 09</span></div><div class="prose"><h2 id="large-scale-pretraining-with-transformers">Large-Scale Pretraining with Transformers</h2>
+<p>So far in our image classification and machine translation experiments,
+models have been trained on datasets with input--output examples
+<em>from scratch</em> to perform specific tasks.
+For example, a Transformer was trained
+with English--French pairs ((see related section))
+so that this model can translate input English text into French.
+As a result, each model becomes a <em>specific expert</em>
+that is sensitive to even a slight shift in data distribution
+((see related section)).
+For better generalized models, or even more competent <em>generalists</em>
+that can perform multiple tasks with or without adaptation,
+<em>pretraining</em> models on large data has been increasingly common.</p>
+<p>Given larger data for pretraining, the Transformer architecture
+performs better with an increased model size and training compute,
+demonstrating superior <em>scaling</em> behavior.
+Specifically, performance of Transformer-based language models
+scales as a power law with the amount of model parameters,
+training tokens, and training compute (kaplan2020scaling et al.).
+The scalability of Transformers is also evidenced
+by the significantly boosted performance
+from larger vision Transformers trained on larger data
+(discussed in (see related section)).
+More recent success stories include Gato, a <em>generalist</em> model
+that can play Atari, caption images, chat, and act as a robot (reed2022generalist et al.). Gato is a single  Transformer that scales well when pretrained on diverse modalities,
+including text, images, joint torques, and button presses.
+Notably, all such multimodal data is serialized into a flat sequence of tokens,
+which can be processed akin to text tokens ((see related section))
+or image patches ((see related section)) by Transformers.</p>
+<p>Prior to the compelling success of pretraining Transformers for multimodal data,
+Transformers were extensively pretrained  with a wealth of text.
+Originally proposed for machine translation,
+the Transformer architecture in (see related section)
+consists of an encoder for representing input sequences
+and a decoder for generating target sequences.
+Primarily, Transformers can be used in three different modes:
+<em>encoder-only</em>, <em>encoder--decoder</em>, and <em>decoder-only</em>.
+To conclude this chapter, we will review these three modes
+and explain the scalability in pretraining Transformers.</p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p2" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>02 / 09</span></div><div class="prose"><h3 id="encoder-only">Encoder-Only</h3>
+<p>When only the Transformer encoder is used,
+a sequence of input tokens is converted
+into the same number of representations
+that can be further projected into output
+(e.g., classification). A Transformer encoder
+consists of  self-attention layers,
+where all input tokens attend to each other.
+For example, vision Transformers depicted in (see related section)
+are encoder-only, converting a sequence of input image patches into
+the representation of a special “&#x3C;cls>” token.
+Since this representation depends on all input tokens,
+it is further projected into classification labels.
+This design was inspired by an earlier encoder-only Transformer
+pretrained on text: BERT (Bidirectional Encoder Representations from Transformers) (Devlin et al.).</p>
+<h4 id="pretraining-bert">Pretraining BERT</h4>
+<p><a href="https://d2l.ai/_images/bert-encoder-only.svg">Şekil: Left: Pretraining BERT with masked language modeling. Prediction of the masked "love" token depends on all input tokens before and after "love". Right: Attention pattern in the Transformer encoder. Each token along the vertical axis attends to all input tokens along the horizontal axis.</a>
+BERT is pretrained on text sequences using <em>masked language modeling</em>:
+input text with randomly masked tokens is fed
+into a Transformer encoder to predict the masked tokens.
+As illustrated in (see related section),
+an original text sequence "I", "love", "this", "red", "car"
+is prepended with the “&#x3C;cls>” token, and the “&#x3C;mask>” token
+randomly replaces "love"; then the cross-entropy loss between the masked token "love"
+and its prediction is to be minimized during pretraining.
+Note that there is no constraint in the attention pattern of Transformer encoders
+(right of (see related section))
+so all tokens can attend to each other.
+Thus, prediction of "love" depends on input tokens before and after it in the sequence.
+This is why BERT is a "bidirectional encoder".
+Without need for manual labeling, large-scale text data
+from books and Wikipedia can be used for pretraining BERT.</p>
+<h4 id="fine-tuning-bert">Fine-Tuning BERT</h4>
+<p>The pretrained BERT can be <em>fine-tuned</em> to downstream encoding tasks involving single text or text pairs. During fine-tuning, additional layers can be added to BERT with randomized parameters: these parameters and those pretrained BERT parameters will be <em>updated</em> to fit training data of downstream tasks.</p>
+<p><a href="https://d2l.ai/_images/bert-finetune-classification.svg">Şekil: Fine-tuning BERT for sentiment analysis.</a>
+(see related section) illustrates
+fine-tuning of BERT for sentiment analysis.
+The Transformer encoder is a pretrained BERT,
+which takes a text sequence as input
+and feeds the “&#x3C;cls>” representation
+(global representation of the input)
+into an additional fully connected layer
+to predict the sentiment.
+During fine-tuning, the cross-entropy loss
+between the prediction and the label
+on sentiment analysis data
+is minimized via gradient-based algorithms,
+where the additional layer is trained from scratch
+while pretrained parameters of BERT are updated.
+BERT does more than sentiment analysis.
+The general language representations learned
+by the 350-million-parameter BERT
+from 250 billion training tokens
+advanced the state of the art for natural language tasks
+such as single text classification,
+text pair classification or regression,
+text tagging, and question answering.</p>
+<p>You may note that these downstream tasks include text pair understanding.
+BERT pretraining has another loss for predicting
+whether one sentence immediately follows the other.
+However, this loss was later found to be less useful when pretraining RoBERTa,
+a BERT variant of the same size, on 2000 billion tokens (Liu et al.).
+Other derivatives of BERT improved model architectures or pretraining objectives,
+such as ALBERT (enforcing parameter sharing) (lan2019albert et al.),
+SpanBERT (representing and predicting spans of text) (joshi2020spanbert et al.),
+DistilBERT (lightweight via knowledge distillation) (sanh2019distilbert et al.),
+and ELECTRA (replaced token detection) (clark2019electra et al.).
+Moreover, BERT inspired Transformer pretraining in computer vision,
+such as with vision Transformers (Dosovitskiy et al.),
+Swin Transformers (liu2021swin et al.),
+and MAE (masked autoencoders) (he2022masked et al.).</p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p3" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>03 / 09</span></div><div class="prose"><h3 id="encoder--decoder">Encoder--Decoder</h3>
+<p>Since a Transformer encoder converts a sequence of input tokens
+into the same number of output representations,
+the encoder-only mode cannot generate a sequence of arbitrary length as in machine translation.
+As originally proposed for machine translation,
+the Transformer architecture can be outfitted with a decoder
+that autoregressively predicts the target sequence
+of arbitrary length, token by token,
+conditional on both encoder output and decoder output:
+(i) for conditioning on encoder output, encoder--decoder cross-attention
+(multi-head attention of decoder in (see related section))
+allows target tokens to attend to <em>all</em> input tokens;
+(ii) conditioning on decoder output is achieved
+by a so-called <em>causal</em> attention
+(this name is common in the literature but is misleading
+as it has little connection to the proper study of causality)
+pattern (masked multi-head attention of decoder in (see related section)),
+where any target token can only attend to <em>past</em> and <em>present</em> tokens in the target sequence.</p>
+<p>To pretrain encoder--decoder Transformers beyond human-labeled machine translation data,
+BART (lewis2019bart et al.) and T5 (raffel2020exploring et al.)
+are two concurrently proposed encoder--decoder Transformers
+pretrained on large-scale text corpora.
+Both attempt to reconstruct original text in their pretraining objectives,
+while the former emphasizes noising input
+(e.g., masking, deletion, permutation, and rotation)
+and the latter highlights multitask unification
+with comprehensive ablation studies.</p>
+<h4 id="pretraining-t5">Pretraining T5</h4>
+<p>As an example of the pretrained Transformer encoder--decoder,
+T5 (Text-to-Text Transfer Transformer)
+unifies many tasks as the same text-to-text problem:
+for any task, the input of the encoder is a task description
+(e.g., "Summarize", ":") followed by task input
+(e.g., a sequence of tokens from an article),
+and the decoder predicts the task output
+(e.g., a sequence of tokens summarizing the input article).
+To perform as text-to-text, T5 is trained
+to generate some target text conditional on input text.</p>
+<p><a href="https://d2l.ai/_images/t5-encoder-decoder.svg">Şekil: Left: Pretraining T5 by predicting consecutive spans. The original sentence is "I", "love", "this", "red", "car", where "love" is replaced by a special “&#x3C;X>” token, and consecutive "red", "car" are replaced by a special “&#x3C;Y>” token. The target sequence ends with a special “&#x3C;Z>” token. Right: Attention pattern in the Transformer encoder--decoder. In the encoder self-attention (lower square), all input tokens attend to each other; In the encoder--decoder cross-attention (upper rectangle), each target token attends to all input tokens; In the decoder self-attention (upper triangle), each target token  attends to present and past target tokens only (causal).</a>
+To obtain input and output from any original text,
+T5 is pretrained to predict consecutive spans.
+Specifically, tokens from text are randomly replaced
+by special tokens where each consecutive span
+is replaced by the same special token.
+Consider the example in (see related section),
+where the original text is "I", "love", "this", "red", "car".
+Tokens "love", "red", "car" are randomly replaced by special tokens.
+Since "red" and "car" are a consecutive span,
+they are replaced by the same special token.
+As a result, the input sequence is "I", "&#x3C;X>", "this", "&#x3C;Y>",
+and the target sequence is
+"&#x3C;X>", "love", "&#x3C;Y>", "red", "car", "&#x3C;Z>",
+where "&#x3C;Z>" is another special token marking the end.
+As shown in (see related section),
+the decoder has a causal attention pattern to prevent itself
+from attending to future tokens during sequence prediction.</p>
+<p>In T5, predicting consecutive span is also referred to
+as reconstructing corrupted text.
+With this objective, T5 is pretrained
+with 1000 billion tokens from the C4
+(Colossal Clean Crawled Corpus) data,
+which consists of clean English text
+from the web (raffel2020exploring et al.).</p>
+<h4 id="fine-tuning-t5">Fine-Tuning T5</h4>
+<p>Similar to BERT, T5 needs to be fine-tuned (updating T5 parameters)
+on task-specific training data to perform this task.
+Major differences from BERT fine-tuning include:
+(i) T5 input includes task descriptions;
+(ii) T5 can generate sequences
+with arbitrary length
+with its Transformer decoder;
+(iii) No additional layers are required.</p>
+<p><a href="https://d2l.ai/_images/t5-finetune-summarization.svg">Şekil: Fine-tuning T5 for text summarization. Both the task description and article tokens are fed into the Transformer encoder for predicting the summary.</a>
+(see related section)
+explains fine-tuning T5
+using text summarization as an example.
+In this downstream task,
+the task description tokens "Summarize", ":"
+followed by the article tokens are input to the encoder.</p>
+<p>After fine-tuning, the 11-billion-parameter T5 (T5-11B)
+achieved state-of-the-art results on multiple encoding (e.g., classification)
+and generation (e.g., summarization) benchmarks.
+Since released, T5 has been extensively used in later research.
+For example, switch Transformers are designed based on T5
+to activate a subset of the parameters
+for better computational efficiency (fedus2022switch et al.).
+In a text-to-image model called Imagen,
+text is input to a frozen T5 encoder (T5-XXL)
+with 4.6 billion parameters (saharia2022photorealistic et al.).
+The photorealistic text-to-image examples in (see related section)
+suggest that the T5 encoder alone may effectively
+represent text even without fine-tuning.</p>
+<p><a href="https://d2l.ai/_images/imagen.png">Şekil: Text-to-image examples by the Imagen model, whose text encoder is from T5 (figures taken from (saharia2022photorealistic et al.)).</a></p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p4" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>04 / 09</span></div><div class="prose"><h3 id="decoder-only">Decoder-Only</h3>
+<p>We have reviewed encoder-only and encoder--decoder Transformers.
+Alternatively, decoder-only Transformers
+remove the entire encoder and the decoder sublayer
+with the encoder--decoder cross-attention
+from the original encoder--decoder architecture
+depicted in (see related section).
+Nowadays, decoder-only Transformers have been the <em>de facto</em> architecture
+in large-scale language modeling ((see related section)),
+which leverages the world's abundant unlabeled text corpora via self-supervised learning.</p>
+<h4 id="gpt-and-gpt-2">GPT and GPT-2</h4>
+<p>Using language modeling as the training objective,
+the GPT (generative pre-training) model
+chooses a Transformer decoder
+as its backbone (Radford et al.).</p>
+<p><a href="https://d2l.ai/_images/gpt-decoder-only.svg">Şekil: Left: Pretraining GPT with language modeling. The target sequence is the input sequence shifted by one token. Both “&#x3C;bos>” and “&#x3C;eos>” are special tokens marking the beginning and end of sequences, respectively. Right: Attention pattern in the Transformer decoder. Each token along the vertical axis attends to only its past tokens along the horizontal axis (causal).</a>
+Following the autoregressive language model training
+as described in (see related section),
+(see related section) illustrates
+GPT pretraining with a Transformer encoder,
+where the target sequence is the input sequence shifted by one token.
+Note that the attention pattern in the Transformer decoder
+enforces that each token can only attend to its past tokens
+(future tokens cannot be attended to because they have not yet been chosen).</p>
+<p>GPT has 100 million parameters and needs to be
+fine-tuned for individual downstream tasks.
+A much larger Transformer-decoder language model,
+GPT-2, was introduced one year later (Radford et al.).
+Compared with the original Transformer decoder in GPT, pre-normalization
+(discussed in (see related section))
+and improved initialization and weight-scaling were adopted in GPT-2.
+Pretrained on 40 GB of text, the 1.5-billion-parameter
+GPT-2 obtained the state-of-the-art results on language modeling benchmarks
+and promising results on multiple other tasks
+<em>without updating the parameters or architecture</em>.</p>
+<h4 id="gpt-3-and-beyond">GPT-3 and Beyond</h4>
+<p>GPT-2 demonstrated potential of using the same language model
+for multiple tasks without updating the model.
+This is more computationally efficient than fine-tuning,
+which requires model updates via gradient computation.</p>
+<p><a href="https://d2l.ai/_images/gpt-3-xshot.svg">Şekil: Zero-shot, one-shot, few-shot in-context learning with language models (Transformer decoders). No parameter update is needed.</a>
+Before explaining the more computationally efficient use
+of language models without parameter update,
+recall (see related section) that a language model
+can be trained to generate a text sequence
+conditional on some prefix text sequence.
+Thus, a pretrained language model may generate the task output
+as a sequence <em>without parameter update</em>,
+conditional on an input sequence with the task description,
+task-specific input--output examples, and a prompt (task input).
+This learning paradigm is called <em>in-context learning</em> (brown2020language et al.),
+which can be further categorized
+into <em>zero-shot</em>, <em>one-shot</em>, and <em>few-shot</em>,
+when there is no, one, and a few task-specific input--output examples ((see related section)).</p>
+<p><a href="https://d2l.ai/_images/gpt3-xshot-scaling.png">Şekil: Aggregate performance of GPT-3 for all 42 accuracy-denominated benchmarks (caption adapted and figure taken from (brown2020language et al.)).</a>
+These three settings were tested in GPT-3 (brown2020language et al.),
+whose largest version uses data and model size
+about two orders of magnitude larger than those in GPT-2.
+GPT-3 uses the same Transformer decoder architecture
+as its direct predecessor GPT-2
+except that attention patterns
+(at the right in (see related section))
+are sparser at alternating layers.
+Pretrained with 300 billion tokens,
+GPT-3 performs better with larger model size,
+where few-shot performance increases most rapidly ((see related section)).</p>
+<p>The subsequent GPT-4 model did not fully disclose technical details in its report (openai2023gpt4 et al.).
+By contrast with its predecessors, GPT-4
+is a large-scale, multimodal model that
+can take both text and images as input
+and generate text output.</p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p5" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>05 / 09</span></div><div class="prose"><h3 id="scalability">Scalability</h3>
+<p>(see related section) empirically demonstrates scalability
+of Transformers in the GPT-3 language model.
+For language modeling, more comprehensive empirical studies
+on the scalability of Transformers have led researchers to see promise
+in training larger Transformers with more data and compute (kaplan2020scaling et al.).</p>
+<p><a href="https://d2l.ai/_images/scaling-power-law.png">Şekil: Transformer language model performance improves smoothly as we increase the model size, dataset size, and amount of compute used for training. For optimal performance all three factors must be scaled up in tandem. Empirical performance has a power-law relationship with each individual factor when not bottlenecked by the other two (caption adapted and figure taken from (kaplan2020scaling et al.)).</a>
+As shown in (see related section),
+<em>power-law scaling</em> can be observed in the performance
+with respect to the model size (number of parameters, excluding embedding layers),
+dataset size (number of training tokens),
+and amount of training compute (PetaFLOP/s-days, excluding embedding layers).
+In general, increasing all these three factors in tandem leads to better performance.
+However, <em>how</em> to increase them in tandem
+still remains a matter of debate (hoffmann2022training et al.).</p>
+<p><a href="https://d2l.ai/_images/scaling-sample-conv.png">Şekil: Transformer language model training runs (figure taken from (kaplan2020scaling et al.)).</a>
+As well as increased performance, large models also enjoy better sample efficiency than small models. (see related section) shows that large models need fewer training samples (tokens processed) to perform at the same level achieved by small models, and performance is scaled smoothly with compute.</p>
+<p><a href="https://d2l.ai/_images/scaling-gpt3.png">Şekil: GPT-3 performance (cross-entropy validation loss) follows a power-law trend with the amount of compute used for training. The power-law behavior observed in (kaplan2020scaling et al.) continues for an additional two orders of magnitude with only small deviations from the predicted curve. Embedding parameters are excluded from compute and parameter counts (caption adapted and figure taken from (brown2020language et al.)).</a>
+The empirical scaling behaviors in (kaplan2020scaling et al.) have been tested in subsequent large Transformer models. For example, GPT-3 supported this hypothesis with two more orders of magnitude in (see related section).</p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p6" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>06 / 09</span></div><div class="prose"><h3 id="large-language-models">Large Language Models</h3>
+<p>The scalability of Transformers in the GPT series has inspired subsequent large language models.
+The GPT-2 Transformer decoder was used for training the 530-billion-parameter Megatron-Turing NLG (smith2022using et al.) with 270 billion training tokens. Following the GPT-2 design, the 280-billion-parameter Gopher (rae2021scaling et al.) pretrained with 300 billion tokens, performed competitively across diverse tasks.
+Inheriting the same architecture and using the same compute budget of Gopher, Chinchilla (hoffmann2022training et al.) is a substantially smaller (70 billion parameters) model that trains for much longer (1.4 trillion training tokens), outperforming Gopher on many tasks and with more emphasis on the number of tokens than on the number of parameters.
+To continue the scaling line of language modeling,
+PaLM (Pathway Language Model) (chowdhery2022palm et al.), a 540-billion-parameter Transformer decoder with modified designs pretrained on 780 billion tokens, outperformed average human performance on the BIG-Bench benchmark (srivastava2022beyond et al.). Its later version, PaLM 2 (anil2023palm et al.), scaled data and model roughly 1:1 and improved multilingual and reasoning capabilities.
+Other large language models, such as Minerva  (lewkowycz2022solving et al.) that further trains a generalist (PaLM) and Galactica (taylor2022galactica et al.) that is not trained on a general corpus, have shown promising quantitative and scientific reasoning capabilities.</p>
+<p>Open-sourced releases, such as OPT (Open Pretrained Transformers) (zhang2022opt et al.), BLOOM ( scao2022bloom et al.), and FALCON (penedo2023refinedweb et al.),
+democratized research and use of large language models.
+Focusing on computational efficiency at inference time,
+the open-sourced Llama 1 (touvron2023llama et al.) outperformed much larger models by training on more tokens than had been typically used. The updated Llama 2 (touvron2023llama2 et al.) further increased the pretraining corpus by 40%, leading to product models that may match the performance of competitive close-sourced models.</p>
+<p>(wei2022emergent et al.) discussed emergent abilities of large language models that are present in larger models, but not in smaller models.
+However, simply increasing model size does not inherently make models follow human instructions better.
+(wei2021finetuned,sanh2021multitask et al.) have found that fine-tuning large language models
+on a range of datasets described via <em>instructions</em>
+can improve zero-shot performance on held-out tasks.
+Using <em>reinforcement learning from human feedback</em>,
+(ouyang2022training et al.) fine-tuned GPT-3
+to follow a diverse set of instructions.
+Following the resultant InstructGPT which
+aligns language models with human intent
+via fine-tuning (ouyang2022training et al.),
+<a href="https://chat.openai.com/">ChatGPT</a>
+can generate human-like responses (e.g., code debugging and creative writing)
+based on conversations with humans
+and can perform many natural language processing
+tasks zero-shot (qin2023chatgpt et al.).
+(bai2022constitutional et al.) replaced human inputs (e.g., human-labeled data) with model outputs
+to partially automate the instruction tuning process, which is also known as <em>reinforcement learning from AI feedback</em>.</p>
+<p>Large language models offer an exciting prospect
+of formulating text input to induce models to perform desired tasks via in-context learning,
+which is also known as <em>prompting</em>.
+Notably,
+<em>chain-of-thought prompting</em> (wei2022chain et al.),
+an in-context learning method
+with few-shot "question, intermediate reasoning steps, answer" demonstrations,
+elicits the complex reasoning capabilities of
+large language models
+in order to solve mathematical, commonsense, and symbolic reasoning tasks.
+Sampling multiple reasoning paths (wang2023self et al.), diversifying few-shot demonstrations (zhang2023automatic et al.),
+and reducing complex problems to sub-problems (zhou2023least et al.)
+can all improve the reasoning accuracy. In fact, with simple prompts like "Let's think step by step" just before each answer,
+large language models can even perform <em>zero-shot</em>
+chain-of-thought reasoning with decent accuracy (kojima2022large et al.).
+Even for multimodal inputs consisting of both text and images,
+language models can perform multimodal chain-of-thought reasoning with higher accuracy than using text input only (zhang2023multicot et al.).</p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p7" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>07 / 09</span></div><div class="prose"><h3 id="summary-and-discussion">Summary and Discussion</h3>
+<p>Transformers have been pretrained as encoder-only (e.g., BERT), encoder--decoder (e.g., T5), and decoder-only (e.g., GPT series). Pretrained models may be adapted to perform different tasks with model update (e.g., fine-tuning) or not (e.g., few-shot). Scalability of Transformers suggests that better performance benefits from larger models, more training data, and more training compute. Since Transformers were first designed and pretrained for text data, this section leans slightly towards natural language processing. Nonetheless, those models discussed above can be often found in more recent models across multiple modalities. For example,
+(i) Chinchilla (hoffmann2022training et al.) was further extended to Flamingo (alayrac2022flamingo et al.), a visual language model for few-shot learning;
+(ii) GPT-2 (Radford et al.) and the vision Transformer encode text and images in CLIP (Contrastive Language-Image Pre-training) (radford2021learning et al.), whose image and text embeddings were later adopted in the DALL-E 2 text-to-image system (ramesh2022hierarchical et al.). Although there have been no systematic studies on Transformer scalability in multimodal pretraining yet, an all-Transformer text-to-image model called Parti (yu2022scaling et al.) shows potential of scalability across modalities:
+a larger Parti is more capable of high-fidelity image generation and content-rich text understanding ((see related section)).</p>
+<p><a href="https://d2l.ai/_images/parti.png">Şekil: Image examples generated from the same text by the Parti model of increasing sizes (350M, 750M, 3B, 20B) (examples taken from (yu2022scaling et al.)).</a></p></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p8" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>08 / 09</span></div><div class="prose"><h3 id="exercises">Exercises</h3>
+<ol>
+<li>Is it possible to fine-tune T5 using a minibatch consisting of different tasks? Why or why not? How about for GPT-2?</li>
+<li>Given a powerful language model, what applications can you think of?</li>
+<li>Say that you are asked to fine-tune a language model to perform text classification by adding additional layers. Where will you add them? Why?</li>
+<li>Consider sequence-to-sequence problems (e.g., machine translation) where the input sequence is always available throughout the target sequence prediction. What could be limitations of modeling with decoder-only Transformers? Why?</li>
+</ol></div></section><section class="page-section" id="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers-p9" data-kind="summary"><div class="page-flag" data-pagefind-ignore>Özet<span>09 / 09</span></div><div class="prose"><p><strong>Orijinal bölüm:</strong> <a href="https://d2l.ai/chapter_attention-mechanisms-and-transformers/large-pretraining-transformers.html">Large-Scale Pretraining with Transformers</a></p>
+<p>Kaynak: Zhang, Lipton, Li, Smola — <em>Dive into Deep Learning</em> (d2l.ai). Lisans: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Bu sürüm yalnız PyTorch kodunu içerir, şekiller d2l.ai bağlantısıdır.</p>
+<p>Kodları PC'de çalıştır: <code>pip install d2l torch torchvision</code> (d2l paketi bu kodlardaki <code>d2l.</code> yardımcılarını sağlar).</p></div></section></div><div class="lesson-actions" data-pagefind-ignore><button class="complete-btn" type="button" data-complete="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span data-complete-label>Dersi tamamladım</span></button><span class="label">D2L · 29 dk</span></div><nav class="lesson-pager" aria-label="Dersler arası gezinme" data-pagefind-ignore><a class="pager-link" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-vision-transformer"><span class="pager-label">← Önceki ders</span><span class="pager-title">Transformers for Vision</span><span class="pager-meta">D2L · 44 dk</span></a><a class="pager-link" href="/ml-yol/ders/d2l-natural-language-processing-pretraining-giris"><span class="pager-label">Sonraki ders →</span><span class="pager-title">Natural Language Processing: Pretraining: giriş</span><span class="pager-meta">D2L · 10 dk</span></a></nav></article></div></div><script type="module">var e=e=>e.toLocaleLowerCase(`tr`).replace(/ı/g,`i`).replace(/ş/g,`s`).replace(/ğ/g,`g`).replace(/ü/g,`u`).replace(/ö/g,`o`).replace(/ç/g,`c`).replace(/["'`“”‘’]/g,``).replace(/[.,;:!?]+$/g,``).replace(/\s+/g,` `).trim();document.querySelectorAll(`form[data-quiz]`).forEach(t=>{let n=t.querySelector(`.quiz-result`),r=t.querySelector(`.quiz-explain`);t.addEventListener(`submit`,i=>{if(i.preventDefault(),t.dataset.answered)return;let a=!1;if(t.dataset.quiz===`choice`){let e=t.querySelector(`input[type=radio]:checked`);if(!e){n.textContent=`Önce bir seçenek seç.`;return}a=e.closest(`.quiz-option`).dataset.correct===`1`,t.querySelectorAll(`.quiz-option`).forEach(t=>{t.classList.add(t.dataset.correct===`1`?`is-right`:`is-rest`),t.contains(e)&&t.classList.add(`is-picked`)})}else{let r=t.querySelector(`input[type=text]`);if(!r.value.trim()){n.textContent=`Önce cevabını yaz.`;return}let i=JSON.parse(t.dataset.accept||`[]`);a=i.some(t=>e(t)===e(r.value)),r.readOnly=!0,a||(n.dataset.answer=i[0]??``)}t.dataset.answered=a?`right`:`wrong`,n.textContent=a?`Doğru.`:t.dataset.quiz===`input`?`Yanlış. Doğru cevap: ${n.dataset.answer}`:`Yanlış. Doğru seçenek işaretlendi.`,t.querySelectorAll(`input`).forEach(e=>e.disabled=t.dataset.quiz===`choice`||e.disabled),r&&(r.hidden=!1),t.querySelector(`.quiz-submit`).disabled=!0})});</script></main><footer class="site-foot" data-pagefind-ignore><div class="wrap"><div class="foot-grid"><div><span class="label">Kaynak</span><p>Bütün ders metni <code>ders-ml-yol.json</code> ve <code>ders-ml-derin.json</code> dosyalarından olduğu gibi render edilir. Site metni yeniden yazmaz, özetlemez veya yeni ders üretmez. Sözlük, kontrol soruları ve süreler aynı dosyadan gelir.</p></div><div><span class="label">Kapsam</span><div class="foot-links"><a href="/ml-yol/hakkinda">Veri, kapsam ve yöntem</a><a href="/ml-yol/rehber">Derinleşme rehberi</a><a href="/ml-yol/kaynaklar">Bütün kaynaklar</a><a href="/ml-yol/plan">Çalışma planı</a><a href="/ml-yol/sozluk">Sözlük</a></div></div><div><span class="label">Rakamlar</span><p class="num">53 ünite · 170 ders · 1979 sayfa<br>34.300 dk yazılı süre (572 sa) · 1828 terim</p></div></div><div class="foot-base"><span>ML Yolu · kişisel çalışma sitesi</span><span>İlerleme yalnız bu tarayıcıda saklanır</span></div></div></footer><div class="term-scrim" id="term-scrim" data-open="false" aria-hidden="true"></div><aside class="term-panel" id="term-panel" data-open="false" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="term-title" inert><div class="term-panel-head"><span class="label">Sözlük</span><button class="icon-btn" type="button" id="term-close" aria-label="Terim panelini kapat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button></div><div class="term-panel-body" id="term-body"></div></aside><script type="module" src="/ml-yol/_astro/BaseLayout.astro_astro_type_script_index_0_lang.DbNUKAew.js"></script></body></html>

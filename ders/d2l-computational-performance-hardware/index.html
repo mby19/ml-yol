@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="tr" data-base="/ml-yol"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hardware · ML Yolu</title><meta name="description" content="D2L 13 · Computational Performance [F5 sonrası] · 45 dk"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#f2f4fa" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)"><link rel="icon" href="/ml-yol/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://mby19.github.io/ml-yol/ders/d2l-computational-performance-hardware/"><meta property="og:title" content="Hardware · ML Yolu"><meta property="og:description" content="D2L 13 · Computational Performance [F5 sonrası] · 45 dk"><meta property="og:type" content="website"><script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("mlyol.theme");
+          const dark =
+            saved === "dark" || !saved;
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="stylesheet" href="/ml-yol/_astro/BaseLayout.pN6K18VX.css"></head><body><a class="skip-link" href="#main">İçeriğe geç</a><header class="masthead" data-pagefind-ignore><div class="masthead-inner"><a class="wordmark" href="/ml-yol/" aria-label="ML Yolu, yol haritası"><svg class="wordmark-mark" viewBox="0 0 28 20" aria-hidden="true"><path d="M3 4 14 10 3 16M14 10 25 4M14 10 25 16"></path><circle cx="3" cy="4" r="2.4"></circle><circle cx="3" cy="16" r="2.4"></circle><circle cx="14" cy="10" r="3"></circle><circle cx="25" cy="4" r="2.4"></circle><circle cx="25" cy="16" r="2.4"></circle></svg>ML Yolu</a><nav aria-label="Ana gezinme"><a class="nav-link" href="/ml-yol/" aria-current="true">Ağ</a><a class="nav-link" href="/ml-yol/derin">Derinleşme</a><a class="nav-link" href="/ml-yol/plan">Plan</a><a class="nav-link" href="/ml-yol/rehber">Rehber</a><a class="nav-link" href="/ml-yol/kaynaklar">Kaynaklar</a><a class="nav-link" href="/ml-yol/sozluk">Sözlük</a><a class="nav-link" href="/ml-yol/arama">Arama</a><button class="icon-btn" id="theme-toggle" type="button" aria-label="Temayı değiştir"><svg class="theme-icon-light" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg><svg class="theme-icon-dark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg></button><button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mobile-nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button></nav></div></header><div class="mobile-nav" id="mobile-nav" data-open="false" data-pagefind-ignore><a href="/ml-yol/">Ağ<span></span></a><a href="/ml-yol/derin">Derinleşme<span></span></a><a href="/ml-yol/plan">Plan<span></span></a><a href="/ml-yol/rehber">Rehber<span>4 senaryo</span></a><a href="/ml-yol/kaynaklar">Kaynaklar<span>894 kayıt</span></a><a href="/ml-yol/sozluk">Sözlük<span>1828 terim</span></a><a href="/ml-yol/arama">Arama<span></span></a><a href="/ml-yol/hakkinda">Site ve kaynak <span>bilgi</span></a></div><main id="main"><div class="read-progress layer-f5" aria-hidden="true"></div><header class="lesson-head layer-f5"><div class="wrap"><div class="lesson-topline"><a href="/ml-yol/derin" data-pagefind-meta="hat">Derinleşme · D2L</a><span class="sep">/</span><a href="/ml-yol/unite/d2l-13-computational-performance">Computational Performance</a><span class="sep">/</span><span>Ders 5</span><span class="lesson-code">F5 · 05</span></div><h1 class="lesson-title" data-pagefind-meta="title">Hardware</h1><ol class="activation" aria-label="Ünitedeki dersler: 8"><li data-lesson-link="d2l-computational-performance-giris" class="is-before" style="--i:0"><a href="/ml-yol/ders/d2l-computational-performance-giris" aria-label="Computational Performance: giriş" title="Computational Performance: giriş"></a></li><li data-lesson-link="d2l-computational-performance-hybridize" class="is-before" style="--i:1"><a href="/ml-yol/ders/d2l-computational-performance-hybridize" aria-label="Compilers and Interpreters" title="Compilers and Interpreters"></a></li><li data-lesson-link="d2l-computational-performance-async-computation" class="is-before" style="--i:2"><a href="/ml-yol/ders/d2l-computational-performance-async-computation" aria-label="Asynchronous Computation" title="Asynchronous Computation"></a></li><li data-lesson-link="d2l-computational-performance-auto-parallelism" class="is-before" style="--i:3"><a href="/ml-yol/ders/d2l-computational-performance-auto-parallelism" aria-label="Automatic Parallelism" title="Automatic Parallelism"></a></li><li data-lesson-link="d2l-computational-performance-hardware" aria-current="step" style="--i:4"><a href="/ml-yol/ders/d2l-computational-performance-hardware" aria-label="Hardware" title="Hardware"></a></li><li data-lesson-link="d2l-computational-performance-multiple-gpus" style="--i:5"><a href="/ml-yol/ders/d2l-computational-performance-multiple-gpus" aria-label="Training on Multiple GPUs" title="Training on Multiple GPUs"></a></li><li data-lesson-link="d2l-computational-performance-multiple-gpus-concise" style="--i:6"><a href="/ml-yol/ders/d2l-computational-performance-multiple-gpus-concise" aria-label="Concise Implementation for Multiple GPUs" title="Concise Implementation for Multiple GPUs"></a></li><li data-lesson-link="d2l-computational-performance-parameterserver" style="--i:7"><a href="/ml-yol/ders/d2l-computational-performance-parameterserver" aria-label="Parameter Servers" title="Parameter Servers"></a></li></ol><div class="lesson-meta"><span><strong>45 dk</strong> yazılı süre</span><span>11 sayfa</span><span>0 kod sayfası</span><span>0 kontrol sorusu</span></div></div></header><div class="wrap"><div class="lesson-shell"><aside class="rail" aria-label="Ders gezinmesi"><div class="rail-group layer-f5"><div class="rail-heading"><span>Bu ünite</span><span>8 ders</span></div><ol class="rail-list"><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-giris" data-lesson-link="d2l-computational-performance-giris"><span class="rail-lesson-title">Computational Performance: giriş<span class="rail-lesson-meta">10 dk · 1 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-hybridize" data-lesson-link="d2l-computational-performance-hybridize"><span class="rail-lesson-title">Compilers and Interpreters<span class="rail-lesson-meta">39 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-async-computation" data-lesson-link="d2l-computational-performance-async-computation"><span class="rail-lesson-title">Asynchronous Computation<span class="rail-lesson-meta">23 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-auto-parallelism" data-lesson-link="d2l-computational-performance-auto-parallelism"><span class="rail-lesson-title">Automatic Parallelism<span class="rail-lesson-meta">33 dk · 6 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-hardware" data-lesson-link="d2l-computational-performance-hardware" aria-current="page"><span class="rail-lesson-title">Hardware<span class="rail-lesson-meta">45 dk · 11 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-multiple-gpus" data-lesson-link="d2l-computational-performance-multiple-gpus"><span class="rail-lesson-title">Training on Multiple GPUs<span class="rail-lesson-meta">1 sa 7 dk · 10 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-multiple-gpus-concise" data-lesson-link="d2l-computational-performance-multiple-gpus-concise"><span class="rail-lesson-title">Concise Implementation for Multiple GPUs<span class="rail-lesson-meta">30 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-computational-performance-parameterserver" data-lesson-link="d2l-computational-performance-parameterserver"><span class="rail-lesson-title">Parameter Servers<span class="rail-lesson-meta">18 dk · 8 sayfa</span></span></a></li></ol></div><div class="rail-group"><div class="rail-heading"><span>Bu derste</span><span>11</span></div><ol class="rail-stations"><li><a href="#d2l-computational-performance-hardware-p1"><span>01 · Hardware</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p2"><span>02 · Computers</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p3"><span>03 · Memory</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p4"><span>04 · Storage</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p5"><span>05 · CPUs</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p6"><span>06 · GPUs and other Accelerators</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p7"><span>07 · Networks and Buses</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p8"><span>08 · More Latency Numbers</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p9"><span>09 · Summary</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p10"><span>10 · Exercises</span><code>Anlatım</code></a></li><li><a href="#d2l-computational-performance-hardware-p11"><span>11 · Özet</span><code>Özet</code></a></li></ol></div></aside><article class="lesson-article" data-pagefind-body><details class="mobile-toc" data-pagefind-ignore><summary>Bu dersin içeriği · 11 sayfa</summary><ol><li><a href="#d2l-computational-performance-hardware-p1"><span>01 · Hardware</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p2"><span>02 · Computers</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p3"><span>03 · Memory</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p4"><span>04 · Storage</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p5"><span>05 · CPUs</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p6"><span>06 · GPUs and other Accelerators</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p7"><span>07 · Networks and Buses</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p8"><span>08 · More Latency Numbers</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p9"><span>09 · Summary</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p10"><span>10 · Exercises</span><span class="toc-kind">Anlatım</span></a></li><li><a href="#d2l-computational-performance-hardware-p11"><span>11 · Özet</span><span class="toc-kind">Özet</span></a></li></ol></details><div class="lesson-pages"><section class="page-section" id="d2l-computational-performance-hardware-p1" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>01 / 11</span></div><div class="prose"><h2 id="hardware">Hardware</h2>
+<p>Building systems with great performance requires a good understanding of the algorithms and models to capture the statistical aspects of the problem. At the same time it is also indispensable to have at least a modicum of knowledge of the underlying hardware. The current section is no substitute for a proper course on hardware and system design. Instead, it might serve as a starting point for understanding why some algorithms are more efficient than others and how to achieve good throughput. A good design can easily make a difference of an order of magnitude and, in turn, this can make the difference between being able to train a network (e.g., in a week) and not at all (in 3 months, thus missing the deadline).
+We will start by looking at computers. Then we will zoom in to look more carefully at CPUs and GPUs. Lastly we zoom out to review how multiple computers are connected in a server center or in the cloud.</p>
+<p><a href="https://d2l.ai/_images/latencynumbers.png">Şekil: Latency Numbers that every programmer should know.</a>
+Impatient readers may be able to get by with (see related section). It is taken from Colin Scott's <a href="https://people.eecs.berkeley.edu/%7Ercs/research/interactive_latency.html">interactive post</a> that gives a good overview of the progress over the past decade. The original numbers are due to Jeff Dean's <a href="https://static.googleusercontent.com/media/research.google.com/en//people/jeff/Stanford-DL-Nov-2010.pdf">Stanford talk from 2010</a>.
+The discussion below explains some of the rationale for these numbers and how they can guide us in designing algorithms. The discussion below is very high level and cursory. It is clearly <em>no substitute</em> for a proper course but rather just meant to provide enough information for a statistical modeler to make suitable design decisions. For an in-depth overview of computer architecture we refer the reader to (Hennessy et al.) or a recent course on the subject, such as the one by <a href="http://inst.eecs.berkeley.edu/%7Ecs152/sp19/">Arste Asanovic</a>.</p></div></section><section class="page-section" id="d2l-computational-performance-hardware-p2" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>02 / 11</span></div><div class="prose"><h3 id="computers">Computers</h3>
+<p>Most deep learning researchers and practitioners have access to a computer with a fair amount of memory, computation, some form of an accelerator such as a GPU, or multiples thereof. A computer consists of the following key components:</p>
+<ul>
+<li>A processor (also referred to as a CPU) that is able to execute the programs we give it (in addition to running an operating system and many other things), typically consisting of 8 or more cores.</li>
+<li>Memory (RAM) to store and retrieve the results from computation, such as weight vectors and activations, and training data.</li>
+<li>An Ethernet network connection (sometimes multiple) with speeds ranging from 1 GB/s to 100 GB/s. On high end servers more advanced interconnects can be found.</li>
+<li>A high speed expansion bus (PCIe) to connect the system to one or more GPUs. Servers have up to 8 accelerators, often connected in an advanced topology, while desktop systems have 1 or 2, depending on the budget of the user and the size of the power supply.</li>
+<li>Durable storage, such as a magnetic hard disk drive, a solid state drive, in many cases connected using the PCIe bus. It provides efficient transfer of training data to the system and storage of intermediate checkpoints as needed.</li>
+</ul>
+<p><a href="https://d2l.ai/_images/mobo-symbol.svg">Şekil: Connectivity of components of a computer.</a>
+As (see related section) indicates, most components (network, GPU, and storage) are connected to the CPU across the PCIe bus. It consists of multiple lanes that are directly attached to the CPU. For instance AMD's Threadripper 3 has 64 PCIe 4.0 lanes, each of which is capable 16 Gbit/s data transfer in both directions. The memory is directly attached to the CPU with a total bandwidth of up to 100 GB/s.</p>
+<p>When we run code on a computer we need to shuffle data to the processors (CPUs or GPUs), perform computation, and then move the results off the processor back to RAM and durable storage. Hence, in order to get good performance we need to make sure that this works seamlessly without any one of the systems becoming a major bottleneck. For instance, if we cannot load images quickly enough the processor will not have any work to do. Likewise, if we cannot move matrices quickly enough to the CPU (or GPU), its processing elements will starve. Finally, if we want to synchronize multiple computers across the network, the latter should not slow down computation. One option is to interleave communication and computation. Let's have a look at the various components in more detail.</p></div></section><section class="page-section" id="d2l-computational-performance-hardware-p3" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>03 / 11</span></div><div class="prose"><h3 id="memory">Memory</h3>
+<p>At its most basic memory is used to store data that needs to be readily accessible. At present CPU RAM is typically of the <a href="https://en.wikipedia.org/wiki/DDR4_SDRAM">DDR4</a> variety, offering 20--25 GB/s bandwidth per module. Each module has a 64-bit-wide bus. Typically pairs of memory modules are used to allow for multiple channels. CPUs have between 2 and 4 memory channels, i.e., they have between 4 0GB/s and 100 GB/s peak memory bandwidth. Often there are two banks per channel. For instance AMD's Zen 3 Threadripper has 8 slots.</p>
+<p>While these numbers are impressive, indeed, they only tell part of the story. When we want to read a portion from memory we first need to tell the memory module where the information can be found. That is, we first need to send the <em>address</em> to RAM. Once this is accomplished we can choose to read just a single 64 bit record or a long sequence of records. The latter is called <em>burst read</em>. In a nutshell, sending an address to memory and setting up the transfer takes approximately 100 ns (details depend on the specific timing coefficients of the memory chips used), every subsequent transfer takes only 0.2 ns. In short, the first read is 500 times as expensive as subsequent ones! Note that we could perform up to 10,000,000 random reads per second. This suggests that we avoid random memory access as far as possible and use burst reads (and writes) instead.</p>
+<p>Matters are a bit more complex when we take into account that we have multiple <em>banks</em>. Each bank can read memory largely independently. This means two things.
+On the one hand, the effective number of random reads is up to 4 times higher, provided that they are spread evenly across memory. It also means that it is still a bad idea to perform random reads since burst reads are 4 times faster, too. On the other hand, due to memory alignment to 64 bit boundaries it is a good idea to align any data structures with the same boundaries. Compilers do this pretty much <a href="https://en.wikipedia.org/wiki/Data_structure_alignment">automatically</a> when the appropriate flags are set. Curious readers are encouraged to review a lecture on DRAMs such as the one by <a href="http://web.cecs.pdx.edu/%7Ezeshan/ece585_lec5.pdf">Zeshan Chishti</a>.</p>
+<p>GPU memory is subject to even higher bandwidth requirements since they have many more processing elements than CPUs. By and large there are two options to address them. The first is to make the memory bus significantly wider. For instance, NVIDIA's RTX 2080 Ti has a 352-bit-wide bus. This allows for much more information to be transferred at the same time. Second, GPUs use specific high-performance memory. Consumer-grade devices, such as NVIDIA's RTX and Titan series typically use <a href="https://en.wikipedia.org/wiki/GDDR6_SDRAM">GDDR6</a> chips with over 500 GB/s aggregate bandwidth. An alternative is to use HBM (high bandwidth memory) modules. They use a very different interface and connect directly with GPUs on a dedicated silicon wafer. This makes them very expensive and their use is typically limited to high-end server chips, such as the NVIDIA Volta V100 series of accelerators. Quite unsurprisingly, GPU memory is generally <em>much</em> smaller than CPU memory due to the higher cost of the former. For our purposes, by and large their performance characteristics are similar, just a lot faster. We can safely ignore the details for the purpose of this book. They only matter when tuning GPU kernels for high throughput.</p></div></section><section class="page-section" id="d2l-computational-performance-hardware-p4" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>04 / 11</span></div><div class="prose"><h3 id="storage">Storage</h3>
+<p>We saw that some of the key characteristics of RAM are <em>bandwidth</em> and <em>latency</em>. The same is true for storage devices, just that the differences can be even more extreme.</p>
+<h4 id="hard-disk-drives">Hard Disk Drives</h4>
+<p><em>Hard disk drives</em> (HDDs) have been in use for over half a century. In a nutshell they contain a number of spinning platters with heads that can be positioned to read or write at any given track. High-end disks hold up to 16 TB on 9 platters. One of the key benefits of HDDs is that they are relatively inexpensive. One of their many downsides are their typically catastrophic failure modes and their relatively high read latency.</p>
+<p>To understand the latter, consider the fact that HDDs spin at around 7,200 RPM (revolutions per minute). If they were much faster they would shatter due to the centrifugal force exerted on the platters. This has a major downside when it comes to accessing a specific sector on the disk: we need to wait until the platter has rotated in position (we can move the heads but not accelerate the actual disks). Hence it can take over 8 ms until the requested data is available. A common way this is expressed is to say that HDDs can operate at approximately 100 IOPs (input/output operations per second). This number has essentially remained unchanged for the past two decades. Worse still, it is equally difficult to increase bandwidth (it is in the order of 100--200 MB/s). After all, each head reads a track of bits, hence the bit rate only scales with the square root of the information density. As a result, HDDs are quickly becoming relegated to archival storage and low-grade storage for very large datasets.</p>
+<h4 id="solid-state-drives">Solid State Drives</h4>
+<p>Solid state drives (SSDs) use flash memory to store information persistently. This allows for <em>much faster</em> access to stored records. Modern SSDs can operate at 100,000 to 500,000 IOPs, i.e., up to 3 orders of magnitude faster than HDDs. Furthermore, their bandwidth can reach 1--3GB/s, i.e., one order of magnitude faster than HDDs. These improvements sound almost too good to be true. Indeed, they come with the following caveats, due to the way SSDs are designed.</p>
+<ul>
+<li>SSDs store information in blocks (256 KB or larger). They can only be written as a whole, which takes significant time. Consequently bit-wise random writes on SSD have very poor performance. Likewise, writing data in general takes significant time since the block has to be read, erased and then rewritten with new information. By now SSD controllers and firmware have developed algorithms to mitigate this. Nonetheless, writes can be much slower, in particular for QLC (quad level cell) SSDs. The key for improved performance is to maintain a <em>queue</em> of operations, to prefer reads and to write in large blocks if possible.</li>
+<li>The memory cells in SSDs wear out relatively quickly (often already after a few thousand writes). Wear-level protection algorithms are able to spread the degradation over many cells. That said, it is not recommended to use SSDs for swapping files or for large aggregations of log-files.</li>
+<li>Lastly, the massive increase in bandwidth has forced computer designers to attach SSDs directly to the PCIe bus. The drives capable of handling this, referred to as NVMe (Non Volatile Memory enhanced), can use up to 4 PCIe lanes. This amounts to up to 8GB/s on PCIe 4.0.</li>
+</ul>
+<h4 id="cloud-storage">Cloud Storage</h4>
+<p>Cloud storage provides a configurable range of performance. That is, the assignment of storage to virtual machines is dynamic, both in terms of quantity and in terms of speed, as chosen by users. We recommend that users increase the provisioned number of IOPs whenever latency is too high, e.g., during training with many small records.</p></div></section><section class="page-section" id="d2l-computational-performance-hardware-p5" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>05 / 11</span></div><div class="prose"><h3 id="cpus">CPUs</h3>
+<p>Central processing units (CPUs) are the centerpiece of any computer. They consist of a number of key components: <em>processor cores</em> that are able to execute machine code, a <em>bus</em> connecting them (the specific topology differs significantly between processor models, generations, and vendors), and <em>caches</em> to allow for higher bandwidth and lower latency memory access than what is possible by reads from main memory. Lastly, almost all modern CPUs contain <em>vector processing units</em> to aid with high performance linear algebra and convolutions, as they are common in media processing and machine learning.</p>
+<p><a href="https://d2l.ai/_images/skylake.svg">Şekil: Intel Skylake consumer quad-core CPU.</a>
+(see related section) depicts an Intel Skylake consumer-grade quad-core CPU. It has an integrated GPU, caches, and a ringbus connecting the four cores. Peripherals, such as Ethernet, WiFi, Bluetooth, SSD controller, and USB, are either part of the chipset or directly attached (PCIe) to the CPU.</p>
+<h4 id="microarchitecture">Microarchitecture</h4>
+<p>Each of the processor cores consists of a rather sophisticated set of components. While details differ between generations and vendors, the basic functionality is pretty much standard. The front-end loads instructions and tries to predict which path will be taken (e.g., for control flow). Instructions are then decoded from assembly code to microinstructions. Assembly code is often not the lowest level code that a processor executes. Instead, complex instructions may be decoded into a set of more lower level operations. These are then processed by the actual execution core. Often the latter is capable of performing many operations simultaneously. For instance, the ARM Cortex A77 core of (see related section) is able to perform up to 8 operations simultaneously.</p>
+<p><a href="https://d2l.ai/_images/a77.svg">Şekil: ARM Cortex A77 Microarchitecture.</a>
+This means that efficient programs might be able to perform more than one instruction per clock cycle, provided that they can be carried out independently. Not all units are created equal. Some specialize in integer instructions whereas others are optimized for floating point performance. To increase throughput, the processor might also follow  multiple code paths simultaneously in a branching instruction and then discard the results of the branches not taken. This is why branch prediction units matter (on the front-end) such that only the most promising paths are pursued.</p>
+<h4 id="vectorization">Vectorization</h4>
+<p>Deep learning is extremely compute-hungry. Hence, to make CPUs suitable for machine learning, one needs to perform many operations in one clock cycle. This is achieved via vector units. They have different names: on ARM they are called NEON, on x86 they (a recent generation) are referred to as <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">AVX2</a> units. A common aspect is that they are able to perform SIMD (single instruction multiple data) operations. (see related section) shows how 8 short integers can be added in one clock cycle on ARM.</p>
+<p><a href="https://d2l.ai/_images/neon128.svg">Şekil: 128 bit NEON vectorization.</a>
+Depending on architecture choices, such registers are up to 512 bits long, allowing for the combination of up to 64 pairs of numbers. For instance, we might be multiplying two numbers and adding them to a third, which is also known as a fused multiply-add. Intel's <a href="https://01.org/openvinotoolkit">OpenVino</a> uses these to achieve respectable throughput for deep learning on server-grade CPUs. Note, though, that this number is entirely dwarfed by what GPUs are capable of achieving. For instance, NVIDIA's RTX 2080 Ti has 4,352 CUDA cores, each of which is capable of processing such an operation at any time.</p>
+<h4 id="cache">Cache</h4>
+<p>Consider the following situation: we have a modest CPU core with 4 cores as depicted in (see related section) above, running at 2 GHz frequency.
+Moreover, let's assume that we have an IPC (instructions per clock) count of 1 and that the units have AVX2 with 256-bit width enabled. Let's furthermore assume that at least one of the registers used for AVX2 operations needs to be retrieved from memory. This means that the CPU consumes <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>256</mn><mtext> bit</mtext><mo>=</mo><mn>128</mn><mtext> bytes</mtext></mrow><annotation encoding="application/x-tex">4 \times 256 \textrm{ bit} = 128 \textrm{ bytes}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">256</span><span class="mord text"><span class="mord textrm"> bit</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord textrm"> bytes</span></span></span></span></span> of data per clock cycle. Unless we are able to transfer <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup><mo>×</mo><mn>128</mn><mo>=</mo><mn>256</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">2 \times 10^9 \times 128 = 256 \times 10^9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">128</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">256</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span> bytes to the processor per second the processing elements are going to starve. Unfortunately the memory interface of such a chip only supports 20--40 GB/s data transfer, i.e., one order of magnitude less. The fix is to avoid loading <em>new</em> data from memory as far as possible and rather to cache it locally on the CPU. This is where caches come in handy. Commonly the following names or concepts are used:</p>
+<ul>
+<li><strong>Registers</strong> are strictly speaking not part of the cache. They help stage instructions. That said, CPU registers are memory locations that a CPU can access at clock speed without any delay penalty. CPUs have tens of registers. It is up to the compiler (or programmer) to use registers efficiently. For instance the C programming language has a <code>register</code> keyword.</li>
+<li><strong>L1 caches</strong> are the first line of defense against high memory bandwidth requirements. L1 caches are tiny (typical sizes might be 32--64 KB) and often split into data and instructions caches. When data is found in the L1 cache, access is very fast. If they cannot be found there, the search progresses down the cache hierarchy.</li>
+<li><strong>L2 caches</strong> are the next stop. Depending on architecture design and processor size they might be exclusive. They might be accessible only by a given core or shared among multiple cores. L2 caches are larger (typically 256--512 KB per core) and slower than L1. Furthermore, to access something in L2 we first need to check to realize that the data is not in L1, which adds a small amount of extra latency.</li>
+<li><strong>L3 caches</strong> are shared among multiple cores and can be quite large. AMD's Epyc 3 server CPUs have a whopping 256 MB of cache spread across multiple chiplets. More typical numbers are in the 4--8 MB range.</li>
+</ul>
+<p>Predicting which memory elements will be needed next is one of the key optimization parameters in chip design. For instance, it is advisable to traverse memory in a <em>forward</em> direction since most caching algorithms will try to <em>read ahead</em> rather than backwards. Likewise, keeping memory access patterns local is a good way of improving performance.</p>
+<p>Adding caches is a double-edge sword. On the one hand they ensure that the processor cores do not starve of data. At the same time they increase chip size, using up area that otherwise could have been spent on increasing processing power. Moreover, <em>cache misses</em> can be expensive. Consider the worst case scenario, <em>false sharing</em>, as depicted in (see related section). A memory location is cached on processor 0 when a thread on processor 1 requests the data. To obtain it, processor 0 needs to stop what it is doing, write the information back to main memory and then let processor 1 read it from memory. During this operation both processors wait. Quite potentially such code runs <em>more slowly</em> on multiple processors when compared with an efficient single-processor implementation. This is one more reason for why there is a practical limit to cache sizes (besides their physical size).</p>
+<p><a href="https://d2l.ai/_images/falsesharing.svg">Şekil: False sharing (image courtesy of Intel).</a></p></div></section><section class="page-section" id="d2l-computational-performance-hardware-p6" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>06 / 11</span></div><div class="prose"><h3 id="gpus-and-other-accelerators">GPUs and other Accelerators</h3>
+<p>It is not an exaggeration to claim that deep learning would not have been successful without GPUs. By the same token, it is quite reasonable to argue that GPU manufacturers' fortunes have increased significantly due to deep learning. This co-evolution of hardware and algorithms has led to a situation where for better or worse deep learning is the preferable statistical modeling paradigm. Hence it pays to understand the specific benefits that GPUs and related accelerators such as the TPU (Jouppi et al.).</p>
+<p>Of note is a distinction that is often made in practice: accelerators are optimized either for training or inference. For the latter we only need to compute the forward propagation in a network. No storage of intermediate data is needed for backpropagation. Moreover, we may not need very precise computation (FP16 or INT8 typically suffice). On the other hand, during training all intermediate results need storage to compute gradients. Moreover, accumulating gradients requires higher precision to avoid numerical underflow (or overflow). This means that FP16 (or mixed precision with FP32) is the minimum requirement. All of this necessitates faster and larger memory (HBM2 vs. GDDR6) and more processing power. For instance, NVIDIA's <a href="https://devblogs.nvidia.com/nvidia-turing-architecture-in-depth/">Turing</a> T4 GPUs are optimized for inference whereas the V100 GPUs are preferable for training.</p>
+<p>Recall vectorization as illustrated in (see related section). Adding vector units to a processor core allowed us to increase throughput significantly. For example, in the example in (see related section) we were able to perform 16 operations simultaneously.
+First,
+what if we added operations that optimized not just operations between vectors but also between matrices? This strategy led to tensor cores (to be covered shortly).
+Second, what if we added many more cores? In a nutshell, these two strategies summarize the design decisions in GPUs. (see related section) gives an overview of a basic processing block. It contains 16 integer and 16 floating point units. In addition to that, two tensor cores accelerate a narrow subset of additional operations relevant for deep learning. Each streaming multiprocessor consists of four such blocks.</p>
+<p><a href="https://d2l.ai/_images/turing-processing-block.png">Şekil: NVIDIA Turing processing block (image courtesy of NVIDIA).</a>
+Next, 12 streaming multiprocessors are grouped into graphics processing clusters which make up the high-end TU102 processors. Ample memory channels and an L2 cache complement the setup. (see related section) has the relevant details. One of the reasons for designing such a device is that individual blocks can be added or removed as needed to allow for more compact chips and to deal with yield issues (faulty modules might not be activated). Fortunately programming such devices is well hidden from the casual deep learning researcher beneath layers of CUDA and framework code. In particular, more than one of the programs might well be executed simultaneously on the GPU, provided that there are available resources. Nonetheless it pays to be aware of the limitations of the devices to avoid picking models that do not fit into device memory.</p>
+<p><a href="https://d2l.ai/_images/turing.png">Şekil: NVIDIA Turing architecture (image courtesy of NVIDIA)</a>
+A last aspect that is worth mentioning in more detail are <em>tensor cores</em>. They are an example of a recent trend of adding more optimized circuits that are specifically effective for deep learning. For instance, the TPU added a systolic array (Kung et al.) for fast matrix multiplication. There the design was to support a very small number (one for the first generation of TPUs) of large operations. Tensor cores are at the other end. They are optimized for small operations involving between <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">4 \times 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span> and <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mo>×</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">16 \times 16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">16</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> matrices, depending on their numerical precision. (see related section) gives an overview of the optimizations.</p>
+<p><a href="https://d2l.ai/_images/tensorcore.jpg">Şekil: NVIDIA tensor cores in Turing (image courtesy of NVIDIA).</a>
+Obviously when optimizing for computation we end up making certain compromises. One of them is that GPUs are not very good at handling interrupts and sparse data. While there are notable exceptions, such as <a href="https://github.com/gunrock/gunrock">Gunrock</a> (Wang et al.), the access pattern of sparse matrices and vectors do not go well with the high bandwidth burst read operations where GPUs excel. Matching both goals is an area of active research. See e.g., <a href="http://dgl.ai">DGL</a>, a library tuned for deep learning on graphs.</p></div></section><section class="page-section" id="d2l-computational-performance-hardware-p7" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>07 / 11</span></div><div class="prose"><h3 id="networks-and-buses">Networks and Buses</h3>
+<p>Whenever a single device is insufficient for optimization we need to transfer data to and from it to synchronize processing. This is where networks and buses come in handy. We have a number of design parameters: bandwidth, cost, distance, and flexibility.
+On one end we have WiFi that has a pretty good range, is very easy to use (no wires, after all), cheap but it offers comparatively mediocre bandwidth and latency. No machine learning researcher within their right mind would use it to build a cluster of servers. In what follows we focus on interconnects that are suitable for deep learning.</p>
+<ul>
+<li><strong>PCIe</strong> is a dedicated bus for very high bandwidth point-to-point connections (up to 32 GB/s on PCIe 4.0 in a 16-lane slot) per lane. Latency is in the order of single-digit microseconds (5 μs). PCIe links are precious. Processors only have a limited number of them: AMD's EPYC 3 has 128 lanes, Intel's Xeon has up to 48 lanes per chip; on desktop-grade CPUs the numbers are 20 (Ryzen 9) and 16 (Core i9) respectively. Since GPUs have typically 16 lanes, this limits the number of GPUs that can connect to the CPU at full bandwidth. After all, they need to share the links with other high bandwidth peripherals such as storage and Ethernet. Just like with RAM access, large bulk transfers are preferable due to reduced packet overhead.</li>
+<li><strong>Ethernet</strong> is the most commonly used way of connecting computers. While it is significantly slower than PCIe, it is very cheap and resilient to install and covers much longer distances. Typical bandwidth for low-grade servers is 1 GBit/s. Higher-end devices (e.g., <a href="https://aws.amazon.com/ec2/instance-types/c5/">C5 instances</a> in the cloud) offer between 10 and 100 GBit/s bandwidth. As in all previous cases data transmission has significant overheads. Note that we almost never use raw Ethernet directly but rather a protocol that is executed on top of the physical interconnect (such as UDP or TCP/IP). This adds further overhead. Like PCIe, Ethernet is designed to connect two devices, e.g., a computer and a switch.</li>
+<li><strong>Switches</strong> allow us to connect multiple devices in a manner where any pair of them can carry out a (typically full bandwidth) point-to-point connection simultaneously. For instance, Ethernet switches might connect 40 servers at high cross-sectional bandwidth. Note that switches are not unique to traditional computer networks. Even PCIe lanes can be <a href="https://www.broadcom.com/products/pcie-switches-bridges/pcie-switches">switched</a>. This occurs, e.g., to connect a large number of GPUs to a host processor, as is the case for the <a href="https://aws.amazon.com/ec2/instance-types/p2/">P2 instances</a>.</li>
+<li><strong>NVLink</strong> is an alternative to PCIe when it comes to very high bandwidth interconnects. It offers up to 300 Gbit/s data transfer rate per link. Server GPUs (Volta V100) have six links whereas consumer-grade GPUs (RTX 2080 Ti) have only one link, operating at a reduced 100 Gbit/s rate. We recommend to use <a href="https://github.com/NVIDIA/nccl">NCCL</a> to achieve high data transfer between GPUs.</li>
+</ul></div></section><section class="page-section" id="d2l-computational-performance-hardware-p8" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>08 / 11</span></div><div class="prose"><h3 id="more-latency-numbers">More Latency Numbers</h3>
+<p>The summary in (see related section) and (see related section) are from <a href="https://gist.github.com/eshelman">Eliot Eshelman</a> who maintains an updated version of the numbers as a <a href="https://gist.github.com/eshelman/343a1c46cb3fba142c1afdcdeec17646">GitHub gist</a>.</p>
+<p>:Common Latency Numbers.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="right">Time</th>
+<th align="left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">L1 cache reference/hit</td>
+<td align="right">1.5 ns</td>
+<td align="left">4 cycles</td>
+</tr>
+<tr>
+<td align="left">Floating-point add/mult/FMA</td>
+<td align="right">1.5 ns</td>
+<td align="left">4 cycles</td>
+</tr>
+<tr>
+<td align="left">L2 cache reference/hit</td>
+<td align="right">5 ns</td>
+<td align="left">12 ~ 17 cycles</td>
+</tr>
+<tr>
+<td align="left">Branch mispredict</td>
+<td align="right">6 ns</td>
+<td align="left">15 ~ 20 cycles</td>
+</tr>
+<tr>
+<td align="left">L3 cache hit (unshared cache)</td>
+<td align="right">16 ns</td>
+<td align="left">42 cycles</td>
+</tr>
+<tr>
+<td align="left">L3 cache hit (shared in another core)</td>
+<td align="right">25 ns</td>
+<td align="left">65 cycles</td>
+</tr>
+<tr>
+<td align="left">Mutex lock/unlock</td>
+<td align="right">25 ns</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">L3 cache hit (modified in another core)</td>
+<td align="right">29 ns</td>
+<td align="left">75 cycles</td>
+</tr>
+<tr>
+<td align="left">L3 cache hit (on a remote CPU socket)</td>
+<td align="right">40 ns</td>
+<td align="left">100 ~ 300 cycles (40 ~ 116 ns)</td>
+</tr>
+<tr>
+<td align="left">QPI hop to a another CPU (per hop)</td>
+<td align="right">40 ns</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">64MB memory ref. (local CPU)</td>
+<td align="right">46 ns</td>
+<td align="left">TinyMemBench on Broadwell E5-2690v4</td>
+</tr>
+<tr>
+<td align="left">64MB memory ref. (remote CPU)</td>
+<td align="right">70 ns</td>
+<td align="left">TinyMemBench on Broadwell E5-2690v4</td>
+</tr>
+<tr>
+<td align="left">256MB memory ref. (local CPU)</td>
+<td align="right">75 ns</td>
+<td align="left">TinyMemBench on Broadwell E5-2690v4</td>
+</tr>
+<tr>
+<td align="left">Intel Optane random write</td>
+<td align="right">94 ns</td>
+<td align="left">UCSD Non-Volatile Systems Lab</td>
+</tr>
+<tr>
+<td align="left">256MB memory ref. (remote CPU)</td>
+<td align="right">120 ns</td>
+<td align="left">TinyMemBench on Broadwell E5-2690v4</td>
+</tr>
+<tr>
+<td align="left">Intel Optane random read</td>
+<td align="right">305 ns</td>
+<td align="left">UCSD Non-Volatile Systems Lab</td>
+</tr>
+<tr>
+<td align="left">Send 4KB over 100 Gbps HPC fabric</td>
+<td align="right">1 μs</td>
+<td align="left">MVAPICH2 over Intel Omni-Path</td>
+</tr>
+<tr>
+<td align="left">Compress 1KB with Google Snappy</td>
+<td align="right">3 μs</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Send 4KB over 10 Gbps ethernet</td>
+<td align="right">10 μs</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Write 4KB randomly to NVMe SSD</td>
+<td align="right">30 μs</td>
+<td align="left">DC P3608 NVMe SSD (QOS 99% is 500μs)</td>
+</tr>
+<tr>
+<td align="left">Transfer 1MB to/from NVLink GPU</td>
+<td align="right">30 μs</td>
+<td align="left">~33GB/s on NVIDIA 40GB NVLink</td>
+</tr>
+<tr>
+<td align="left">Transfer 1MB to/from PCI-E GPU</td>
+<td align="right">80 μs</td>
+<td align="left">~12GB/s on PCIe 3.0 x16 link</td>
+</tr>
+<tr>
+<td align="left">Read 4KB randomly from NVMe SSD</td>
+<td align="right">120 μs</td>
+<td align="left">DC P3608 NVMe SSD (QOS 99%)</td>
+</tr>
+<tr>
+<td align="left">Read 1MB sequentially from NVMe SSD</td>
+<td align="right">208 μs</td>
+<td align="left">~4.8GB/s DC P3608 NVMe SSD</td>
+</tr>
+<tr>
+<td align="left">Write 4KB randomly to SATA SSD</td>
+<td align="right">500 μs</td>
+<td align="left">DC S3510 SATA SSD (QOS 99.9%)</td>
+</tr>
+<tr>
+<td align="left">Read 4KB randomly from SATA SSD</td>
+<td align="right">500 μs</td>
+<td align="left">DC S3510 SATA SSD (QOS 99.9%)</td>
+</tr>
+<tr>
+<td align="left">Round trip within same data center</td>
+<td align="right">500 μs</td>
+<td align="left">One-way ping is ~250μs</td>
+</tr>
+<tr>
+<td align="left">Read 1MB sequentially from SATA SSD</td>
+<td align="right">2 ms</td>
+<td align="left">~550MB/s DC S3510 SATA SSD</td>
+</tr>
+<tr>
+<td align="left">Read 1MB sequentially from disk</td>
+<td align="right">5 ms</td>
+<td align="left">~200MB/s server HDD</td>
+</tr>
+<tr>
+<td align="left">Random Disk Access (seek+rotation)</td>
+<td align="right">10 ms</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Send packet CA->Netherlands->CA</td>
+<td align="right">150 ms</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">:Latency Numbers for NVIDIA Tesla GPUs.</td>
+<td align="right"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="right">Time</th>
+<th align="left">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">GPU Shared Memory access</td>
+<td align="right">30 ns</td>
+<td align="left">30~90 cycles (bank conflicts add latency)</td>
+</tr>
+<tr>
+<td align="left">GPU Global Memory access</td>
+<td align="right">200 ns</td>
+<td align="left">200~800 cycles</td>
+</tr>
+<tr>
+<td align="left">Launch CUDA kernel on GPU</td>
+<td align="right">10 μs</td>
+<td align="left">Host CPU instructs GPU to start kernel</td>
+</tr>
+<tr>
+<td align="left">Transfer 1MB to/from NVLink GPU</td>
+<td align="right">30 μs</td>
+<td align="left">~33GB/s on NVIDIA 40GB NVLink</td>
+</tr>
+<tr>
+<td align="left">Transfer 1MB to/from PCI-E GPU</td>
+<td align="right">80 μs</td>
+<td align="left">~12GB/s on PCI-Express x16 link</td>
+</tr>
+</tbody>
+</table></div></section><section class="page-section" id="d2l-computational-performance-hardware-p9" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>09 / 11</span></div><div class="prose"><h3 id="summary">Summary</h3>
+<ul>
+<li>Devices have overheads for operations. Hence it is important to aim for a small number of large transfers rather than many small ones. This applies to RAM, SSDs, networks and GPUs.</li>
+<li>Vectorization is key for performance. Make sure you are aware of the specific abilities of your accelerator. E.g., some Intel Xeon CPUs are particularly good for INT8 operations, NVIDIA Volta GPUs excel at FP16 matrix-matrix operations and NVIDIA Turing shines at FP16, INT8, and INT4 operations.</li>
+<li>Numerical overflow due to small data types can be a problem during training (and to a lesser extent during inference).</li>
+<li>Aliasing can significantly degrade performance. For instance, memory alignment on 64 bit CPUs should be done with respect to 64 bit boundaries. On GPUs it is a good idea to keep convolution sizes aligned, e.g., to tensor cores.</li>
+<li>Match your algorithms to the hardware (e.g., memory footprint, and bandwidth). Great speedup (orders of magnitude) can be achieved when fitting the parameters into caches.</li>
+<li>We recommend that you sketch out the performance of a novel algorithm on paper before verifying the experimental results. Discrepancies of an order-of-magnitude or more are reasons for concern.</li>
+<li>Use profilers to debug performance bottlenecks.</li>
+<li>Training and inference hardware have different sweet spots in terms of price and performance.</li>
+</ul></div></section><section class="page-section" id="d2l-computational-performance-hardware-p10" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>10 / 11</span></div><div class="prose"><h3 id="exercises">Exercises</h3>
+<ol>
+<li>Write C code to test whether there is any difference in speed between accessing memory aligned or misaligned relative to the external memory interface. Hint: be careful of caching effects.</li>
+<li>Test the difference in speed between accessing memory in sequence or with a given stride.</li>
+<li>How could you measure the cache sizes on a CPU?</li>
+<li>How would you lay out data across multiple memory channels for maximum bandwidth? How would you lay it out if you had many small threads?</li>
+<li>An enterprise-class HDD is spinning at 10,000 rpm. What is the absolutely minimum time an HDD needs to spend worst case before it can read data (you can assume that heads move almost instantaneously)? Why are 2.5" HDDs becoming popular for commercial servers (relative to 3.5" and 5.25" drives)?</li>
+<li>Assume that an HDD manufacturer increases the storage density from 1 Tbit per square inch to 5 Tbit per square inch. How much information can you store on a ring on a 2.5" HDD? Is there a difference between the inner and outer tracks?</li>
+<li>Going from 8 bit to 16 bit data types increases the amount of silicon approximately by four times. Why? Why might NVIDIA have added INT4 operations to their Turing GPUs?</li>
+<li>How much faster is it to read forward through memory vs. reading backwards? Does this number differ between different computers and CPU vendors? Why? Write C code and experiment with it.</li>
+<li>Can you measure the cache size of your disk? What is it for a typical HDD? Do SSDs need a cache?</li>
+<li>Measure the packet overhead when sending messages across the Ethernet. Look up the difference between UDP and TCP/IP connections.</li>
+<li>Direct memory access allows devices other than the CPU to write (and read) directly to (from) memory. Why is this a good idea?</li>
+<li>Look at the performance numbers for the Turing T4 GPU. Why does the performance "only" double as you go from FP16 to INT8 and INT4?</li>
+<li>What is the shortest time it should take for a packet on a round trip between San Francisco and Amsterdam? Hint: you can assume that the distance is 10,000 km.</li>
+</ol></div></section><section class="page-section" id="d2l-computational-performance-hardware-p11" data-kind="summary"><div class="page-flag" data-pagefind-ignore>Özet<span>11 / 11</span></div><div class="prose"><p><strong>Orijinal bölüm:</strong> <a href="https://d2l.ai/chapter_computational-performance/hardware.html">Hardware</a></p>
+<p>Kaynak: Zhang, Lipton, Li, Smola — <em>Dive into Deep Learning</em> (d2l.ai). Lisans: <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Bu sürüm yalnız PyTorch kodunu içerir, şekiller d2l.ai bağlantısıdır.</p>
+<p>Kodları PC'de çalıştır: <code>pip install d2l torch torchvision</code> (d2l paketi bu kodlardaki <code>d2l.</code> yardımcılarını sağlar).</p></div></section></div><div class="lesson-actions" data-pagefind-ignore><button class="complete-btn" type="button" data-complete="d2l-computational-performance-hardware" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span data-complete-label>Dersi tamamladım</span></button><span class="label">D2L · 45 dk</span></div><nav class="lesson-pager" aria-label="Dersler arası gezinme" data-pagefind-ignore><a class="pager-link" href="/ml-yol/ders/d2l-computational-performance-auto-parallelism"><span class="pager-label">← Önceki ders</span><span class="pager-title">Automatic Parallelism</span><span class="pager-meta">D2L · 33 dk</span></a><a class="pager-link" href="/ml-yol/ders/d2l-computational-performance-multiple-gpus"><span class="pager-label">Sonraki ders →</span><span class="pager-title">Training on Multiple GPUs</span><span class="pager-meta">D2L · 1 sa 7 dk</span></a></nav></article></div></div><script type="module">var e=e=>e.toLocaleLowerCase(`tr`).replace(/ı/g,`i`).replace(/ş/g,`s`).replace(/ğ/g,`g`).replace(/ü/g,`u`).replace(/ö/g,`o`).replace(/ç/g,`c`).replace(/["'`“”‘’]/g,``).replace(/[.,;:!?]+$/g,``).replace(/\s+/g,` `).trim();document.querySelectorAll(`form[data-quiz]`).forEach(t=>{let n=t.querySelector(`.quiz-result`),r=t.querySelector(`.quiz-explain`);t.addEventListener(`submit`,i=>{if(i.preventDefault(),t.dataset.answered)return;let a=!1;if(t.dataset.quiz===`choice`){let e=t.querySelector(`input[type=radio]:checked`);if(!e){n.textContent=`Önce bir seçenek seç.`;return}a=e.closest(`.quiz-option`).dataset.correct===`1`,t.querySelectorAll(`.quiz-option`).forEach(t=>{t.classList.add(t.dataset.correct===`1`?`is-right`:`is-rest`),t.contains(e)&&t.classList.add(`is-picked`)})}else{let r=t.querySelector(`input[type=text]`);if(!r.value.trim()){n.textContent=`Önce cevabını yaz.`;return}let i=JSON.parse(t.dataset.accept||`[]`);a=i.some(t=>e(t)===e(r.value)),r.readOnly=!0,a||(n.dataset.answer=i[0]??``)}t.dataset.answered=a?`right`:`wrong`,n.textContent=a?`Doğru.`:t.dataset.quiz===`input`?`Yanlış. Doğru cevap: ${n.dataset.answer}`:`Yanlış. Doğru seçenek işaretlendi.`,t.querySelectorAll(`input`).forEach(e=>e.disabled=t.dataset.quiz===`choice`||e.disabled),r&&(r.hidden=!1),t.querySelector(`.quiz-submit`).disabled=!0})});</script></main><footer class="site-foot" data-pagefind-ignore><div class="wrap"><div class="foot-grid"><div><span class="label">Kaynak</span><p>Bütün ders metni <code>ders-ml-yol.json</code> ve <code>ders-ml-derin.json</code> dosyalarından olduğu gibi render edilir. Site metni yeniden yazmaz, özetlemez veya yeni ders üretmez. Sözlük, kontrol soruları ve süreler aynı dosyadan gelir.</p></div><div><span class="label">Kapsam</span><div class="foot-links"><a href="/ml-yol/hakkinda">Veri, kapsam ve yöntem</a><a href="/ml-yol/rehber">Derinleşme rehberi</a><a href="/ml-yol/kaynaklar">Bütün kaynaklar</a><a href="/ml-yol/plan">Çalışma planı</a><a href="/ml-yol/sozluk">Sözlük</a></div></div><div><span class="label">Rakamlar</span><p class="num">53 ünite · 170 ders · 1979 sayfa<br>34.300 dk yazılı süre (572 sa) · 1828 terim</p></div></div><div class="foot-base"><span>ML Yolu · kişisel çalışma sitesi</span><span>İlerleme yalnız bu tarayıcıda saklanır</span></div></div></footer><div class="term-scrim" id="term-scrim" data-open="false" aria-hidden="true"></div><aside class="term-panel" id="term-panel" data-open="false" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="term-title" inert><div class="term-panel-head"><span class="label">Sözlük</span><button class="icon-btn" type="button" id="term-close" aria-label="Terim panelini kapat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button></div><div class="term-panel-body" id="term-body"></div></aside><script type="module" src="/ml-yol/_astro/BaseLayout.astro_astro_type_script_index_0_lang.DbNUKAew.js"></script></body></html>

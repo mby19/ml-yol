@@ -1,0 +1,135 @@
+<!DOCTYPE html><html lang="tr" data-base="/ml-yol"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Recurrent Neural Networks: giriş · ML Yolu</title><meta name="description" content="D2L 9 · Recurrent Neural Networks [F2 sonrası] · 10 dk"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#f2f4fa" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)"><link rel="icon" href="/ml-yol/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://mby19.github.io/ml-yol/ders/d2l-recurrent-neural-networks-giris/"><meta property="og:title" content="Recurrent Neural Networks: giriş · ML Yolu"><meta property="og:description" content="D2L 9 · Recurrent Neural Networks [F2 sonrası] · 10 dk"><meta property="og:type" content="website"><script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("mlyol.theme");
+          const dark =
+            saved === "dark" || !saved;
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="stylesheet" href="/ml-yol/_astro/BaseLayout.pN6K18VX.css"></head><body><a class="skip-link" href="#main">İçeriğe geç</a><header class="masthead" data-pagefind-ignore><div class="masthead-inner"><a class="wordmark" href="/ml-yol/" aria-label="ML Yolu, yol haritası"><svg class="wordmark-mark" viewBox="0 0 28 20" aria-hidden="true"><path d="M3 4 14 10 3 16M14 10 25 4M14 10 25 16"></path><circle cx="3" cy="4" r="2.4"></circle><circle cx="3" cy="16" r="2.4"></circle><circle cx="14" cy="10" r="3"></circle><circle cx="25" cy="4" r="2.4"></circle><circle cx="25" cy="16" r="2.4"></circle></svg>ML Yolu</a><nav aria-label="Ana gezinme"><a class="nav-link" href="/ml-yol/" aria-current="true">Ağ</a><a class="nav-link" href="/ml-yol/derin">Derinleşme</a><a class="nav-link" href="/ml-yol/plan">Plan</a><a class="nav-link" href="/ml-yol/rehber">Rehber</a><a class="nav-link" href="/ml-yol/kaynaklar">Kaynaklar</a><a class="nav-link" href="/ml-yol/sozluk">Sözlük</a><a class="nav-link" href="/ml-yol/arama">Arama</a><button class="icon-btn" id="theme-toggle" type="button" aria-label="Temayı değiştir"><svg class="theme-icon-light" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg><svg class="theme-icon-dark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg></button><button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mobile-nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button></nav></div></header><div class="mobile-nav" id="mobile-nav" data-open="false" data-pagefind-ignore><a href="/ml-yol/">Ağ<span></span></a><a href="/ml-yol/derin">Derinleşme<span></span></a><a href="/ml-yol/plan">Plan<span></span></a><a href="/ml-yol/rehber">Rehber<span>4 senaryo</span></a><a href="/ml-yol/kaynaklar">Kaynaklar<span>894 kayıt</span></a><a href="/ml-yol/sozluk">Sözlük<span>1828 terim</span></a><a href="/ml-yol/arama">Arama<span></span></a><a href="/ml-yol/hakkinda">Site ve kaynak <span>bilgi</span></a></div><main id="main"><div class="read-progress layer-f2" aria-hidden="true"></div><header class="lesson-head layer-f2"><div class="wrap"><div class="lesson-topline"><a href="/ml-yol/derin" data-pagefind-meta="hat">Derinleşme · D2L</a><span class="sep">/</span><a href="/ml-yol/unite/d2l-09-recurrent-neural-networks">Recurrent Neural Networks</a><span class="sep">/</span><span>Ders 1</span><span class="lesson-code">F2 · 01</span></div><h1 class="lesson-title" data-pagefind-meta="title">Recurrent Neural Networks: giriş</h1><ol class="activation" aria-label="Ünitedeki dersler: 8"><li data-lesson-link="d2l-recurrent-neural-networks-giris" aria-current="step" style="--i:0"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-giris" aria-label="Recurrent Neural Networks: giriş" title="Recurrent Neural Networks: giriş"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-sequence" style="--i:1"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-sequence" aria-label="Working with Sequences" title="Working with Sequences"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-text-sequence" style="--i:2"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-text-sequence" aria-label="Converting Raw Text into Sequence Data" title="Converting Raw Text into Sequence Data"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-language-model" style="--i:3"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-language-model" aria-label="Language Models" title="Language Models"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-rnn" style="--i:4"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-rnn" aria-label="Recurrent Neural Networks" title="Recurrent Neural Networks"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-rnn-scratch" style="--i:5"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-rnn-scratch" aria-label="Recurrent Neural Network Implementation from Scratch" title="Recurrent Neural Network Implementation from Scratch"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-rnn-concise" style="--i:6"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-rnn-concise" aria-label="Concise Implementation of Recurrent Neural Networks" title="Concise Implementation of Recurrent Neural Networks"></a></li><li data-lesson-link="d2l-recurrent-neural-networks-bptt" style="--i:7"><a href="/ml-yol/ders/d2l-recurrent-neural-networks-bptt" aria-label="Backpropagation Through Time" title="Backpropagation Through Time"></a></li></ol><div class="lesson-meta"><span><strong>10 dk</strong> yazılı süre</span><span>1 sayfa</span><span>0 kod sayfası</span><span>0 kontrol sorusu</span></div></div></header><div class="wrap"><div class="lesson-shell"><aside class="rail" aria-label="Ders gezinmesi"><div class="rail-group layer-f2"><div class="rail-heading"><span>Bu ünite</span><span>8 ders</span></div><ol class="rail-list"><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-giris" data-lesson-link="d2l-recurrent-neural-networks-giris" aria-current="page"><span class="rail-lesson-title">Recurrent Neural Networks: giriş<span class="rail-lesson-meta">10 dk · 1 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-sequence" data-lesson-link="d2l-recurrent-neural-networks-sequence"><span class="rail-lesson-title">Working with Sequences<span class="rail-lesson-meta">1 sa 7 dk · 8 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-text-sequence" data-lesson-link="d2l-recurrent-neural-networks-text-sequence"><span class="rail-lesson-title">Converting Raw Text into Sequence Data<span class="rail-lesson-meta">1 sa 1 dk · 9 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-language-model" data-lesson-link="d2l-recurrent-neural-networks-language-model"><span class="rail-lesson-title">Language Models<span class="rail-lesson-meta">35 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-rnn" data-lesson-link="d2l-recurrent-neural-networks-rnn"><span class="rail-lesson-title">Recurrent Neural Networks<span class="rail-lesson-meta">27 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-rnn-scratch" data-lesson-link="d2l-recurrent-neural-networks-rnn-scratch"><span class="rail-lesson-title">Recurrent Neural Network Implementation from Scratch<span class="rail-lesson-meta">1 sa 16 dk · 9 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-rnn-concise" data-lesson-link="d2l-recurrent-neural-networks-rnn-concise"><span class="rail-lesson-title">Concise Implementation of Recurrent Neural Networks<span class="rail-lesson-meta">27 dk · 6 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-recurrent-neural-networks-bptt" data-lesson-link="d2l-recurrent-neural-networks-bptt"><span class="rail-lesson-title">Backpropagation Through Time<span class="rail-lesson-meta">21 dk · 6 sayfa</span></span></a></li></ol></div><div class="rail-group"><div class="rail-heading"><span>Bu derste</span><span>1</span></div><ol class="rail-stations"><li><a href="#d2l-recurrent-neural-networks-giris-p1"><span>01 · Recurrent Neural Networks</span><code>Anlatım</code></a></li></ol></div></aside><article class="lesson-article" data-pagefind-body><details class="mobile-toc" data-pagefind-ignore><summary>Bu dersin içeriği · 1 sayfa</summary><ol><li><a href="#d2l-recurrent-neural-networks-giris-p1"><span>01 · Recurrent Neural Networks</span><span class="toc-kind">Anlatım</span></a></li></ol></details><div class="lesson-pages"><section class="page-section" id="d2l-recurrent-neural-networks-giris-p1" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>01 / 01</span></div><div class="prose"><h2 id="recurrent-neural-networks">Recurrent Neural Networks</h2>
+<p>Up until now, we have focused primarily on fixed-length data.
+When introducing linear and logistic regression
+in (see related section) and (see related section)
+and multilayer perceptrons in (see related section),
+we were happy to assume that each feature vector <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="bold">x</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\mathbf{x}_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5944em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>
+consisted of a fixed number of components <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>…</mo><mo separator="true">,</mo><msub><mi>x</mi><mi>d</mi></msub></mrow><annotation encoding="application/x-tex">x_1, \dots, x_d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,
+where each numerical feature <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">x_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0572em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>
+corresponded to a particular attribute.
+These datasets are sometimes called <em>tabular</em>,
+because they can be arranged in tables,
+where each example <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> gets its own row,
+and each attribute gets its own column.
+Crucially, with tabular data, we seldom
+assume any particular structure over the columns.</p>
+<p>Subsequently, in (see related section),
+we moved on to image data, where inputs consist
+of the raw pixel values at each coordinate in an image.
+Image data hardly fitted the bill
+of a protypical tabular dataset.
+There, we needed to call upon convolutional neural networks (CNNs)
+to handle the hierarchical structure and invariances.
+However, our data were still of fixed length.
+Every Fashion-MNIST image is represented
+as a <span class="katex" data-pagefind-ignore=""><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>28</mn><mo>×</mo><mn>28</mn></mrow><annotation encoding="application/x-tex">28 \times 28</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">28</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">28</span></span></span></span> grid of pixel values.
+Moreover, our goal was to develop a model
+that looked at just one image and then
+outputted a single prediction.
+But what should we do when faced with a
+sequence of images, as in a video,
+or when tasked with producing
+a sequentially structured prediction,
+as in the case of image captioning?</p>
+<p>A great many learning tasks require dealing with sequential data.
+Image captioning, speech synthesis, and music generation
+all require that models produce outputs consisting of sequences.
+In other domains, such as time series prediction,
+video analysis, and musical information retrieval,
+a model must learn from inputs that are sequences.
+These demands often arise simultaneously:
+tasks such as translating passages of text
+from one natural language to another,
+engaging in dialogue, or controlling a robot,
+demand that models both ingest and output
+sequentially structured data.</p>
+<p>Recurrent neural networks (RNNs) are deep learning models
+that capture the dynamics of sequences via
+<em>recurrent</em> connections, which can be thought of
+as cycles in the network of nodes.
+This might seem counterintuitive at first.
+After all, it is the feedforward nature of neural networks
+that makes the order of computation unambiguous.
+However, recurrent edges are defined in a precise way
+that ensures that no such ambiguity can arise.
+Recurrent neural networks are <em>unrolled</em> across time steps (or sequence steps),
+with the <em>same</em> underlying parameters applied at each step.
+While the standard connections are applied <em>synchronously</em>
+to propagate each layer's activations
+to the subsequent layer <em>at the same time step</em>,
+the recurrent connections are <em>dynamic</em>,
+passing information across adjacent time steps.
+As the unfolded view in (see related section) reveals,
+RNNs can be thought of as feedforward neural networks
+where each layer's parameters (both conventional and recurrent)
+are shared across time steps.</p>
+<p><a href="https://d2l.ai/_images/unfolded-rnn.svg">Şekil: On the left recurrent connections are depicted via cyclic edges. On the right, we unfold the RNN over time steps. Here, recurrent edges span adjacent time steps, while conventional connections are computed synchronously.</a>
+Like neural networks more broadly,
+RNNs have a long discipline-spanning history,
+originating as models of the brain popularized
+by cognitive scientists and subsequently adopted
+as practical modeling tools employed
+by the machine learning community.
+As we do for deep learning more broadly,
+in this book we adopt the machine learning perspective,
+focusing on RNNs as practical tools that rose
+to popularity in the 2010s owing to
+breakthrough results on such diverse tasks
+as handwriting recognition (graves2008novel et al.),
+machine translation (Sutskever et al.),
+and recognizing medical diagnoses (Lipton et al.).
+We point the reader interested in more
+background material to a publicly available
+comprehensive review (Lipton et al.).
+We also note that sequentiality is not unique to RNNs.
+For example, the CNNs that we already introduced
+can be adapted to handle data of varying length,
+e.g., images of varying resolution.
+Moreover, RNNs have recently ceded considerable
+market share to Transformer models,
+which will be covered in (see related section).
+However, RNNs rose to prominence as the default models
+for handling complex sequential structure in deep learning,
+and remain staple models for sequential modeling to this day.
+The stories of RNNs and of sequence modeling
+are inextricably linked, and this is as much
+a chapter about the ABCs of sequence modeling problems
+as it is a chapter about RNNs.</p>
+<p>One key insight paved the way for a revolution in sequence modeling.
+While the inputs and targets for many fundamental tasks in machine learning
+cannot easily be represented as fixed-length vectors,
+they can often nevertheless be represented as
+varying-length sequences of fixed-length vectors.
+For example, documents can be represented as sequences of words;
+medical records can often be represented as sequences of events
+(encounters, medications, procedures, lab tests, diagnoses);
+videos can be represented as varying-length sequences of still images.</p>
+<p>While sequence models have popped up in numerous application areas,
+basic research in the area has been driven predominantly
+by advances on core tasks in natural language processing.
+Thus, throughout this chapter, we will focus
+our exposition and examples on text data.
+If you get the hang of these examples,
+then applying the models to other data modalities
+should be relatively straightforward.
+In the next few sections, we introduce basic
+notation for sequences and some evaluation measures
+for assessing the quality of sequentially structured model outputs.
+After that, we discuss basic concepts of a language model
+and use this discussion to motivate our first RNN models.
+Finally, we describe the method for calculating gradients
+when backpropagating through RNNs and explore some challenges
+that are often encountered when training such networks,
+motivating the modern RNN architectures that will follow
+in (see related section).</p></div></section></div><div class="lesson-actions" data-pagefind-ignore><button class="complete-btn" type="button" data-complete="d2l-recurrent-neural-networks-giris" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span data-complete-label>Dersi tamamladım</span></button><span class="label">D2L · 10 dk</span></div><nav class="lesson-pager" aria-label="Dersler arası gezinme" data-pagefind-ignore><a class="pager-link" href="/ml-yol/ders/d2l-convolutional-modern-cnn-design"><span class="pager-label">← Önceki ders</span><span class="pager-title">Designing Convolution Network Architectures</span><span class="pager-meta">D2L · 52 dk</span></a><a class="pager-link" href="/ml-yol/ders/d2l-recurrent-neural-networks-sequence"><span class="pager-label">Sonraki ders →</span><span class="pager-title">Working with Sequences</span><span class="pager-meta">D2L · 1 sa 7 dk</span></a></nav></article></div></div><script type="module">var e=e=>e.toLocaleLowerCase(`tr`).replace(/ı/g,`i`).replace(/ş/g,`s`).replace(/ğ/g,`g`).replace(/ü/g,`u`).replace(/ö/g,`o`).replace(/ç/g,`c`).replace(/["'`“”‘’]/g,``).replace(/[.,;:!?]+$/g,``).replace(/\s+/g,` `).trim();document.querySelectorAll(`form[data-quiz]`).forEach(t=>{let n=t.querySelector(`.quiz-result`),r=t.querySelector(`.quiz-explain`);t.addEventListener(`submit`,i=>{if(i.preventDefault(),t.dataset.answered)return;let a=!1;if(t.dataset.quiz===`choice`){let e=t.querySelector(`input[type=radio]:checked`);if(!e){n.textContent=`Önce bir seçenek seç.`;return}a=e.closest(`.quiz-option`).dataset.correct===`1`,t.querySelectorAll(`.quiz-option`).forEach(t=>{t.classList.add(t.dataset.correct===`1`?`is-right`:`is-rest`),t.contains(e)&&t.classList.add(`is-picked`)})}else{let r=t.querySelector(`input[type=text]`);if(!r.value.trim()){n.textContent=`Önce cevabını yaz.`;return}let i=JSON.parse(t.dataset.accept||`[]`);a=i.some(t=>e(t)===e(r.value)),r.readOnly=!0,a||(n.dataset.answer=i[0]??``)}t.dataset.answered=a?`right`:`wrong`,n.textContent=a?`Doğru.`:t.dataset.quiz===`input`?`Yanlış. Doğru cevap: ${n.dataset.answer}`:`Yanlış. Doğru seçenek işaretlendi.`,t.querySelectorAll(`input`).forEach(e=>e.disabled=t.dataset.quiz===`choice`||e.disabled),r&&(r.hidden=!1),t.querySelector(`.quiz-submit`).disabled=!0})});</script></main><footer class="site-foot" data-pagefind-ignore><div class="wrap"><div class="foot-grid"><div><span class="label">Kaynak</span><p>Bütün ders metni <code>ders-ml-yol.json</code> ve <code>ders-ml-derin.json</code> dosyalarından olduğu gibi render edilir. Site metni yeniden yazmaz, özetlemez veya yeni ders üretmez. Sözlük, kontrol soruları ve süreler aynı dosyadan gelir.</p></div><div><span class="label">Kapsam</span><div class="foot-links"><a href="/ml-yol/hakkinda">Veri, kapsam ve yöntem</a><a href="/ml-yol/rehber">Derinleşme rehberi</a><a href="/ml-yol/kaynaklar">Bütün kaynaklar</a><a href="/ml-yol/plan">Çalışma planı</a><a href="/ml-yol/sozluk">Sözlük</a></div></div><div><span class="label">Rakamlar</span><p class="num">53 ünite · 170 ders · 1979 sayfa<br>34.300 dk yazılı süre (572 sa) · 1828 terim</p></div></div><div class="foot-base"><span>ML Yolu · kişisel çalışma sitesi</span><span>İlerleme yalnız bu tarayıcıda saklanır</span></div></div></footer><div class="term-scrim" id="term-scrim" data-open="false" aria-hidden="true"></div><aside class="term-panel" id="term-panel" data-open="false" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="term-title" inert><div class="term-panel-head"><span class="label">Sözlük</span><button class="icon-btn" type="button" id="term-close" aria-label="Terim panelini kapat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button></div><div class="term-panel-body" id="term-body"></div></aside><script type="module" src="/ml-yol/_astro/BaseLayout.astro_astro_type_script_index_0_lang.DbNUKAew.js"></script></body></html>

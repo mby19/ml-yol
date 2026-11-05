@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="tr" data-base="/ml-yol"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Attention Mechanisms and Transformers: giriş · ML Yolu</title><meta name="description" content="D2L 11 · Attention Mechanisms and Transformers [F3 sonrası] · 10 dk"><meta name="color-scheme" content="light dark"><meta name="theme-color" content="#f2f4fa" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#050a14" media="(prefers-color-scheme: dark)"><link rel="icon" href="/ml-yol/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://mby19.github.io/ml-yol/ders/d2l-attention-mechanisms-and-transformers-giris/"><meta property="og:title" content="Attention Mechanisms and Transformers: giriş · ML Yolu"><meta property="og:description" content="D2L 11 · Attention Mechanisms and Transformers [F3 sonrası] · 10 dk"><meta property="og:type" content="website"><script>
+      (() => {
+        try {
+          const saved = localStorage.getItem("mlyol.theme");
+          const dark =
+            saved === "dark" || !saved;
+          document.documentElement.dataset.theme = dark ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script><link rel="stylesheet" href="/ml-yol/_astro/BaseLayout.pN6K18VX.css"></head><body><a class="skip-link" href="#main">İçeriğe geç</a><header class="masthead" data-pagefind-ignore><div class="masthead-inner"><a class="wordmark" href="/ml-yol/" aria-label="ML Yolu, yol haritası"><svg class="wordmark-mark" viewBox="0 0 28 20" aria-hidden="true"><path d="M3 4 14 10 3 16M14 10 25 4M14 10 25 16"></path><circle cx="3" cy="4" r="2.4"></circle><circle cx="3" cy="16" r="2.4"></circle><circle cx="14" cy="10" r="3"></circle><circle cx="25" cy="4" r="2.4"></circle><circle cx="25" cy="16" r="2.4"></circle></svg>ML Yolu</a><nav aria-label="Ana gezinme"><a class="nav-link" href="/ml-yol/" aria-current="true">Ağ</a><a class="nav-link" href="/ml-yol/derin">Derinleşme</a><a class="nav-link" href="/ml-yol/plan">Plan</a><a class="nav-link" href="/ml-yol/rehber">Rehber</a><a class="nav-link" href="/ml-yol/kaynaklar">Kaynaklar</a><a class="nav-link" href="/ml-yol/sozluk">Sözlük</a><a class="nav-link" href="/ml-yol/arama">Arama</a><button class="icon-btn" id="theme-toggle" type="button" aria-label="Temayı değiştir"><svg class="theme-icon-light" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg><svg class="theme-icon-dark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg></button><button class="icon-btn menu-btn" id="menu-toggle" type="button" aria-label="Menü" aria-expanded="false" aria-controls="mobile-nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button></nav></div></header><div class="mobile-nav" id="mobile-nav" data-open="false" data-pagefind-ignore><a href="/ml-yol/">Ağ<span></span></a><a href="/ml-yol/derin">Derinleşme<span></span></a><a href="/ml-yol/plan">Plan<span></span></a><a href="/ml-yol/rehber">Rehber<span>4 senaryo</span></a><a href="/ml-yol/kaynaklar">Kaynaklar<span>894 kayıt</span></a><a href="/ml-yol/sozluk">Sözlük<span>1828 terim</span></a><a href="/ml-yol/arama">Arama<span></span></a><a href="/ml-yol/hakkinda">Site ve kaynak <span>bilgi</span></a></div><main id="main"><div class="read-progress layer-f3" aria-hidden="true"></div><header class="lesson-head layer-f3"><div class="wrap"><div class="lesson-topline"><a href="/ml-yol/derin" data-pagefind-meta="hat">Derinleşme · D2L</a><span class="sep">/</span><a href="/ml-yol/unite/d2l-11-attention-mechanisms-and-transformers">Attention Mechanisms and Transformers</a><span class="sep">/</span><span>Ders 1</span><span class="lesson-code">F3 · 01</span></div><h1 class="lesson-title" data-pagefind-meta="title">Attention Mechanisms and Transformers: giriş</h1><ol class="activation" aria-label="Ünitedeki dersler: 10"><li data-lesson-link="d2l-attention-mechanisms-and-transformers-giris" aria-current="step" style="--i:0"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-giris" aria-label="Attention Mechanisms and Transformers: giriş" title="Attention Mechanisms and Transformers: giriş"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-queries-keys-values" style="--i:1"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-queries-keys-values" aria-label="Queries, Keys, and Values" title="Queries, Keys, and Values"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-pooling" style="--i:2"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-pooling" aria-label="Attention Pooling by Similarity" title="Attention Pooling by Similarity"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-scoring-functions" style="--i:3"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-scoring-functions" aria-label="Attention Scoring Functions" title="Attention Scoring Functions"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-bahdanau-attention" style="--i:4"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-bahdanau-attention" aria-label="The Bahdanau Attention Mechanism" title="The Bahdanau Attention Mechanism"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-multihead-attention" style="--i:5"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-multihead-attention" aria-label="Multi-Head Attention" title="Multi-Head Attention"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding" style="--i:6"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding" aria-label="Self-Attention and Positional Encoding" title="Self-Attention and Positional Encoding"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-transformer" style="--i:7"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-transformer" aria-label="The Transformer Architecture" title="The Transformer Architecture"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-vision-transformer" style="--i:8"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-vision-transformer" aria-label="Transformers for Vision" title="Transformers for Vision"></a></li><li data-lesson-link="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" style="--i:9"><a href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" aria-label="Large-Scale Pretraining with Transformers" title="Large-Scale Pretraining with Transformers"></a></li></ol><div class="lesson-meta"><span><strong>10 dk</strong> yazılı süre</span><span>1 sayfa</span><span>0 kod sayfası</span><span>0 kontrol sorusu</span></div></div></header><div class="wrap"><div class="lesson-shell"><aside class="rail" aria-label="Ders gezinmesi"><div class="rail-group layer-f3"><div class="rail-heading"><span>Bu ünite</span><span>10 ders</span></div><ol class="rail-list"><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-giris" data-lesson-link="d2l-attention-mechanisms-and-transformers-giris" aria-current="page"><span class="rail-lesson-title">Attention Mechanisms and Transformers: giriş<span class="rail-lesson-meta">10 dk · 1 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-queries-keys-values" data-lesson-link="d2l-attention-mechanisms-and-transformers-queries-keys-values"><span class="rail-lesson-title">Queries, Keys, and Values<span class="rail-lesson-meta">24 dk · 6 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-pooling" data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-pooling"><span class="rail-lesson-title">Attention Pooling by Similarity<span class="rail-lesson-meta">52 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-attention-scoring-functions" data-lesson-link="d2l-attention-mechanisms-and-transformers-attention-scoring-functions"><span class="rail-lesson-title">Attention Scoring Functions<span class="rail-lesson-meta">1 sa 1 dk · 8 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-bahdanau-attention" data-lesson-link="d2l-attention-mechanisms-and-transformers-bahdanau-attention"><span class="rail-lesson-title">The Bahdanau Attention Mechanism<span class="rail-lesson-meta">45 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-multihead-attention" data-lesson-link="d2l-attention-mechanisms-and-transformers-multihead-attention"><span class="rail-lesson-title">Multi-Head Attention<span class="rail-lesson-meta">23 dk · 6 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding" data-lesson-link="d2l-attention-mechanisms-and-transformers-self-attention-and-positional-encoding"><span class="rail-lesson-title">Self-Attention and Positional Encoding<span class="rail-lesson-meta">37 dk · 7 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-transformer" data-lesson-link="d2l-attention-mechanisms-and-transformers-transformer"><span class="rail-lesson-title">The Transformer Architecture<span class="rail-lesson-meta">1 sa 46 dk · 10 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-vision-transformer" data-lesson-link="d2l-attention-mechanisms-and-transformers-vision-transformer"><span class="rail-lesson-title">Transformers for Vision<span class="rail-lesson-meta">44 dk · 9 sayfa</span></span></a></li><li><a class="rail-lesson" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-large-pretraining-transformers" data-lesson-link="d2l-attention-mechanisms-and-transformers-large-pretraining-transformers"><span class="rail-lesson-title">Large-Scale Pretraining with Transformers<span class="rail-lesson-meta">29 dk · 9 sayfa</span></span></a></li></ol></div><div class="rail-group"><div class="rail-heading"><span>Bu derste</span><span>1</span></div><ol class="rail-stations"><li><a href="#d2l-attention-mechanisms-and-transformers-giris-p1"><span>01 · Attention Mechanisms and Transformers</span><code>Anlatım</code></a></li></ol></div></aside><article class="lesson-article" data-pagefind-body><details class="mobile-toc" data-pagefind-ignore><summary>Bu dersin içeriği · 1 sayfa</summary><ol><li><a href="#d2l-attention-mechanisms-and-transformers-giris-p1"><span>01 · Attention Mechanisms and Transformers</span><span class="toc-kind">Anlatım</span></a></li></ol></details><div class="lesson-pages"><section class="page-section" id="d2l-attention-mechanisms-and-transformers-giris-p1" data-kind="text"><div class="page-flag" data-pagefind-ignore>Anlatım<span>01 / 01</span></div><div class="prose"><h2 id="attention-mechanisms-and-transformers">Attention Mechanisms and Transformers</h2>
+<p>The earliest years of the deep learning boom were driven primarily
+by results produced using the multilayer perceptron,
+convolutional network, and recurrent network architectures.
+Remarkably, the model architectures that underpinned
+many of deep learning's breakthroughs in the 2010s
+had changed remarkably little relative to their
+antecedents despite the lapse of nearly 30 years.
+While plenty of new methodological innovations
+made their way into most practitioner's toolkits---ReLU
+activations, residual layers, batch normalization, dropout,
+and adaptive learning rate schedules come to mind---the core
+underlying architectures were clearly recognizable as
+scaled-up implementations of classic ideas.
+Despite thousands of papers proposing alternative ideas,
+models resembling classical convolutional neural networks ((see related section))
+retained <em>state-of-the-art</em> status in computer vision
+and models resembling Sepp Hochreiter's original design
+for the LSTM recurrent neural network ((see related section)),
+dominated most applications in natural language processing.
+Arguably, to that point, the rapid emergence of deep learning
+appeared to be primarily attributable to shifts
+in the available computational resources
+(thanks to innovations in parallel computing with GPUs)
+and the availability of massive data resources
+(thanks to cheap storage and Internet services).
+While these factors may indeed remain the primary drivers
+behind this technology's increasing power
+we are also witnessing, at long last,
+a sea change in the landscape of dominant architectures.</p>
+<p>At the present moment, the dominant models
+for nearly all natural language processing tasks
+are based on the Transformer architecture.
+Given any new task in natural language processing, the default first-pass approach
+is to grab a large Transformer-based pretrained model,
+(e.g., BERT (Devlin et al.), ELECTRA (clark2019electra et al.), RoBERTa (Liu et al.), or Longformer (beltagy2020longformer et al.))
+adapting the output layers as necessary,
+and fine-tuning the model on the available
+data for the downstream task.
+If you have been paying attention to the last few years
+of breathless news coverage centered on OpenAI's
+large language models, then you have been tracking a conversation
+centered on the GPT-2 and GPT-3 Transformer-based models (Radford et al.).
+Meanwhile, the vision Transformer has emerged
+as a default model for diverse vision tasks,
+including image recognition, object detection,
+semantic segmentation, and superresolution (Dosovitskiy et al.).
+Transformers also showed up as competitive methods
+for speech recognition (gulati2020conformer et al.),
+reinforcement learning (chen2021decision et al.),
+and graph neural networks (dwivedi2020generalization et al.).</p>
+<p>The core idea behind the Transformer model is the <em>attention mechanism</em>,
+an innovation that was originally envisioned as an enhancement
+for encoder--decoder RNNs applied to sequence-to-sequence applications,
+such as machine translations (Bahdanau et al.).
+You might recall that in the first sequence-to-sequence models
+for machine translation (Sutskever et al.),
+the entire input was compressed by the encoder
+into a single fixed-length vector to be fed into the decoder.
+The intuition behind attention is that rather than compressing the input,
+it might be better for the decoder to revisit the input sequence at every step.
+Moreover, rather than always seeing the same representation of the input,
+one might imagine that the decoder should selectively focus
+on particular parts of the input sequence at particular decoding steps.
+Bahdanau's attention mechanism provided a simple means
+by which the decoder could dynamically <em>attend</em> to different
+parts of the input at each decoding step.
+The high-level idea is that the encoder could produce a representation
+of length equal to the original input sequence.
+Then, at decoding time, the decoder can (via some control mechanism)
+receive as input a context vector consisting of a weighted sum
+of the representations on the input at each time step.
+Intuitively, the weights determine the extent
+to which each step's context "focuses" on each input token,
+and the key is to make this process
+for assigning the weights differentiable
+so that it can be learned along with
+all of the other neural network parameters.</p>
+<p>Initially, the idea was a remarkably successful
+enhancement to the recurrent neural networks
+that already dominated machine translation applications.
+The models performed better than the original
+encoder--decoder sequence-to-sequence architectures.
+Furthermore, researchers noted that some nice qualitative insights
+sometimes emerged from inspecting the pattern of attention weights.
+In translation tasks, attention models
+often assigned high attention weights to cross-lingual synonyms
+when generating the corresponding words in the target language.
+For example, when translating the sentence "my feet hurt"
+to "j'ai mal au pieds", the neural network might assign
+high attention weights to the representation of "feet"
+when generating the corresponding French word "pieds".
+These insights spurred claims that attention models confer "interpretability"
+although what precisely the attention weights mean---i.e.,
+how, if at all, they should be <em>interpreted</em> remains a hazy research topic.</p>
+<p>However, attention mechanisms soon emerged as more significant concerns,
+beyond their usefulness as an enhancement for encoder--decoder recurrent neural networks
+and their putative usefulness for picking out salient inputs.
+(Vaswani et al.) proposed
+the Transformer architecture for machine translation,
+dispensing with recurrent connections altogether,
+and instead relying on cleverly arranged attention mechanisms
+to capture all relationships among input and output tokens.
+The architecture performed remarkably well,
+and by 2018 the Transformer began showing up
+in the majority of state-of-the-art natural language processing systems.
+Moreover, at the same time, the dominant practice in natural language processing
+became to pretrain large-scale models
+on enormous generic background corpora
+to optimize some self-supervised pretraining objective,
+and then to fine-tune these models
+using the available downstream data.
+The gap between Transformers and traditional architectures
+grew especially wide when applied in this pretraining paradigm,
+and thus the ascendance of Transformers coincided
+with the ascendence of such large-scale pretrained models,
+now sometimes called <em>foundation models</em> (bommasani2021opportunities et al.).</p>
+<p>In this chapter, we introduce attention models,
+starting with the most basic intuitions
+and the simplest instantiations of the idea.
+We then work our way up to the Transformer architecture,
+the vision Transformer, and the landscape
+of modern Transformer-based pretrained models.</p></div></section></div><div class="lesson-actions" data-pagefind-ignore><button class="complete-btn" type="button" data-complete="d2l-attention-mechanisms-and-transformers-giris" aria-pressed="false"><span class="tick" aria-hidden="true"></span><span data-complete-label>Dersi tamamladım</span></button><span class="label">D2L · 10 dk</span></div><nav class="lesson-pager" aria-label="Dersler arası gezinme" data-pagefind-ignore><a class="pager-link" href="/ml-yol/ders/uz-ssl-contrastive"><span class="pager-label">← Önceki ders</span><span class="pager-title">Öz-gözetimli ve yarı gözetimli öğrenme: SimCLR ve pseudo-labeling</span><span class="pager-meta">Uzmanlık · 2 sa 55 dk</span></a><a class="pager-link" href="/ml-yol/ders/d2l-attention-mechanisms-and-transformers-queries-keys-values"><span class="pager-label">Sonraki ders →</span><span class="pager-title">Queries, Keys, and Values</span><span class="pager-meta">D2L · 24 dk</span></a></nav></article></div></div><script type="module">var e=e=>e.toLocaleLowerCase(`tr`).replace(/ı/g,`i`).replace(/ş/g,`s`).replace(/ğ/g,`g`).replace(/ü/g,`u`).replace(/ö/g,`o`).replace(/ç/g,`c`).replace(/["'`“”‘’]/g,``).replace(/[.,;:!?]+$/g,``).replace(/\s+/g,` `).trim();document.querySelectorAll(`form[data-quiz]`).forEach(t=>{let n=t.querySelector(`.quiz-result`),r=t.querySelector(`.quiz-explain`);t.addEventListener(`submit`,i=>{if(i.preventDefault(),t.dataset.answered)return;let a=!1;if(t.dataset.quiz===`choice`){let e=t.querySelector(`input[type=radio]:checked`);if(!e){n.textContent=`Önce bir seçenek seç.`;return}a=e.closest(`.quiz-option`).dataset.correct===`1`,t.querySelectorAll(`.quiz-option`).forEach(t=>{t.classList.add(t.dataset.correct===`1`?`is-right`:`is-rest`),t.contains(e)&&t.classList.add(`is-picked`)})}else{let r=t.querySelector(`input[type=text]`);if(!r.value.trim()){n.textContent=`Önce cevabını yaz.`;return}let i=JSON.parse(t.dataset.accept||`[]`);a=i.some(t=>e(t)===e(r.value)),r.readOnly=!0,a||(n.dataset.answer=i[0]??``)}t.dataset.answered=a?`right`:`wrong`,n.textContent=a?`Doğru.`:t.dataset.quiz===`input`?`Yanlış. Doğru cevap: ${n.dataset.answer}`:`Yanlış. Doğru seçenek işaretlendi.`,t.querySelectorAll(`input`).forEach(e=>e.disabled=t.dataset.quiz===`choice`||e.disabled),r&&(r.hidden=!1),t.querySelector(`.quiz-submit`).disabled=!0})});</script></main><footer class="site-foot" data-pagefind-ignore><div class="wrap"><div class="foot-grid"><div><span class="label">Kaynak</span><p>Bütün ders metni <code>ders-ml-yol.json</code> ve <code>ders-ml-derin.json</code> dosyalarından olduğu gibi render edilir. Site metni yeniden yazmaz, özetlemez veya yeni ders üretmez. Sözlük, kontrol soruları ve süreler aynı dosyadan gelir.</p></div><div><span class="label">Kapsam</span><div class="foot-links"><a href="/ml-yol/hakkinda">Veri, kapsam ve yöntem</a><a href="/ml-yol/rehber">Derinleşme rehberi</a><a href="/ml-yol/kaynaklar">Bütün kaynaklar</a><a href="/ml-yol/plan">Çalışma planı</a><a href="/ml-yol/sozluk">Sözlük</a></div></div><div><span class="label">Rakamlar</span><p class="num">53 ünite · 170 ders · 1979 sayfa<br>34.300 dk yazılı süre (572 sa) · 1828 terim</p></div></div><div class="foot-base"><span>ML Yolu · kişisel çalışma sitesi</span><span>İlerleme yalnız bu tarayıcıda saklanır</span></div></div></footer><div class="term-scrim" id="term-scrim" data-open="false" aria-hidden="true"></div><aside class="term-panel" id="term-panel" data-open="false" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="term-title" inert><div class="term-panel-head"><span class="label">Sözlük</span><button class="icon-btn" type="button" id="term-close" aria-label="Terim panelini kapat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg></button></div><div class="term-panel-body" id="term-body"></div></aside><script type="module" src="/ml-yol/_astro/BaseLayout.astro_astro_type_script_index_0_lang.DbNUKAew.js"></script></body></html>
