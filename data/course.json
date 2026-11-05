@@ -2423,7 +2423,7 @@
      "id": "hdbscan",
      "term": "HDBSCAN",
      "en": "hierarchical density-based clustering",
-     "short": "DBSCAN'in değişken yoğunluk sürümü: eps yerine min_cluster_size alır, yoğunluk hiyerarşisinden en kararlı kümeleri seçer ve yeni noktaya yaklaşık atama yapabilir."
+     "short": "DBSCAN'in değişken yoğunluk sürümü: eps yerine min_cluster_size alır, yoğunluk hiyerarşisinden en kararlı kümeleri seçer; yeni noktaya yaklaşık atama contrib `hdbscan` paketinde (`approximate_predict`) vardır, sklearn sürümünde yoktur."
     },
     {
      "id": "hedef-disi",
@@ -7373,8 +7373,10 @@
          "accept": [
           "plan",
           "planı",
+          "plandır",
           "planlama",
           "planın kendisi",
+          "planın kendisidir",
           "planı küçültmek"
          ],
          "explain": "Oran 0,8'in altındaysa plan gerçekleşene indirilir ve faz takvimi yeniden hesaplanır; sorun irade değil plandır."
@@ -7466,7 +7468,11 @@
           "8.0",
           "8,0",
           "8 kat",
+          "8 katına",
+          "8 katı",
           "sekiz",
+          "sekiz katına",
+          "sekiz katı",
           "8.00",
           "8,00"
          ],
@@ -7570,9 +7576,10 @@
           "75.264",
           "75264 bayt",
           "75.264 bayt",
-          "75,264",
-          "75.26",
-          "75,26"
+          "73,5 KiB",
+          "73.5 KiB",
+          "75,264 kB",
+          "75.264 kB"
          ],
          "explain": "$\\text{size}=32\\cdot3\\cdot28\\cdot28=75264$; `uint8` itemsize 1, yani $75264 \\times 1$ bayt ≈ 73,5 KiB."
         },
@@ -7912,7 +7919,7 @@
         {
          "id": "a1-l5-performans-q1",
          "kind": "choice",
-         "md": "Sıkı bir döngüde her adımda `A * 2` yerine `np.multiply(A, 2, out=out)` kullanmanın kazancı ve riski nedir?",
+         "md": "Sıkı bir döngüde her adımda `A * 2` yerine `np.multiply(A, 2, out=A)` kullanmanın kazancı ve riski nedir?",
          "options": [
           {
            "id": "a",
@@ -7946,6 +7953,8 @@
           "240.0",
           "240,0",
           "240 mb",
+          "240MB",
+          "240 megabayt",
           "240.00",
           "240,00"
          ],
@@ -8317,11 +8326,10 @@
          "md": "891 satırlık yolcu tablosunu liman tablosuyla `how=\"left\"` birleştirdin; 2 yolcunun limanı `NaN`. Bu 2 satırda liman tablosundan gelen sütunlarda ne yazar?",
          "accept": [
           "nan",
-          "none",
-          "null",
           "na",
           "boş",
           "boş değer",
+          "eksik değer",
           "NaN değeri",
           "NaN"
          ],
@@ -8622,11 +8630,14 @@
          "md": "784 girişli, 128 nöronlu tam bağlı bir katmanda ($Y = XW^\\top + \\mathbf{b}$) [bias](term:bias) dahil kaç parametre vardır?",
          "accept": [
           "100480",
+          "100480.0",
+          "100480,0",
+          "100480 parametre",
           "100.480",
           "100 480",
           "100,480",
-          "100.48",
-          "100,48"
+          "100480.00",
+          "100480,00"
          ],
          "explain": "$W$: $128\\times784 = 100352$ ağırlık, $\\mathbf{b}$: 128 sapma; toplam 100480. Katmanın tamamı tek bir matris çarpımıdır."
         },
@@ -9172,7 +9183,7 @@
         {
          "id": "a4-l1-estimator-api-q1",
          "kind": "choice",
-         "md": "Aynı model nesnesinde `model.fit(X1, y1)` sonra `model.fit(X2, y2)` çağırıyorsun. Ne olur?",
+         "md": "Aynı model nesnesinde, varsayılan ayarlarla (`warm_start=False`), `model.fit(X1, y1)` sonra `model.fit(X2, y2)` çağırıyorsun. Ne olur?",
          "options": [
           {
            "id": "a",
@@ -9202,6 +9213,8 @@
          "kind": "input",
          "md": "Eğitim sütunu 10, 12, 14. `StandardScaler` ile (popülasyon std, `ddof=0`) ölçeklenen test değeri 15 için $z$ kaçtır?",
          "accept": [
+          "1.8",
+          "1,8",
           "1.837",
           "1,837",
           "1.84",
@@ -9209,7 +9222,9 @@
           "1.8371",
           "1,8371",
           "1.837117",
-          "1,837117"
+          "1,837117",
+          "1.80",
+          "1,80"
          ],
          "explain": "$\\mu = 12$, $\\sigma = \\sqrt{8/3} \\approx 1{,}633$; $z = (15-12)/1{,}633 \\approx 1{,}837$. Test değeri kendi istatistiğiyle değil, eğitimden öğrenilen $\\mu,\\sigma$ ile ölçeklenir."
         },
@@ -9563,8 +9578,8 @@
           },
           {
            "id": "d",
-           "md": "F1 skoru $(0{,}83 + 0{,}75)/2 \\approx 0{,}79$.",
-           "why": "F1 harmonik ortalamadır: $2 \\cdot 0{,}83 \\cdot 0{,}75/1{,}58 \\approx 0{,}77$; aritmetik ortalama değil."
+           "md": "F1 skoru $0{,}83 \\cdot 0{,}75 \\approx 0{,}62$.",
+           "why": "F1 harmonik ortalamadır: $2 \\cdot 0{,}83 \\cdot 0{,}75/(0{,}83+0{,}75) \\approx 0{,}79$; çarpım da aritmetik ortalama da değil."
           }
          ],
          "correct": "a",
@@ -9859,12 +9874,12 @@
           {
            "id": "b",
            "md": "$(0, 2)$",
-           "why": "Bu, $\\mathbf{w}^\\top A$ satır vektörü; gradyan değil."
+           "why": "$2A^\\top\\mathbf{w} = (0,2)$: transpoz yanlış tarafta. $\\mathbf{w}^\\top A = (0,1)$ çıkar; doğru gradyan $(A+A^\\top)\\mathbf{w} = (2,1)$."
           },
           {
            "id": "c",
            "md": "$(1, 2)$",
-           "why": "Bu $\\mathbf{w}$'nin kendisi; gradyan yalnız $A$ simetrikken $2A\\mathbf{w}$ biçiminde $\\mathbf{w}$ ile aynı yönde olur."
+           "why": "Bu $\\mathbf{w}$'nin kendisi; doğru gradyan $(A+A^\\top)\\mathbf{w} = (2,1)$, $\\mathbf{w} = (1,2)$ yönünde değil. $A$ simetrik olsa bile gradyan $2A\\mathbf{w}$ olur; $\\mathbf{w}$ yönünde çıkması $\\mathbf{w}$'nin [özvektör](term:ozvektor) olmasına bağlıdır."
           },
           {
            "id": "d",
@@ -10167,7 +10182,7 @@
         {
          "id": "f1-u1-l2-genelleme-q2",
          "kind": "input",
-         "md": "100 örneklik test setinde ölçülen doğruluğun standart hatası $0{,}04$. Aynı model 400 örnekte ölçülürse standart hata yaklaşık kaç olur?",
+         "md": "Bir test setinde ölçülen doğruluğun standart hatası, örnek sayısının kareköküyle ters orantılıdır: $\\text{SH} \\approx \\sigma/\\sqrt{n}$. 100 örneklik test setinde standart hata $0{,}04$ ise aynı model 400 örnekte ölçüldüğünde standart hata yaklaşık kaç olur?",
          "accept": [
           "0.02",
           "0,02",
@@ -10469,9 +10484,7 @@
           "0,135",
           "0.1353",
           "0,1353",
-          "e^-2",
-          "0.14",
-          "0,14"
+          "e^-2"
          ],
          "explain": "$P(X = 0) = \\lambda^0 e^{-\\lambda}/0! = e^{-2} \\approx 0{,}135$; $0! = 1$. Sıfır olay görmenin olasılığı burada $e^{-2}$'dir, ortalama $2$'nin kendisi değil."
         },
@@ -10662,12 +10675,20 @@
           "2,5%",
           "0.025",
           "0,025",
-          "2.50",
-          "2,50",
-          "0.03",
-          "0,03"
+          "2.28",
+          "2,28",
+          "%2.28",
+          "%2,28",
+          "2.28%",
+          "2,28%",
+          "2.3",
+          "2,3",
+          "2.275",
+          "2,275",
+          "0.0228",
+          "0,0228"
          ],
-         "explain": "$z = (130-100)/15 = 2$. Değerlerin ~%95'i $\\pm 2\\sigma$ içinde; kalan %5 iki kuyruğa eşit bölünür, üst kuyruk ~%2,5. Tam değer $0{,}0228$."
+         "explain": "$z = (130-100)/15 = 2$. Değerlerin ~%95'i $\\pm 2\\sigma$ içinde; kalan %5 iki kuyruğa eşit bölünür, üst kuyruk ~%2,5. Tam değer $0{,}02275$, yani yüzde $2{,}28$."
         },
         {
          "id": "f0-u4-l4-gauss-p8",
@@ -10817,7 +10838,7 @@
         {
          "id": "f0-u6-l1-gradient-descent-p6",
          "kind": "check",
-         "md": "$f(x) = 5x^2$ fonksiyonunda GD'nin yakınsaması için öğrenme oranı hangi aralıkta olmalı? Tek adımda minimuma iniren öğrenme oranı kaçtır?",
+         "md": "$f(x) = 5x^2$ fonksiyonunda GD'nin yakınsaması için öğrenme oranı hangi aralıkta olmalı? Tek adımda minimuma indiren öğrenme oranı kaçtır?",
          "answer": "$f(x) = \\frac{a}{2}x^2$ biçiminde $a = 10$. Güncelleme $x_{t+1} = (1 - 10\\eta)x_t$; yakınsama için $|1-10\\eta|<1$, yani $0 < \\eta < 0.2$. $\\eta = 1/a = 0.1$ çarpanı sıfır yapar: tek adımda $x=0$."
         },
         {
@@ -11063,6 +11084,11 @@
           "20,0",
           "20x",
           "20 kat",
+          "20 katı",
+          "20 katıdır",
+          "yirmi",
+          "yirmi kat",
+          "yirmi katı",
           "20.00",
           "20,00"
          ],
@@ -11135,7 +11161,7 @@
           {
            "id": "c",
            "md": "$\\lambda=1.5$; çözüm $(-1.5,-1.5)$ sınırındadır.",
-           "why": "Bu, kısıt $x+y=-3$ eşitliği olsaydı geçerli olurdu; oysa $(0,0)$ kısıtı zaten sağlıyor."
+           "why": "Bu seçenekteki $(-1.5,-1.5)$ noktası $x+y=-3$ eşitlik kısıtına aittir; o durumda $\\nabla f=\\lambda\\nabla g$ ile $|\\lambda|=|2x|=3$ olur (a seçeneğindeki değer), 1.5 değil — 1.5 çözümün koordinatıdır, çarpan değil. Bu problemde $(0,0)$ izinli olduğu için kısıt pasiftir ve $\\lambda=0$."
           },
           {
            "id": "d",
@@ -11319,7 +11345,7 @@
         {
          "id": "f1-u2-l2-duzenlilestirme-q1",
          "kind": "choice",
-         "md": "$\\mathbf{w}=(X^\\top X)^{-1}X^\\top\\mathbf{y}$ çalışmıyor: $X$'in iki sütunu neredeyse aynı, $X^\\top X$ tekil. [Ridge](term:ridge) çözümü neden işe yarar?",
+         "md": "$\\mathbf{w}=(X^\\top X)^{-1}X^\\top\\mathbf{y}$ çalışmıyor: $X$'in iki sütunu neredeyse aynı, $X^\\top X$ neredeyse tekil (koşul sayısı çok büyük). [Ridge](term:ridge) çözümü neden işe yarar?",
          "options": [
           {
            "id": "a",
@@ -11342,7 +11368,7 @@
           }
          ],
          "correct": "c",
-         "explain": "$\\alpha I$ eklemek tüm özdeğerleri en az $\\alpha$ yapar: matris tekil olmaktan çıkar, çözüm benzersiz olur. Aynı işlem ağırlıkları sıfıra doğru büzer."
+         "explain": "$\\alpha I$ eklemek tüm özdeğerleri en az $\\alpha$ yapar: $X^\\top X$ iyi koşullu hale gelir, çözüm benzersiz ve sayısal olarak kararlı olur. Aynı işlem ağırlıkları sıfıra doğru büzer."
         },
         {
          "id": "f1-u2-l2-duzenlilestirme-q2",
@@ -11538,7 +11564,7 @@
           }
          ],
          "correct": "b",
-         "explain": "OvR modelleri birbirinden habersiz eğitilir, satır toplamları sonradan normalize edilir; bu kalibrasyonu bozar. Aynı argmax doğruluğunda softmax'ın log-loss'u ~%20 daha düşük."
+         "explain": "OvR modelleri birbirinden habersiz eğitilir, satır toplamları sonradan normalize edilir; bu kalibrasyonu bozar. Aynı argmax doğruluğunda softmax'ın log-loss'u ~%17 daha düşük (0.114'e karşı 0.137); yani OvR'nin log-loss'u ~%20 daha yüksek."
         },
         {
          "id": "f1-u2-l4-softmax-q2",
@@ -11548,8 +11574,13 @@
           "0.731",
           "0,731",
           ".731",
+          ",731",
           "0.73",
-          "0,73"
+          "0,73",
+          "73.1%",
+          "73,1%",
+          "%73.1",
+          "%73,1"
          ],
          "explain": "$\\hat p_1=e^1/(e^1+e^0)=2.718/3.718\\approx 0.731$. İki sınıfta softmax, skor farkının sigmoid'ine indirgenir: $\\sigma(1)=0.731$."
         },
@@ -11936,7 +11967,7 @@
           {
            "id": "a",
            "md": "$(1,1)$",
-           "why": "Bu birim yöndür; $\\mathbf{b}$'nin bu doğru üzerindeki bileşeni 2 birimdir."
+           "why": "$(1,1)$ doğrultusundadır ama birim vektör değildir ($\\|(1,1)\\|=\\sqrt2$); katsayı $\\hat x=\\mathbf{a}\\cdot\\mathbf{b}/\\mathbf{a}\\cdot\\mathbf{a}=4/2=2$ olduğundan izdüşüm $2\\cdot(1,1)=(2,2)$, uzunluğu $2\\sqrt2\\approx2.83$'tür."
           },
           {
            "id": "b",
@@ -12591,7 +12622,7 @@
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p1-b2",
          "kind": "text",
-         "md": "# Yoğunluk: küme, komşuluğu kalabalık olan bölgedir (devam)\n\n- $\\varepsilon$ büyüdükçe komşuluk hacmi $d$ boyutta $\\varepsilon^d$ ile büyür; aynı `min_samples` ile eşik **seyrekleşir**, kümeler birleşir. $\\varepsilon$ küçülünce her şey gürültü olur.\n- `min_samples` büyüdükçe \"yoğun\" tanımı sertleşir; seyrek kümeler gürültüye düşer.\n- Boyutla birlikte tipik değer büyür: kaba kural `min_samples` $\\ge d + 1$ (pratikte 2$d$ sık kullanılır). Yoğunluk tahmini için gereken komşu sayısı boyutla artar.\n- **Ölçekleme zorunlu.** Eksenlerden biri binlerle, diğeri onlarla ölçülüyorsa $\\varepsilon$ yalnız büyük eksende anlam taşır ve tek boyutlu kümeleme yapmış olursun.\n\n## Maliyet ve sınırlar\n\nNaif uygulama tüm ikili uzaklıkları ister: bellek $O(n^2)$, süre $O(n^2)$. Düşük boyutta ağaç/ızgara indeksiyle süre $O(n \\log n)$'e iner, ama boyut arttıkça indeks işe yaramaz (boyut laneti). DBSCAN'in iki yapısal sınırı var:\n\n1. **Tek yoğunluk eşiği.** Aynı veride hem sıkı bir küme hem gevşek bir küme varsa tek $\\varepsilon$ ikisini birden doğru bulamaz. Ya sıkı küme parçalanır ya gevşek küme yutulur.\n2. **Yeni nokta atanamaz.** DBSCAN'de `predict` yoktur; model \"eğitilmiş\" bir nesne değil, verinin bir etiketlemesidir. Yeni gelen müşteriyi yerleştirmek için en yakın çekirdek noktaya bakman (veya HDBSCAN'in `approximate_predict`'ini kullanman) gerekir.\n\nBu iki sınır, uygulamada [HDBSCAN](term:hdbscan) (Campello vd. 2013) doğmasına yol açtı: $\\varepsilon$ yerine `min_cluster_size` alır, farklı yoğunluktaki kümeleri ayrı ayrı bulur ve küme hiyerarşisinden en **kararlı** kümeleri seçer."
+         "md": "# Yoğunluk: küme, komşuluğu kalabalık olan bölgedir (devam)\n\n- $\\varepsilon$ büyüdükçe komşuluk hacmi $d$ boyutta $\\varepsilon^d$ ile büyür; aynı `min_samples` ile eşik **seyrekleşir**, kümeler birleşir. $\\varepsilon$ küçülünce her şey gürültü olur.\n- `min_samples` büyüdükçe \"yoğun\" tanımı sertleşir; seyrek kümeler gürültüye düşer.\n- Boyutla birlikte tipik değer büyür: kaba kural `min_samples` $\\ge d + 1$ (pratikte 2$d$ sık kullanılır). Yoğunluk tahmini için gereken komşu sayısı boyutla artar.\n- **Ölçekleme zorunlu.** Eksenlerden biri binlerle, diğeri onlarla ölçülüyorsa $\\varepsilon$ yalnız büyük eksende anlam taşır ve tek boyutlu kümeleme yapmış olursun.\n\n## Maliyet ve sınırlar\n\nNaif uygulama tüm ikili uzaklıkları ister: bellek $O(n^2)$, süre $O(n^2)$. Düşük boyutta ağaç/ızgara indeksiyle süre $O(n \\log n)$'e iner, ama boyut arttıkça indeks işe yaramaz (boyut laneti). DBSCAN'in iki yapısal sınırı var:\n\n1. **Tek yoğunluk eşiği.** Aynı veride hem sıkı bir küme hem gevşek bir küme varsa tek $\\varepsilon$ ikisini birden doğru bulamaz. Ya sıkı küme parçalanır ya gevşek küme yutulur.\n2. **Yeni nokta atanamaz.** DBSCAN'de `predict` yoktur; model \"eğitilmiş\" bir nesne değil, verinin bir etiketlemesidir. Yeni gelen müşteriyi yerleştirmek için en yakın çekirdek noktaya bakman gerekir; `sklearn.cluster.HDBSCAN` da `predict` sunmaz — yaklaşık atama yalnız scikit-learn-contrib `hdbscan` paketindeki `approximate_predict` ile mümkündür.\n\nBu iki sınır, uygulamada [HDBSCAN](term:hdbscan) (Campello vd. 2013) doğmasına yol açtı: $\\varepsilon$ yerine `min_cluster_size` alır, farklı yoğunluktaki kümeleri ayrı ayrı bulur ve küme hiyerarşisinden en **kararlı** kümeleri seçer."
         },
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p2",
@@ -12606,7 +12637,7 @@
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p3-b2",
          "kind": "text",
-         "md": "# Hiyerarşi: tek bir kesim değil, tüm kesimler (devam)\n\n- **Tek bağlantı** her iki kümenin *en yakın* üyelerine bakar. Uzun, kıvrık, birbirine paralel şekilleri yakalar (hilaller: ARI 1.000). Zaafı **zincirleme** (chaining): iki ayrı kümeyi birbirine bağlayan tek bir gürültü noktası hepsini tek küme yapar.\n- **Tam bağlantı** en uzak üyeye bakar; kompakt, benzer çaplı kümeler ister. Hilalde başarısız (0.689), gürültüye karşı dayanıklı.\n- **Ortalama bağlantı** ikisinin arası; gürültüye tam bağlantıdan duyarlı, tek bağlantıdan dayanıklı.\n- **Ward** yalnız Öklid uzaklığıyla ve varyans mantığıyla çalışır; iç içe halkalarda (concentric circles) tam/ortalama gibi çöker (ARI ≈ 0).\n\nİç içe halkalar, hiyerarşik kümelemenin değil yoğunluk tabanlı yöntemin işidir: halkaların arasındaki boşluk bir \"yoğunluk vadisi\"dir, DBSCAN oraya küme sınırı koyar.\n\n## Kofenetik korelasyon: ağaç veriyi ne kadar temsil ediyor?\n\nDendrogram, orijinal uzaklıkların bir özetidir. [Kofenetik korelasyon](term:kofenetik-korelasyon), her çift için \"orijinal uzaklık\" ile \"ağaçta ilk kez aynı düğümde buluştukları yükseklik\" arasındaki Pearson korelasyonudur. 1'e yakınsa ağaç, ikili uzaklık yapısını iyi koruyor; düşükse ($< 0.6$) bağlantı kuralı veriye uymuyor. Kod çıktısında hilallerde tek bağlantı 0.570, tam/ortalama 0.744: ağaç olarak **daha sadık** olan tam bağlantı, kümeleme olarak **daha kötü**. İkisi farklı sorular; kofenetik korelasyonu tek başına küme kalitesi sanma.\n\n## Kesim noktası\n\nİki yol var: (a) $k$ ver, ağacı $k$ dalda kes; (b) bir yükseklik (uzaklık) eşiği ver, onun altında kalan tüm birleşmeleri kabul et. İkincisi DBSCAN'in $\\varepsilon$'ına benzer: aynı eşiğin altındaki her şey aynı kümede. Gerçek işte sık kullanılan yöntem: dendrogramdaki **en uzun dikey çizgi** (merge height'lar arasındaki en büyük sıçrama) doğal kesim noktasıdır; çünkü orada \"birleştirmek\" pahalı hale gelir, yani kümeler arasında boşluk vardır.\n\n## Tuzaklar\n\n- **Ölçeklemeden** hiyerarşik kümeleme yapmak, DBSCAN'dekiyle aynı hatadır; tek fark sessiz olması.\n- Tek bağlantının zincirlemesini \"ilginç bir büyük küme\" sanmak. Zincir varsa `min_cluster_size` ile HDBSCAN'e geç.\n- Dendrogramı yorumlarken yaprak sayısını küme sayısı sanmak; yaprak = nokta.\n- Ward'ı Öklid dışı uzaklıkla (kosinüs, Jaccard) kullanmaya çalışmak: tanım gereği çalışmaz. Metin/seyrek veride ortalama bağlantı + kosinüs daha doğru."
+         "md": "# Hiyerarşi: tek bir kesim değil, tüm kesimler (devam)\n\n- **Tek bağlantı** her iki kümenin *en yakın* üyelerine bakar. Uzun, kıvrık, birbirine paralel şekilleri yakalar (hilaller: ARI 1.000). Zaafı **zincirleme** (chaining): iki ayrı kümeyi birbirine bağlayan tek bir gürültü noktası hepsini tek küme yapar.\n- **Tam bağlantı** en uzak üyeye bakar; kompakt, benzer çaplı kümeler ister. Hilalde başarısız (0.689), gürültüye karşı dayanıklı.\n- **Ortalama bağlantı** ikisinin arası; gürültüye tam bağlantıdan duyarlı, tek bağlantıdan dayanıklı.\n- **Ward** yalnız Öklid uzaklığıyla ve varyans mantığıyla çalışır; iç içe halkalarda (concentric circles) tam/ortalama gibi çöker (ARI ≈ 0).\n\nİç içe halkalarda **tek bağlantı** ayırır (kodda ARI 1.000); tam/ortalama bağlantı ve Ward çöker (0.012, −0.001, −0.001), çünkü küme merkezleri ve ortalama uzaklıklar iç içeliği temsil edemez. Halkalar arasındaki boşluk bir \"yoğunluk vadisi\"dir; DBSCAN oraya küme sınırı koyar.\n\n## Kofenetik korelasyon: ağaç veriyi ne kadar temsil ediyor?\n\nDendrogram, orijinal uzaklıkların bir özetidir. [Kofenetik korelasyon](term:kofenetik-korelasyon), her çift için \"orijinal uzaklık\" ile \"ağaçta ilk kez aynı düğümde buluştukları yükseklik\" arasındaki Pearson korelasyonudur. 1'e yakınsa ağaç, ikili uzaklık yapısını iyi koruyor; düşükse ($< 0.6$) bağlantı kuralı veriye uymuyor. Kod çıktısında hilallerde tek bağlantı 0.570, tam/ortalama 0.744: ağaç olarak **daha sadık** olan tam bağlantı, kümeleme olarak **daha kötü**. İkisi farklı sorular; kofenetik korelasyonu tek başına küme kalitesi sanma.\n\n## Kesim noktası\n\nİki yol var: (a) $k$ ver, ağacı $k$ dalda kes; (b) bir yükseklik (uzaklık) eşiği ver, onun altında kalan tüm birleşmeleri kabul et. İkincisi DBSCAN'in $\\varepsilon$'ına benzer: aynı eşiğin altındaki her şey aynı kümede. Gerçek işte sık kullanılan yöntem: dendrogramdaki **en uzun dikey çizgi** (merge height'lar arasındaki en büyük sıçrama) doğal kesim noktasıdır; çünkü orada \"birleştirmek\" pahalı hale gelir, yani kümeler arasında boşluk vardır.\n\n## Tuzaklar\n\n- **Ölçeklemeden** hiyerarşik kümeleme yapmak, DBSCAN'dekiyle aynı hatadır; tek fark sessiz olması.\n- Tek bağlantının zincirlemesini \"ilginç bir büyük küme\" sanmak. Zincir varsa `min_cluster_size` ile HDBSCAN'e geç.\n- Dendrogramı yorumlarken yaprak sayısını küme sayısı sanmak; yaprak = nokta.\n- Ward'ı Öklid dışı uzaklıkla (kosinüs, Jaccard) kullanmaya çalışmak: tanım gereği çalışmaz. Metin/seyrek veride ortalama bağlantı + kosinüs daha doğru."
         },
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p4",
@@ -12616,7 +12647,7 @@
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p5",
          "kind": "text",
-         "md": "# Pratik: Digits'te yoğunluk ve hiyerarşi\n\n**Görev.** `load_digits` (1.797 görüntü × 64 piksel, kurulumla gelir) verisinde üç yöntemi aynı ön işlemeyle karşılaştır.\n\n1. `StandardScaler` → `PCA(n_components=10)` uygula. (64 boyutta yoğunluk anlamsızlaşır; boyut azaltma dersindeki gerekçe burada da geçerli.)\n2. DBSCAN: `min_samples=10` sabit, $\\varepsilon \\in \\{1.0, 1.5, 2.0, 2.5, 3.0\\}$. Her değer için küme sayısı, gürültü sayısı ve gerçek rakam etiketlerine karşı [ARI](term:ari) (`adjusted_rand_score`) yazdır.\n3. HDBSCAN: `min_cluster_size=30`. Aynı üç sayı.\n4. Hiyerarşik kümeleme: `n_clusters=10`, üç bağlantı kuralı (`ward`, `average`, `single`). ARI ve `silhouette_score`.\n5. Bir tablo yap: yöntem, küme sayısı, gürültü %, ARI, siluet. Sonra iki soruyu cevapla: (a) hangi $\\varepsilon$ değeri \"anlamlı\" görünüyor ve bunu yalnız gürültü oranına bakarak söyleyebilir misin? (b) DBSCAN'in bulduğu kümeler rakamlarla hizalı mı, yoksa yazı stiline mi (eğik/ince) göre ayrışıyor?\n\n**Beklenen sonuç.** Bizim koşumuzda: $\\varepsilon=1.0$ → 4 küme, 1.722 gürültü, ARI 0.003; $\\varepsilon=1.5$ → 10 küme, 587 gürültü, ARI 0.378; $\\varepsilon=2.0$ ve üstü → tek küme, ARI 0.000. HDBSCAN → 6 küme, 1.179 gürültü, ARI 0.076. Hiyerarşikte Ward (k=10) ARI 0.657 / siluet 0.199, ortalama 0.505 / 0.133, tek bağlantı 0.000 / −0.229. Yani 10 sınıflı bu veride en iyi ARI bile 0.66: **kümeleme sınıflandırma değildir**, rakam etiketleri kümelerle birebir örtüşmez.\n\n**İpucu.** DBSCAN'in ürettiği 10 kümenin boyut dağılımına bak (`np.bincount`): bir küme 500+, diğerleri 20-50 kişiyse \"küme\" dediğin şey aslında bir yoğunluk artığıdır. Gürültü oranını da raporla; %33 gürültü çoğu iş probleminde kabul edilemez ve parametrenin veriye değil, ölçeğe göre seçildiğini gösterir.\n\n**Ek pratik.** scikit-learn'ün tüm yöntemleri aynı oyuncak veride karşılaştıran \"Comparing different clustering algorithms on toy datasets\" örneğini çalıştır ve DBSCAN satırını kendi parametrelerinle boz: https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html . HDBSCAN dokümanındaki `min_cluster_size` / `min_samples` etkileşimini oku: https://scikit-learn.org/stable/modules/clustering.html#hdbscan\n"
+         "md": "# Pratik: Digits'te yoğunluk ve hiyerarşi\n\n**Görev.** `load_digits` (1.797 görüntü × 64 piksel, kurulumla gelir) verisinde üç yöntemi aynı ön işlemeyle karşılaştır.\n\n1. `PCA(n_components=10)` → `StandardScaler` uygula. (64 boyutta yoğunluk anlamsızlaşır; boyut azaltma dersindeki gerekçe burada da geçerli. Sıra önemli: digits pikselleri zaten aynı ölçekte (0-16), önce boyutu indir; PCA bileşenlerinin varyansı sırayla azaldığı için ölçeklemeyi sonra yap ki $\\varepsilon$ her bileşende aynı anlama gelsin.)\n2. DBSCAN: `min_samples=10` sabit, $\\varepsilon \\in \\{1.0, 1.5, 2.0, 2.5, 3.0\\}$. Her değer için küme sayısı, gürültü sayısı ve gerçek rakam etiketlerine karşı [ARI](term:ari) (`adjusted_rand_score`) yazdır.\n3. HDBSCAN: `min_cluster_size=30`. Aynı üç sayı.\n4. Hiyerarşik kümeleme: `n_clusters=10`, üç bağlantı kuralı (`ward`, `average`, `single`). ARI ve `silhouette_score`.\n5. Bir tablo yap: yöntem, küme sayısı, gürültü %, ARI, siluet. Sonra iki soruyu cevapla: (a) hangi $\\varepsilon$ değeri \"anlamlı\" görünüyor ve bunu yalnız gürültü oranına bakarak söyleyebilir misin? (b) DBSCAN'in bulduğu kümeler rakamlarla hizalı mı, yoksa yazı stiline mi (eğik/ince) göre ayrışıyor?\n\n**Beklenen sonuç.** Bizim koşumuzda: $\\varepsilon=1.0$ → 4 küme, 1.722 gürültü, ARI 0.003; $\\varepsilon=1.5$ → 10 küme, 587 gürültü, ARI 0.378; $\\varepsilon=2.0$ ve üstü → tek küme, ARI 0.000. HDBSCAN → 6 küme, 1.179 gürültü, ARI 0.076. Hiyerarşikte Ward (k=10) ARI 0.657 / siluet 0.199, ortalama 0.505 / 0.133, tek bağlantı 0.000 / −0.229. Yani 10 sınıflı bu veride en iyi ARI bile 0.66: **kümeleme sınıflandırma değildir**, rakam etiketleri kümelerle birebir örtüşmez.\n\n**İpucu.** DBSCAN'in ürettiği 10 kümenin boyut dağılımına bak (`np.bincount`): bir küme 500+, diğerleri 20-50 kişiyse \"küme\" dediğin şey aslında bir yoğunluk artığıdır. Gürültü oranını da raporla; %33 gürültü çoğu iş probleminde kabul edilemez ve parametrenin veriye değil, ölçeğe göre seçildiğini gösterir.\n\n**Ek pratik.** scikit-learn'ün tüm yöntemleri aynı oyuncak veride karşılaştıran \"Comparing different clustering algorithms on toy datasets\" örneğini çalıştır ve DBSCAN satırını kendi parametrelerinle boz: https://scikit-learn.org/stable/auto_examples/cluster/plot_cluster_comparison.html . HDBSCAN dokümanındaki `min_cluster_size` / `min_samples` etkileşimini oku: https://scikit-learn.org/stable/modules/clustering.html#hdbscan\n"
         },
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p6",
@@ -12634,7 +12665,7 @@
          "id": "f1-u4-l4-dbscan-hiyerarsik-p8",
          "kind": "check",
          "md": "Üretimde her gün yeni kullanıcıları mevcut segmentlere ataman gerekiyor. DBSCAN, hiyerarşik kümeleme ve HDBSCAN'den hangisi doğrudan uygun, hangisi değil? Neden?",
-         "answer": "DBSCAN ve hiyerarşik kümeleme yeni noktaya doğrudan atama yapamaz: ikisi de veriyi etiketleyen bir prosedür, `predict` yok. Pratik çözüm: her yeni noktayı en yakın çekirdek noktaya/mesafe eşiğine göre ata (kendi kuralını yaz) veya toplu yeniden kümele. HDBSCAN `approximate_predict` ile yaklaşık atama sunar; yine de segment tanımı veriyle birlikte kayar, sürümle ve izle."
+         "answer": "DBSCAN ve hiyerarşik kümeleme yeni noktaya doğrudan atama yapamaz: ikisi de veriyi etiketleyen bir prosedür, `predict` yok. Pratik çözüm: her yeni noktayı en yakın çekirdek noktaya/mesafe eşiğine göre ata (kendi kuralını yaz) veya toplu yeniden kümele. Yaklaşık atama yalnız scikit-learn-contrib `hdbscan` paketindeki `approximate_predict` ile vardır; `sklearn.cluster.HDBSCAN` yeni noktaya atama yapmaz. Yine de segment tanımı veriyle birlikte kayar, sürümle ve izle."
         },
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-q1",
@@ -12680,7 +12711,7 @@
         {
          "id": "f1-u4-l4-dbscan-hiyerarsik-p9",
          "kind": "summary",
-         "md": "- DBSCAN kümeyi yoğunluk olarak tanımlar: $\\varepsilon$ komşuluğunda en az `min_samples` nokta varsa çekirdek. Çekirdekler zincirlenirse küme, zincire katılmayan gürültüdür.\n- İki parametre iki yönlü çalışır: $\\varepsilon$ büyürse eşik gevşer ve kümeler birleşir; `min_samples` büyürse seyrek kümeler gürültüye düşer. Ölçekleme zorunlu; maliyet $O(n^2)$ (bellek de).\n- DBSCAN tek yoğunluk varsayar ve yeni noktaya atama yapamaz. HDBSCAN $\\varepsilon$ yerine `min_cluster_size` ile kararlılık seçer, değişken yoğunluğu ve yaklaşık atamayı destekler.\n- Hiyerarşik kümeleme dendrogram üretir; $k$ veya yükseklik eşiğiyle kesilir. Bağlantı kuralı şekil varsayımıdır: tek = uzun/kıvrık (zincirlemeye açık), tam = kompakt, ortalama = orta, Ward = küresel ve eşit boyut.\n- Kofenetik korelasyon ağacın uzaklıkları ne kadar koruduğunu ölçer; yüksek olması küme kalitesini garanti etmez.\n- Küme sayısını yalnız metriğe bırakma: gürültü oranı, küme boyut dağılımı ve iş anlamı birlikte karar verir. Kümeleme etiketleri (rakam, segment) yeniden üretmez.\n\n**Bu derse eşlik eden**\n- Oku: scikit-learn User Guide 2.3.7 \"DBSCAN\" ve 2.3.8 \"HDBSCAN\" (çekirdek/sınır/gürültü tanımları, `min_samples` etkisi, bellek notları) — https://scikit-learn.org/stable/modules/clustering.html#dbscan ve https://scikit-learn.org/stable/modules/clustering.html#hdbscan (~25 dk)\n- Oku: scikit-learn User Guide 2.3.9 \"Hierarchical clustering\" (linkage tanımları, `connectivity`, mesafe matrisi uyarısı) — https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering (~20 dk)\n- Oku: Ester, Kriegel, Sander, Xu, \"A Density-Based Algorithm for Discovering Clusters in the Presence of Noise\", KDD 1996, bölüm 2-3 (algoritmanın tanımları ve karmaşıklık analizi) — https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf (~35 dk)\n- İncele: scikit-learn \"Comparing different linkage methods on a 2D point set\" örneği — https://scikit-learn.org/stable/auto_examples/cluster/plot_linkage_comparison.html (~15 dk)\n\n**Derinleşmek için**\n- Campello, Moulavi, Sander, \"Density-Based Clustering Based on Hierarchical Density Estimates\", PAKDD 2013 (HDBSCAN'in orijinal makalesi: kararlılık seçimi ve `min_cluster_size`).\n- Schubert, Sander, Ester, Kriegel, Xu, \"DBSCAN Revisited, Revisited: Why and How You Should (Still) Use DBSCAN\", ACM TODS 2017 (parametre sezgisi ve yaygın yanlış kullanımlar).\n- ISLP Bölüm 12.4.2 \"Hierarchical Clustering\" (dendrogram ve kesim yorumu) — https://www.statlearning.com/\n\n**Süre:** ~160 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~140 dk"
+         "md": "- DBSCAN kümeyi yoğunluk olarak tanımlar: $\\varepsilon$ komşuluğunda en az `min_samples` nokta varsa çekirdek. Çekirdekler zincirlenirse küme, zincire katılmayan gürültüdür.\n- İki parametre iki yönlü çalışır: $\\varepsilon$ büyürse eşik gevşer ve kümeler birleşir; `min_samples` büyürse seyrek kümeler gürültüye düşer. Ölçekleme zorunlu; maliyet $O(n^2)$ (bellek de).\n- DBSCAN tek yoğunluk varsayar ve yeni noktaya atama yapamaz. HDBSCAN $\\varepsilon$ yerine `min_cluster_size` ile kararlılık seçer ve değişken yoğunluğu destekler; yaklaşık atama yalnız contrib `hdbscan` paketinde (`approximate_predict`) vardır, `sklearn.cluster.HDBSCAN` yeni noktaya atama yapmaz.\n- Hiyerarşik kümeleme dendrogram üretir; $k$ veya yükseklik eşiğiyle kesilir. Bağlantı kuralı şekil varsayımıdır: tek = uzun/kıvrık (zincirlemeye açık), tam = kompakt, ortalama = orta, Ward = küresel ve eşit boyut.\n- Kofenetik korelasyon ağacın uzaklıkları ne kadar koruduğunu ölçer; yüksek olması küme kalitesini garanti etmez.\n- Küme sayısını yalnız metriğe bırakma: gürültü oranı, küme boyut dağılımı ve iş anlamı birlikte karar verir. Kümeleme etiketleri (rakam, segment) yeniden üretmez.\n\n**Bu derse eşlik eden**\n- Oku: scikit-learn User Guide 2.3.7 \"DBSCAN\" ve 2.3.8 \"HDBSCAN\" (çekirdek/sınır/gürültü tanımları, `min_samples` etkisi, bellek notları) — https://scikit-learn.org/stable/modules/clustering.html#dbscan ve https://scikit-learn.org/stable/modules/clustering.html#hdbscan (~25 dk)\n- Oku: scikit-learn User Guide 2.3.6 \"Hierarchical clustering\" (linkage tanımları, `connectivity`, mesafe matrisi uyarısı) — https://scikit-learn.org/stable/modules/clustering.html#hierarchical-clustering (~20 dk)\n- Oku: Ester, Kriegel, Sander, Xu, \"A Density-Based Algorithm for Discovering Clusters in the Presence of Noise\", KDD 1996, bölüm 2-3 (algoritmanın tanımları ve karmaşıklık analizi) — https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf (~35 dk)\n- İncele: scikit-learn \"Comparing different linkage methods on a 2D point set\" örneği — https://scikit-learn.org/stable/auto_examples/cluster/plot_linkage_comparison.html (~15 dk)\n\n**Derinleşmek için**\n- Campello, Moulavi, Sander, \"Density-Based Clustering Based on Hierarchical Density Estimates\", PAKDD 2013 (HDBSCAN'in orijinal makalesi: kararlılık seçimi ve `min_cluster_size`).\n- Schubert, Sander, Ester, Kriegel, Xu, \"DBSCAN Revisited, Revisited: Why and How You Should (Still) Use DBSCAN\", ACM TODS 2017 (parametre sezgisi ve yaygın yanlış kullanımlar).\n- ISLP Bölüm 12.4.2 \"Hierarchical Clustering\" (dendrogram ve kesim yorumu) — https://www.statlearning.com/\n\n**Süre:** ~160 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~140 dk"
         }
        ]
       },
@@ -12722,7 +12753,7 @@
         {
          "id": "f1-u4-l5-anomali-tespiti-p6",
          "kind": "text",
-         "md": "# Pratik: sensör verisinde iki yöntem, bir alarm bütçesi\n\n**Görev.** Bir üretim hattında 12 sensörden saniyede bir ölçüm alıyorsun; bakım ekibi günde **30** alarmı inceleyebiliyor. Etiketli arıza kaydı yalnız son 3 ayda 40 vaka içeriyor.\n\n1. **Veri.** Sentetik kur: 20.000 normal ölçüm (`make_blobs`, 12 boyut, 2 mod), üstüne %0,5 enjekte edilmiş aykırı (değerleri 3-5 katına çıkar, bazı satırlarda iki sensörü aynı anda boz). Ayrıca \"kolektif\" bir vaka ekle: 60 ardışık satırda bir sensörün ortalaması kayan bir kayma.\n2. **Ön işleme.** Sensör bazında `StandardScaler` fit et (yalnız eğitim verisinde). Ölçek farklarını raporla.\n3. **İki model.** `IsolationForest(n_estimators=200)` ve `LocalOutlierFactor(n_neighbors=20, novelty=True)`. İkisini de yalnız \"normal\" saydığın satırlarla eğit.\n4. **Eşik.** Her model için skoru, günde 30 alarm = 20.000 satırda %0,15 dilim olacak şekilde kes. Enjekte edilmiş aykırıları yakalama oranını (recall) ve kesinliği (precision) hesapla.\n5. **Bütçe eğrisi.** Eşiği %0,05'ten %1'e kaydırıp yakalama oranını çiz (metin tablosu yeter). \"Bütçeyi iki katına çıkarırsam ne kazanırım?\" sorusuna sayıyla cevap ver.\n6. **Kolektif vaka.** 60 satırlık kaymayı iki model yakalıyor mu? Yakalamıyorsa hangi özelliği eklersin (ör. 10 adımlık hareketli ortalama farkı)?\n7. **Karar notu.** 5 satır: hangi model, hangi eşik, hangi ölçümle izlenecek, hangi durumda yeniden eğitilecek.\n\n**Beklenen sonuç.** Enjekte edilmiş **nokta** aykırılarında iki yöntem de %0,15 bütçede recall ~0.6-0.8 verir; LOF sıkı aykırı demetlerini kaçırmaya başlar (aynı bota ait hesaplar gibi). 60 satırlık **kolektif** kaymayı ikisi de yakalamaz ya da yalnız birkaç satırını yakalar: bu, yöntemin değil özelliğin eksikliğidir. Eşiği bütçeden türettiğinde precision ~0.5-0.7 çıkar; yani alarmların yarısı yanlış. Bu normaldir ve iş kararının parçasıdır (30 alarmın 15'i boşa gidiyor mu, yoksa 15 gerçek arıza kurtarılıyor mu?).\n\n**İpucu.** Precision'ı yalnız enjekte ettiğin aykırılara göre hesaplarsan yanılırsın: gerçek veride, enjekte etmediğin doğal aykırılar da vardır ve \"yanlış alarm\" sandıklarının bir kısmı gerçekten ilginçtir. En az 50 alarmı elle inceleyip \"gerçekten ilginç mi?\" diye etiketle; bu, modelden bağımsız tek dürüst ölçümdür.\n\n**Ek pratik.** scikit-learn'ün `IsolationForest` ve `LocalOutlierFactor` örneklerini kendi verinle çalıştır; `contamination='auto'` ile sabit bir değerin eşiği nasıl kaydırdığını yan yana gör: https://scikit-learn.org/stable/modules/outlier_detection.html . Zaman varsa PyOD kütüphanesinde aynı iki yöntemi `fit_predict` ile dene ve skorların korelasyonuna bak.\n"
+         "md": "# Pratik: sensör verisinde iki yöntem, bir alarm bütçesi\n\n**Görev.** Bir üretim hattında 12 sensörden saniyede bir ölçüm alıyorsun; bakım ekibi günde **30** alarmı inceleyebiliyor. Etiketli arıza kaydı yalnız son 3 ayda 40 vaka içeriyor.\n\n1. **Veri.** Sentetik kur: 20.000 normal ölçüm (`make_blobs`, 12 boyut, 2 mod), üstüne %0,5 enjekte edilmiş aykırı (değerleri 3-5 katına çıkar, bazı satırlarda iki sensörü aynı anda boz). Ayrıca \"kolektif\" bir vaka ekle: 60 ardışık satırda bir sensörün ortalaması kayan bir kayma.\n2. **Ön işleme.** Sensör bazında `StandardScaler` fit et (yalnız eğitim verisinde). Ölçek farklarını raporla.\n3. **İki model.** `IsolationForest(n_estimators=200)` ve `LocalOutlierFactor(n_neighbors=20, novelty=True)`. İkisini de yalnız \"normal\" saydığın satırlarla eğit.\n4. **Eşik.** Her model için skoru, günde 30 alarm = 20.000 satırda %0,15 dilim olacak şekilde kes. Enjekte edilmiş aykırıları yakalama oranını (recall) ve kesinliği (precision) hesapla.\n5. **Bütçe eğrisi.** Eşiği %0,05'ten %1'e kaydırıp yakalama oranını çiz (metin tablosu yeter). \"Bütçeyi iki katına çıkarırsam ne kazanırım?\" sorusuna sayıyla cevap ver.\n6. **Kolektif vaka.** 60 satırlık kaymayı iki model yakalıyor mu? Yakalamıyorsa hangi özelliği eklersin (ör. 10 adımlık hareketli ortalama farkı)?\n7. **Karar notu.** 5 satır: hangi model, hangi eşik, hangi ölçümle izlenecek, hangi durumda yeniden eğitilecek.\n\n**Beklenen sonuç.** 20.000 satırın %0,5'i = 100 enjekte aykırı; %0,15 bütçe = 30 alarm. Aynı satırlar için recall üst sınırı $30/100 = 0.30$'dur, yani %0,15 bütçede 0.6-0.8 recall **imkânsızdır**. Bu bütçede precision ~0.5-0.7 ise 15-21 gerçek aykırı yakalanır: recall ~0.15-0.21, alarmların yarısı yanlış. 100 aykırının ~%70'ini görmek için ~140 alarm bütçesi gerekir (70 TP + ~70 yanlış alarm). LOF sıkı aykırı demetlerini kaçırmaya başlar (aynı bota ait hesaplar gibi). 60 satırlık **kolektif** kaymayı ikisi de yakalamaz ya da yalnız birkaç satırını yakalar: bu, yöntemin değil özelliğin eksikliğidir. Bu normaldir ve iş kararının parçasıdır (30 alarmın 15'i boşa gidiyor mu, yoksa 15 gerçek arıza kurtarılıyor mu?).\n\n**İpucu.** Precision'ı yalnız enjekte ettiğin aykırılara göre hesaplarsan yanılırsın: gerçek veride, enjekte etmediğin doğal aykırılar da vardır ve \"yanlış alarm\" sandıklarının bir kısmı gerçekten ilginçtir. En az 50 alarmı elle inceleyip \"gerçekten ilginç mi?\" diye etiketle; bu, modelden bağımsız tek dürüst ölçümdür.\n\n**Ek pratik.** scikit-learn'ün `IsolationForest` ve `LocalOutlierFactor` örneklerini kendi verinle çalıştır; `contamination='auto'` ile sabit bir değerin eşiği nasıl kaydırdığını yan yana gör: https://scikit-learn.org/stable/modules/outlier_detection.html . Zaman varsa PyOD kütüphanesinde aynı iki yöntemi `fit_predict` ile dene ve skorların korelasyonuna bak.\n"
         },
         {
          "id": "f1-u4-l5-anomali-tespiti-p7",
@@ -12779,8 +12810,8 @@
           "0,71",
           ".71",
           ",71",
-          "0.7128",
-          "0,7128",
+          "0.7129",
+          "0,7129",
           "0.713",
           "0,713"
          ],
@@ -12789,7 +12820,7 @@
         {
          "id": "f1-u4-l5-anomali-tespiti-p10",
          "kind": "summary",
-         "md": "- Anomali tespiti genelde gözetimsizdir: normalin istatistiğini öğren, sapanı skorla. Skor ile karar (eşik) ayrı adımlardır; eşik iş kapasitesinden türetilir.\n- LOF yerel yoğunluğa bakar: $\\text{reach} = \\max(\\text{k-dist}(o), d(p,o))$, $\\text{lrd} = 1/\\overline{\\text{reach}}$, $\\text{LOF} = \\overline{\\text{lrd}(o)/\\text{lrd}(p)}$. 1 civarı normal, >1 seyrek. Aynı uzaklık yoğun bölgede aykırı, seyrek bölgede normaldir.\n- LOF sınırları: sıkı aykırı kümesini kaçırır, tek k ile değişken yoğunluğu çözemez, $O(n^2)$ komşuluk ister.\n- Isolation Forest rastgele kesmelerle izole etme uzunluğunu ölçer: $s(x,n) = 2^{-\\mathbb{E}[h(x)]/c(n)}$, $c(n) = 2H(n-1) - 2(n-1)/n$. Az kesme = aykırı; eşik $s > 0.5$.\n- `max_samples` (256) hem hızı hem kümelenme etkisine (masking) karşı dayanıklılığı sağlar; `n_estimators` skor oynaklığını düşürür (10 → std 0.017, 200 → 0.001).\n- `contamination` yalnız eşiği değiştirir; AUC/sıralama sabit kalır.\n- Değerlendirme: kısmi etiket (yanlı), enjekte edilmiş bozulma (regresyon testi), iş metriği. Eşik başına precision/recall ve alarm hacmi raporla; kalibrasyon iddiasında bulunma.\n\n**Bu derse eşlik eden**\n- Oku: scikit-learn User Guide 2.7 \"Novelty and Outlier Detection\" — 2.7.1 (tek sınıflı kurulum ve `contamination` tanımı), 2.7.3 LOF, 2.7.4 Isolation Forest: https://scikit-learn.org/stable/modules/outlier_detection.html (~30 dk)\n- Oku: Breunig, Kriegel, Ng, Sander, \"LOF: Identifying Density-Based Local Outliers\", SIGMOD 2000, bölüm 2-3 (tanımlar ve lrd türetimi) — https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf (~40 dk)\n- Oku: Liu, Ting, Zhou, \"Isolation Forest\", ICDM 2008, bölüm 2-3 (izolasyon ağacı, $c(n)$ normalizasyonu, örnekleme argümanı) — https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf (~40 dk)\n- İncele: scikit-learn `IsolationForest` API sayfası (`max_samples`, `contamination`, `score_samples` işaretleri) — https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html (~10 dk)\n\n**Derinleşmek için**\n- Chandola, Banerjee, Kumar, \"Anomaly Detection: A Survey\", ACM Computing Surveys 2009 (anomali türleri ve değerlendirme bölümleri).\n- Goldstein & Uchida, \"A Comparative Evaluation of Unsupervised Anomaly Detection Algorithms for Multivariate Data\", PLoS ONE 2016 (LOF/IForest dahil 19 yöntemin karşılaştırması).\n- HDBSCAN dokümanındaki `outlier_scores_` bölümü: kümeleme ile anomali skorunu aynı modelden alma — https://scikit-learn.org/stable/modules/clustering.html#hdbscan\n\n**Süre:** ~170 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~150 dk"
+         "md": "- Anomali tespiti genelde gözetimsizdir: normalin istatistiğini öğren, sapanı skorla. Skor ile karar (eşik) ayrı adımlardır; eşik iş kapasitesinden türetilir.\n- LOF yerel yoğunluğa bakar: $\\text{reach} = \\max(\\text{k-dist}(o), d(p,o))$, $\\text{lrd} = 1/\\overline{\\text{reach}}$, $\\text{LOF} = \\overline{\\text{lrd}(o)/\\text{lrd}(p)}$. 1 civarı normal, >1 seyrek. Aynı uzaklık yoğun bölgede aykırı, seyrek bölgede normaldir.\n- LOF sınırları: sıkı aykırı kümesini kaçırır, tek k ile değişken yoğunluğu çözemez, $O(n^2)$ komşuluk ister.\n- Isolation Forest rastgele kesmelerle izole etme uzunluğunu ölçer: $s(x,n) = 2^{-\\mathbb{E}[h(x)]/c(n)}$, $c(n) = 2H(n-1) - 2(n-1)/n$. Az kesme = aykırı; eşik $s > 0.5$.\n- `max_samples` (256) hem hızı hem kümelenme etkisine (masking) karşı dayanıklılığı sağlar; `n_estimators` skor oynaklığını düşürür (10 → std 0.017, 200 → 0.001).\n- `contamination` yalnız eşiği değiştirir; AUC/sıralama sabit kalır.\n- Değerlendirme: kısmi etiket (yanlı), enjekte edilmiş bozulma (regresyon testi), iş metriği. Eşik başına precision/recall ve alarm hacmi raporla; kalibrasyon iddiasında bulunma.\n\n**Bu derse eşlik eden**\n- Oku: scikit-learn User Guide 2.7 \"Novelty and Outlier Detection\" — 2.7.1 (genel bakış ve `contamination`), 2.7.2 (tek sınıflı/novelty kurulum), 2.7.3.2 Isolation Forest, 2.7.3.3 LOF: https://scikit-learn.org/stable/modules/outlier_detection.html (~30 dk)\n- Oku: Breunig, Kriegel, Ng, Sander, \"LOF: Identifying Density-Based Local Outliers\", SIGMOD 2000, bölüm 2-3 (tanımlar ve lrd türetimi) — https://www.dbs.ifi.lmu.de/Publikationen/Papers/LOF.pdf (~40 dk)\n- Oku: Liu, Ting, Zhou, \"Isolation Forest\", ICDM 2008, bölüm 2-3 (izolasyon ağacı, $c(n)$ normalizasyonu, örnekleme argümanı) — https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf (~40 dk)\n- İncele: scikit-learn `IsolationForest` API sayfası (`max_samples`, `contamination`, `score_samples` işaretleri) — https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.IsolationForest.html (~10 dk)\n\n**Derinleşmek için**\n- Chandola, Banerjee, Kumar, \"Anomaly Detection: A Survey\", ACM Computing Surveys 2009 (anomali türleri ve değerlendirme bölümleri).\n- Goldstein & Uchida, \"A Comparative Evaluation of Unsupervised Anomaly Detection Algorithms for Multivariate Data\", PLoS ONE 2016 (LOF/IForest dahil 19 yöntemin karşılaştırması).\n- hdbscan (scikit-learn-contrib) API sayfasındaki `outlier_scores_`: kümeleme ile anomali skorunu aynı modelden alma — https://hdbscan.readthedocs.io/en/latest/api.html (`sklearn.cluster.HDBSCAN` bu skoru sunmaz)\n\n**Süre:** ~170 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~150 dk"
         }
        ]
       }
@@ -13645,7 +13676,7 @@
         {
          "id": "f1-u5-l6-aciklanabilirlik-p6",
          "kind": "text",
-         "md": "# Pratik: model kartına açıklama bölümü yaz\n\n**Görev.** F1'deki Titanic/Adult çalışmandan birini seç (Adult: `fetch_openml(data_id=1590, as_frame=True)`; gelir >50K). Model: `HistGradientBoostingClassifier`. Açıklamayı **ölçülebilir** biçimde üret.\n\n1. **Global önem.** Test setinde permütasyon önemi: `n_repeats=30`, metrik olarak ROC-AUC. Ortalama ± std tablosu. En üstteki 5 özelliği yaz; std'si farktan büyük olan satırları \"ayırt edilemiyor\" diye işaretle.\n2. **İlişkili grup.** `education-num` ile `education` aynı bilgiyi taşır; `marital-status` ile `relationship` da öyle. Bu çiftleri **birlikte** karıştırıp grup önemini ölç; tek tek önemlerle karşılaştır. Farkı bir cümleyle yaz.\n3. **PDP + ICE.** `age` ve `hours-per-week` için PDP çiz; aynı ızgarada ICE eğrilerinin % kaçının PDP eğimiyle aynı yönde olduğunu hesapla. Ters yön %20'nin üstündeyse PDP'yi \"genel eğilim\" diye etiketle, kesin kural gibi sunma.\n4. **Yerel açıklama.** Test setinden üç satır seç: (a) doğru ve emin, (b) doğru ama emin değil, (c) yanlış ve emin. Her biri için SHAP katkılarını yazdır. (c) için \"model neden yanıldı\" sorusuna bir cümlelik cevap ver.\n5. **Tutarlılık testi.** Aynı satır için SHAP katkılarının toplamı + base = tahmin eşitliğini doğrula (hata $<10^{-9}$ olmalı). Bunu bir birim testine çevir: model her yeniden eğitildiğinde çalışsın.\n6. **Karar notu.** Model kartına 8 satır yaz: üç global bulgu, iki yerel örnek, bir uyarı (\"bu açıklama nedensel değildir; `age` için PDP veri yoğun bölgesinde okunmalıdır\"), bir sınırlama (hangi dilimde açıklama güvenilmez), bir izleme planı.\n\n**Beklenen sonuç.** Adult'ta permütasyon önemi sıralaması tipik olarak `capital-gain`, `relationship`, `education-num`, `age`, `marital-status` çıkar; `capital-gain` için std çok büyüktür çünkü değerlerin %91'i sıfırdır ve permütasyon çoğu zaman hiçbir şeyi değiştirmez (seyrek özelliklerde önem gürültülüdür). `education` + `education-num` grubu tek tek toplamlarından büyük çıkar. `age` PDP'si 25-45 arası yükselen, sonra düzleşen bir eğri verir; ICE'lerin çoğu aynı yöndedir. Üç satırlık SHAP çıktısında yanlış-ve-emin örnek genellikle `capital-gain` düşük, `relationship=Not-in-family` olan bir satırdır.\n\n**İpucu.** SHAP yorumunu yazarken işareti unutma: pozitif katkı, pozitif sınıfın (gelir >50K) olasılığını **artıran** katkıdır. TreeSHAP'ta `shap_values` iki sınıf döndürebilir (`list` veya `(n, d, 2)` dizi); pozitif sınıfın indeksini doğrula, yoksa açıklamayı ters işaretle yazarsın — bu, en sık yapılan hata.\n\n**Ek pratik.** SHAP'in resmi \"An introduction to explainable AI with Shapley values\" defterini çalıştır ve bir özelliğin işaretini değiştirip açıklamanın nasıl değiştiğini gör: https://shap.readthedocs.io/en/latest/example_notebooks/overviews/An%20introduction%20to%20explainable%20AI%20with%20Shapley%20values.html . Kaggle'ın *Machine Learning Explainability* mikro dersi (permütasyon önemi, PDP, SHAP bölümleri, ~2 saat): https://www.kaggle.com/learn/machine-learning-explainability\n"
+         "md": "# Pratik: model kartına açıklama bölümü yaz\n\n**Görev.** F1'deki Titanic/Adult çalışmandan birini seç (Adult: `fetch_openml(data_id=1590, as_frame=True)`; gelir >50K). Model: `HistGradientBoostingClassifier`. Açıklamayı **ölçülebilir** biçimde üret.\n\n1. **Global önem.** Test setinde permütasyon önemi: `n_repeats=30`, metrik olarak ROC-AUC. Ortalama ± std tablosu. En üstteki 5 özelliği yaz; std'si farktan büyük olan satırları \"ayırt edilemiyor\" diye işaretle.\n2. **İlişkili grup.** `education-num` ile `education` aynı bilgiyi taşır; `marital-status` ile `relationship` da öyle. Bu çiftleri **birlikte** karıştırıp grup önemini ölç; tek tek önemlerle karşılaştır. Farkı bir cümleyle yaz.\n3. **PDP + ICE.** `age` ve `hours-per-week` için PDP çiz; aynı ızgarada ICE eğrilerinin % kaçının PDP eğimiyle aynı yönde olduğunu hesapla. Ters yön %20'nin üstündeyse PDP'yi \"genel eğilim\" diye etiketle, kesin kural gibi sunma.\n4. **Yerel açıklama.** Test setinden üç satır seç: (a) doğru ve emin, (b) doğru ama emin değil, (c) yanlış ve emin. Her biri için SHAP katkılarını yazdır. (c) için \"model neden yanıldı\" sorusuna bir cümlelik cevap ver.\n5. **Tutarlılık testi.** Aynı satır için SHAP katkılarının toplamı + base = tahmin eşitliğini doğrula (hata $<10^{-9}$ olmalı). Bunu bir birim testine çevir: model her yeniden eğitildiğinde çalışsın.\n6. **Karar notu.** Model kartına 8 satır yaz: üç global bulgu, iki yerel örnek, bir uyarı (\"bu açıklama nedensel değildir; `age` için PDP veri yoğun bölgesinde okunmalıdır\"), bir sınırlama (hangi dilimde açıklama güvenilmez), bir izleme planı.\n\n**Beklenen sonuç.** Adult'ta permütasyon önemi sıralaması tipik olarak `capital-gain` (≈0.06 ± 0.002), `age` (≈0.05 ± 0.002), `education-num` (≈0.03 ± 0.001) ve `marital-status` (≈0.08 ± 0.002; tek-sıcak kodlamada `marital-status_Married-civ-spouse`) ile başlar; tek bir \"doğru\" sıra yok, kodlama sıralamayı kaydırır. `capital-gain`'in değerlerinin %91'i sıfır olsa da std'si küçüktür (~0.002): seyrekliğin kendisi gürültü üretmez, sıfır olmayan %9'luk dilim modelin en güçlü sinyallerinden birini taşır. \"Ayırt edilemiyor\" işaretini std'si ortalamayla aynı mertebeye çıkan satırlara koy (bu veride önemli sütunlarda görülmez; nadir kategorilerde ortalama ve std birlikte ~0 olur). `education` + `education-num` grubu tek tek toplamlarından büyük çıkar. `age` PDP'si 25-45 arası yükselen, sonra düzleşen bir eğri verir; ICE'lerin çoğu aynı yöndedir. Üç satırlık SHAP çıktısında yanlış-ve-emin örnek genellikle `capital-gain` düşük, `relationship=Not-in-family` olan bir satırdır.\n\n**İpucu.** SHAP yorumunu yazarken işareti unutma: pozitif katkı, pozitif sınıfın (gelir >50K) olasılığını **artıran** katkıdır. TreeSHAP'ta `shap_values` iki sınıf döndürebilir (`list` veya `(n, d, 2)` dizi); pozitif sınıfın indeksini doğrula, yoksa açıklamayı ters işaretle yazarsın — bu, en sık yapılan hata.\n\n**Ek pratik.** SHAP'in resmi \"An introduction to explainable AI with Shapley values\" defterini çalıştır ve bir özelliğin işaretini değiştirip açıklamanın nasıl değiştiğini gör: https://shap.readthedocs.io/en/latest/example_notebooks/overviews/An%20introduction%20to%20explainable%20AI%20with%20Shapley%20values.html . Kaggle'ın *Machine Learning Explainability* mikro dersi (permütasyon önemi, PDP, SHAP bölümleri, ~2 saat): https://www.kaggle.com/learn/machine-learning-explainability\n"
         },
         {
          "id": "f1-u5-l6-aciklanabilirlik-p7",
@@ -13703,16 +13734,14 @@
           "0,175",
           "0.18",
           "0,18",
-          "7/40",
-          "0.17",
-          "0,17"
+          "7/40"
          ],
          "explain": "$\\phi_1$ için iki koalisyon var, ikisinin ağırlığı $1/2$: $\\tfrac12(0.20-0.10)+\\tfrac12(0.40-0.15)=0.05+0.125=0.175$. Toplanabilirlik kontrolü: $\\phi_2=0.125$, $\\phi_1+\\phi_2=0.30=v(\\{1,2\\})-v(\\varnothing)$."
         },
         {
          "id": "f1-u5-l6-aciklanabilirlik-p10",
          "kind": "summary",
-         "md": "- Açıklama üç soruya cevap verir: model neye bakıyor (global), bu karar neden çıktı (yerel), ilişki nasıl bir şekilde (PDP/ICE). Post-hoc araçlar model davranışını özetler; nedensellik kanıtı değildir.\n- Permütasyon önemi: $I_j = \\frac1R\\sum_r [L(y, f(X^{(j,r)})) - L(y, f(X))]$. Model-agnostik, her zaman görülmemiş veride, aynı metrikle, $\\pm$ std ile raporlanır.\n- İlişkili özelliklerde tek tek önem çöker: birebir kopya sütunda tek tek ≈ 0, grup önemi gerçek etkiyi verir (deneyde 848).\n- PDP: $\\hat f_j(x_j) = \\frac1n\\sum_i f(x_j, x_{i,\\setminus j})$; merkezlenmiş hali karşılaştırma için. İlişkili özelliklerde gerçek dışı kombinasyonlar üretir; veri yoğun olmayan bölgede okunmaz.\n- ICE her satırın eğrisini verir; eğriler kesişiyorsa ortalama (PDP) azınlığı gizler. Deneyde `mean texture` satırlarının %14'ü ters yönde.\n- SHAP: $\\phi_i$ koalisyonlar üzerinde ağırlıklı marjinal katkı; toplanabilirlik $f(x) = \\phi_0 + \\sum_i \\phi_i$ (deneyde hata $\\sim10^{-15}$). TreeSHAP ağaçlarda tam ve hızlı; arka plan dağılımı seçimi açıklamayı değiştirir.\n- Açıklamayı modelle birlikte sürümle, tutarlılık testini otomatikleştir; regülatör ve kullanıcı için \"doğru\" değil \"anlaşılır ve denetlenebilir\" açıklama hedefle.\n\n**Bu derse eşlik eden**\n- Oku: scikit-learn User Guide 4.2 \"Permutation feature importance\" (algoritma, `n_repeats`, ilişkili özellikler uyarısı, eğitim vs test verisi) — https://scikit-learn.org/stable/modules/permutation_importance.html (~25 dk)\n- Oku: scikit-learn User Guide 4.1 \"Partial dependence and individual conditional expectation\" (PDP/ICE tanımı, korelasyon uyarısı, hesaplama maliyeti) — https://scikit-learn.org/stable/modules/partial_dependence.html (~30 dk)\n- Oku: Molnar, *Interpretable Machine Learning*, 2. baskı — \"Permutation Feature Importance\", \"Partial Dependence Plot\", \"SHAP\" ve \"Limitations\" bölümleri — https://christophm.github.io/interpretable-ml-book/ (~2 saat)\n- İncele: SHAP 0.54 dokümanı, TreeExplainer ve toplanabilirlik — https://shap.readthedocs.io/en/latest/ (~30 dk)\n\n**Derinleşmek için**\n- Lundberg & Lee, \"A Unified Approach to Interpreting Model Predictions\", NeurIPS 2017 (Shapley aksiyomları ve SHAP çerçevesi) — https://arxiv.org/abs/1705.07874\n- Lundberg vd., \"From Local Explanations to Global Understanding with Explainable AI for Trees\", Nature Machine Intelligence 2020 (TreeSHAP'in tam algoritması ve etkileşim değerleri).\n- scikit-learn örneği, \"Permutation Importance vs Random Forest Feature Importance (MDI)\" (gürültülü özellikte MDI'nin neden yanıltıcı olduğu) — https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance.html\n\n**Süre:** ~175 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~155 dk"
+         "md": "- Açıklama üç soruya cevap verir: model neye bakıyor (global), bu karar neden çıktı (yerel), ilişki nasıl bir şekilde (PDP/ICE). Post-hoc araçlar model davranışını özetler; nedensellik kanıtı değildir.\n- Permütasyon önemi: $I_j = \\frac1R\\sum_r [L(y, f(X^{(j,r)})) - L(y, f(X))]$. Model-agnostik, her zaman görülmemiş veride, aynı metrikle, $\\pm$ std ile raporlanır.\n- İlişkili özelliklerde tek tek önem çöker: birebir kopya sütunda tek tek ≈ 0, grup önemi gerçek etkiyi verir (deneyde 848).\n- PDP: $\\hat f_j(x_j) = \\frac1n\\sum_i f(x_j, x_{i,\\setminus j})$; merkezlenmiş hali karşılaştırma için. İlişkili özelliklerde gerçek dışı kombinasyonlar üretir; veri yoğun olmayan bölgede okunmaz.\n- ICE her satırın eğrisini verir; eğriler kesişiyorsa ortalama (PDP) azınlığı gizler. Deneyde `mean texture` satırlarının %14'ü ters yönde.\n- SHAP: $\\phi_i$ koalisyonlar üzerinde ağırlıklı marjinal katkı; toplanabilirlik $f(x) = \\phi_0 + \\sum_i \\phi_i$ (deneyde hata $\\sim10^{-15}$). TreeSHAP ağaçlarda tam ve hızlı; arka plan dağılımı seçimi açıklamayı değiştirir.\n- Açıklamayı modelle birlikte sürümle, tutarlılık testini otomatikleştir; regülatör ve kullanıcı için \"doğru\" değil \"anlaşılır ve denetlenebilir\" açıklama hedefle.\n\n**Bu derse eşlik eden**\n- Oku: scikit-learn User Guide 5.2 \"Permutation feature importance\" (algoritma, `n_repeats`, ilişkili özellikler uyarısı, eğitim vs test verisi) — https://scikit-learn.org/stable/modules/permutation_importance.html (~25 dk)\n- Oku: scikit-learn User Guide 5.1 \"Partial dependence and individual conditional expectation\" (PDP/ICE tanımı, korelasyon uyarısı, hesaplama maliyeti) — https://scikit-learn.org/stable/modules/partial_dependence.html (~30 dk)\n- Oku: Molnar, *Interpretable Machine Learning*, 2. baskı — \"Permutation Feature Importance\", \"Partial Dependence Plot\", \"SHAP\" ve \"Limitations\" bölümleri — https://christophm.github.io/interpretable-ml-book/ (~2 saat)\n- İncele: SHAP 0.54 dokümanı, TreeExplainer ve toplanabilirlik — https://shap.readthedocs.io/en/latest/ (~30 dk)\n\n**Derinleşmek için**\n- Lundberg & Lee, \"A Unified Approach to Interpreting Model Predictions\", NeurIPS 2017 (Shapley aksiyomları ve SHAP çerçevesi) — https://arxiv.org/abs/1705.07874\n- Lundberg vd., \"From Local Explanations to Global Understanding with Explainable AI for Trees\", Nature Machine Intelligence 2020 (TreeSHAP'in tam algoritması ve etkileşim değerleri).\n- scikit-learn örneği, \"Permutation Importance vs Random Forest Feature Importance (MDI)\" (gürültülü özellikte MDI'nin neden yanıltıcı olduğu) — https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance.html\n\n**Süre:** ~175 dk\n\n**Okuma:** ~25 dk · **Kod ve pratik:** ~150 dk"
         }
        ]
       }
@@ -13803,8 +13832,8 @@
           "0,239",
           "0.24",
           "0,24",
-          "0.2394",
-          "0,2394"
+          "0.2393",
+          "0,2393"
          ],
          "explain": "Sabit olasılık tahmininde her eşikte precision = pozitif oran = prevalence olur; average precision de bu değere eşitlenir. Referans tablodaki 0.239 bunu doğrular — PR-AUC'nin şans tabanı 0.5 değil, prevalence'tır."
         },
@@ -14106,7 +14135,7 @@
           "33.00",
           "33,00"
          ],
-         "explain": "$W_1$: $8\\times2=16$, $\\mathbf{b}_1$: 8, $\\mathbf{w}_2$: $8\\times1=8$, $b_2$: 1 → $16+8+8+1=33$. Derste 12 gizli nöronlu aynı mimari 49 parametre veriyor ($24+12+12+1$); aktivasyon ve katman sayısı parametre eklemez."
+         "explain": "$W_1$: $8\\times2=16$, $\\mathbf{b}_1$: 8, $\\mathbf{w}_2$: $8\\times1=8$, $b_2$: 1 → $16+8+8+1=33$. Bir sonraki derste (micrograd MLP'si) 2→12→1 mimari 49 parametre veriyor ($24+12+12+1$); aktivasyon seçimi parametre eklemez."
         },
         {
          "id": "f2-u1-l1-perceptron-mlp-p9",
@@ -14416,7 +14445,13 @@
           "40 mb",
           "40mb",
           "40 megabayt",
-          "40 mbyte"
+          "40 mbyte",
+          "40.0",
+          "40,0",
+          "40.00",
+          "40,00",
+          "40.0 mb",
+          "40,0 mb"
          ],
          "explain": "$20\\times10^6 \\times 2$ bayt $=40\\times10^6$ bayt $\\approx 40$ MB. Aynı model float32 ile 80 MB tutar; eğitimde bunun üstüne gradyanlar (aynı boyut) ve Adam durumu (parametre başına 2 float) eklenir."
         },
@@ -14606,7 +14641,7 @@
           {
            "id": "b",
            "md": "`state_dict` optimizer durumunu da içerdiği için tek dosyada her şey saklanır.",
-           "why": "`state_dict` yalnız model parametrelerini taşır; optimizer durumu ayrı bir `state_dict` olarak checkpoint sözlüğüne eklenir."
+           "why": "`state_dict` model parametrelerini **ve buffer'ları** (ör. BatchNorm `running_mean`/`running_var`) taşır; optimizer durumunu içermez — o ayrı bir `state_dict` olarak checkpoint sözlüğüne eklenir."
           },
           {
            "id": "c",
@@ -14630,7 +14665,13 @@
           "16",
           "16 gb",
           "16gb",
-          "16 gigabayt"
+          "16 gigabayt",
+          "16.0",
+          "16,0",
+          "16.00",
+          "16,00",
+          "16.0 gb",
+          "16,0 gb"
          ],
          "explain": "Parametre başına $4+4+8=16$ bayt → $10^9\\times16=16\\times10^9$ bayt $=16$ GB. Aktivasyonlar bunun üstüne eklenir; sığmıyorsa gradyan birikmesi (mikro-batch) veya mixed precision kullanılır."
         },
@@ -14703,31 +14744,31 @@
         {
          "id": "f2-u3-l1-init-aktivasyon-q1",
          "kind": "choice",
-         "md": "40 katmanlı tanh ağında `large` init ($\\sigma_w=1$): çıkış std'si 0.97 (makul görünüyor) ama ilk katman gradyan normu $\\sim10^{-3}$. Teşhisin?",
+         "md": "40 katmanlı tanh ağında `large` init ($\\sigma_w=1$): çıkış std'si 0.97 (makul görünüyor) ama gradyan normu girişe yakın katmanda $\\approx1.45\\times10^{16}$, çıkışa yakın katmanda $\\approx7.28\\times10^{-3}$. Teşhisin?",
          "options": [
           {
            "id": "a",
-           "md": "Sinyal patlamış; init ölçeği küçültülmeli.",
-           "why": "Çıkış std'si 0.97, yani ileri yönde patlama yok; patlama olsaydı std $10^{42}$ mertebesinde çıkardı. Sorun geri yönde."
+           "md": "İleri sinyal patlamamış; gradyan geri yönde patlamış. Init ölçeği küçültülmeli (tanh için Xavier).",
+           "why": ""
           },
           {
            "id": "b",
            "md": "Gradyanlar normal; tanh ağlarında erken katman gradyanı hep küçüktür, sorun yok.",
-           "why": "40 katmanda $10^{-3}$ gradyan öğrenmeyi fiilen durdurur; sağlıklı koşuda (kaiming+relu) gradyan $10^{-2}$ mertebesinde kalır."
+           "why": "40 katmanda $1.45\\times10^{16}$ gradyan güncellemeleri taşırır (kayıp NaN); sağlıklı koşuda (kaiming+relu) gradyan $10^{-2}$ mertebesinde kalır."
           },
           {
            "id": "c",
-           "md": "Doygunluk: $|z|$ büyük olduğu için türev $1-\\tanh^2 z\\approx0$; çıkış ölçeği doğru görünse de gradyan ölür. Yalnız aktivasyon std'sine bakmak yetmez.",
-           "why": ""
+           "md": "Doygunluk: $|z|$ büyük olduğu için türev $1-\\tanh^2 z\\approx0$; çıkış ölçeği doğru görünse de ilk katman gradyanı ölür.",
+           "why": "Doygunluk gerçek ($z$ std'si 16.03), ama $\\sigma_w=1$ ve 256 girdili $W$ her geri adımda normu ~2.9 kat büyütür; gradyan çıkıştan girişe doğru $1.45\\times10^{16}$'ya çıkar, ölmez. Bu koşuda doygunluk std'yi 1'e sıkıştırır, gradyanı öldürmez."
           },
           {
            "id": "d",
            "md": "Sorun çıkış katmanında; orada sigmoid yerine ReLU kullanılmalı.",
-           "why": "Gradyan normu **ilk** katmanda ölçülüyor; çıkış katmanındaki aktivasyon seçimi erken katman gradyanını kurtarmaz."
+           "why": "Patlama **girişe yakın** katmanda ($1.45\\times10^{16}$); çıkış katmanındaki aktivasyon seçimi erken katman gradyanını kurtarmaz."
           }
          ],
-         "correct": "c",
-         "explain": "`large + tanh` satırında çıkış std'si 0.97, yani ileri yön 'makul'; ama türevler $1-\\tanh^2$ ile çarpıldıkça gradyan $10^{-3}$'e iner. Ölçüm refleksi: hem aktivasyon std'sini hem **gradyan normunu** yazdır; sadece birine bakmak yanıltır."
+         "correct": "a",
+         "explain": "`large + tanh` satırında çıkış std'si 0.97: tanh çıkışı $(-1,1)$ olduğundan std hiçbir init'te $10^{42}$'ye çıkamaz; doygunluk ileri std'yi 1'e sıkıştırır ve patlamayı gizler. Asıl ölçüm gradyan: girişe yakın katmanda $1.45\\times10^{16}$, çıkışa yakın $7.28\\times10^{-3}$ — yaklaşık 18 mertebe fark, yani geri yönde patlama. Çıkış std'si $1.58\\times10^{42}$ olan satır `large + relu`'dur. Ölçüm refleksi: hem aktivasyon std'sini hem **gradyan normunu** yazdır; sadece birine bakmak yanıltır."
         },
         {
          "id": "f2-u3-l1-init-aktivasyon-q2",
@@ -15226,7 +15267,7 @@
           {
            "id": "d",
            "md": "$8/67 \\approx 0.119$",
-           "why": "Payda yalnız $\\alpha V$ eklenmiş, $N(a)$ unutulmuş."
+           "why": "Ham sayım $8$ düzleştirilmiş paydaya bölünmüş: paya $\\alpha$ eklenmemiş, paydada $\\alpha V$ yerine $V$ alınmış ($40+27=67$); ikisi tutarlı uygulansa $9/67\\approx0.134$ olurdu."
           }
          ],
          "correct": "c",
@@ -15551,8 +15592,6 @@
           "69.632",
           "69,632",
           "69632.0",
-          "69.63",
-          "69,63",
           "69632,0",
           "69632.00",
           "69632,00"
@@ -15579,7 +15618,12 @@
         {
          "id": "f2-u5-l3-transfer-learning-p2",
          "kind": "text",
-         "md": "# Mekanizma: dondur, değiştir, ince ayar yap\n\n## 1) Ağırlıkları yükle\n\nPyTorch/torchvision'da modern API ağırlık **enum**'ıdır:\n\n```python\nfrom torchvision.models import resnet18, ResNet18_Weights\nmodel = resnet18(weights=ResNet18_Weights.DEFAULT)   # en iyi hazır ağırlık\n# model = resnet18(weights=None)                     # rastgele: ağ/internet yoksa\n```\n\nEski `pretrained=True` API'si kullanımdan kaldırıldı (deprecated); yeni kodda kullanma. Ağırlık indirilemezse (güvenlik duvarı, CI) `weights=None` ile mimariyi kurup boru hattını test edebilirsin; doğruluk beklenmez, yalnızca şekil/gradyen kontrolü yapılır.\n\n## 2) Kafayı değiştir\n\nImageNet kafası 1.000 sınıf: `fc = Linear(512, 1000)`. Hedefin $K$ sınıfı için:\n\n$$\n\\text{fc}_{\\text{yeni}} = \\text{Linear}(512, K)\n$$\n\nYeni [sınıflandırıcı kafa](term:siniflandirici-kafa) rastgele başlar; bu yüzden ilk adımlarda kayıp yüksektir. Gövde donuksa yalnızca bu kafa güncellenir. **Sınıf sayısını değiştirmeyi unutursan** boyut hatası alırsın; `strict=False` ile yüklemek de sessizce yanlış kafa bırakabilir, dikkat.\n\n## 3) Dondur / çöz\n\n```python\nfor p in model.parameters(): p.requires_grad = False\nfor p in model.fc.parameters(): p.requires_grad = True\n```\n\n`requires_grad=False` olan parametreler için gradyan hesaplanmaz ve optimizer onları güncellemez; bellek ve hesap tasarrufu. Kısmi fine-tuning'de `layer4` gibi son bloğu açarsın. **BatchNorm ayrıntısı:** dondurulmuş gövde yine de `train()` modunda çalıştırılırsa BN koşan istatistikleri günceller. Gövdeyi gerçekten sabit tutmak için ya tüm modeli `eval()` modunda tutup yalnız kafayı eğitirsin ya da BN katmanlarının `track_running_stats=False` yaparsın. En yaygın hata, dondurulmuş modelin BN istatistiklerini hedef veriyle kaydırıp sessizce bozmasıdır.\n\n## 4) Ayrı öğrenme oranları\n\nÖn-eğitilmiş ağırlıklar iyi bir bölgede; büyük adım onları dağıtır. Kafa sıfırdan başladığı için büyük adım ister. İki parametre grubu:\n\n$$\n\\eta_{\\text{gövde}} = 10^{-5}, \\qquad \\eta_{\\text{kafa}} = 10^{-3}\n$$\n\nPyTorch'ta optimizer'a grup listesi vererek bunu yaparsın. Literatürde buna [discriminative learning rate](term:ayirt-edici-ogrenme-orani) denir. Isınma (warmup) ve kademeli çözme (gradual unfreezing) de aynı mantığın uzantısıdır.\n\n## 5) Normalizasyon ve ön işleme\n\nÖn-eğitilmiş model, eğitildiği ön işlemeyi bekler. ImageNet için:\n\n$$\n\\hat{x} = \\frac{x - \\mu}{\\sigma}, \\qquad \\mu = (0.485, 0.456, 0.406), \\quad \\sigma = (0.229, 0.224, 0.225)\n$$\n\nBu sayılar RGB kanalları için, [0,1] aralığındaki girdiye uygulanır. Yanlış normalizasyon (ör. hiç yapmamak, BGR kullanmak, 0-255 bırakmak) doğruluğu sessizce düşürür; hata vermez. `weights.transforms()` doğru hattı (resize 256 → center crop 224 → tensor → normalize) verir. Hedef verinin istatistikleri çok farklıysa (uydu görüntüsü, mikroskop) kendi ortalama/std'sini hesaplayıp kullanmak daha iyi olabilir; ama o zaman ön-eğitilmiş ağırlıkların beklediği dağılımdan uzaklaşırsın, deneyle karar ver.\n\n## 6) Ne zaman fine-tune? Ölçüt\n\nFine-tuning'in faydası, hedef verinin kaynak dağılımından **yeterince** farklı ve **yeterince** büyük olmasına bağlıdır. Pratik ölçüt: hedef sınıf başına örnek sayısı 100'ün altındaysa önce dondurulmuş gövdeyi dene; 1.000'in üstündeyse son blokları çöz; 10.000+ ve domain farklıysa tam fine-tune. Her durumda doğrulama seti karar verir.\n\n**[Felaketli unutma](term:felaketli-unutma)** (catastrophic forgetting): küçük veriyle tüm ağı yüksek öğrenme oranında eğitmek, kaynaktan gelen genel özellikleri siler. Ön-eğitilmiş ağırlıklar başlangıç noktasıdır, dokunulmaz kutsal değil; ama silinmeleri geri dönüşsüzdür. Bu yüzden checkpoint sakla, en iyi doğrulama skorunda dur.\n\n## 7) Sızıntı ve değerlendirme uyarıları\n\n- **ImageNet örtüşmesi**: hedef sınıfların ImageNet'te birebir karşılığı varsa (ör. \"golden retriever\"), test skoru şişer. Akademik benchmark'larda bu tür kontaminasyon yaygındır.\n- **Ön işleme sızıntısı**: normalizasyon istatistiklerini tüm veriden (test dahil) hesaplamak sızıntıdır; eğitimden hesapla.\n- **Etiket eşlemesi**: `classes` listesinin sırası hedef etiketlerle uyuşmazsa eğitim \"çalışır\" ama tahminler karışır. İlk iş, birkaç örnekte etiket-ad eşlemesini gözle doğrula.\n"
+         "md": "# Mekanizma: dondur, değiştir, ince ayar yap\n\n## 1) Ağırlıkları yükle\n\nPyTorch/torchvision'da modern API ağırlık **enum**'ıdır:\n\n```python\nfrom torchvision.models import resnet18, ResNet18_Weights\nmodel = resnet18(weights=ResNet18_Weights.DEFAULT)   # en iyi hazır ağırlık\n# model = resnet18(weights=None)                     # rastgele: ağ/internet yoksa\n```\n\nEski `pretrained=True` API'si kullanımdan kaldırıldı (deprecated); yeni kodda kullanma. Ağırlık indirilemezse (güvenlik duvarı, CI) `weights=None` ile mimariyi kurup boru hattını test edebilirsin; doğruluk beklenmez, yalnızca şekil/gradyen kontrolü yapılır.\n\n## 2) Kafayı değiştir\n\nImageNet kafası 1.000 sınıf: `fc = Linear(512, 1000)`. Hedefin $K$ sınıfı için:\n\n$$\n\\text{fc}_{\\text{yeni}} = \\text{Linear}(512, K)\n$$\n\nYeni [sınıflandırıcı kafa](term:siniflandirici-kafa) rastgele başlar; bu yüzden ilk adımlarda kayıp yüksektir. Gövde donuksa yalnızca bu kafa güncellenir. **Sınıf sayısını değiştirmeyi unutursan** boyut hatası alırsın; `strict=False` ile yüklemek de sessizce yanlış kafa bırakabilir, dikkat.\n\n## 3) Dondur / çöz\n\n```python\nfor p in model.parameters(): p.requires_grad = False\nfor p in model.fc.parameters(): p.requires_grad = True\n```\n\n`requires_grad=False` olan parametreler için gradyan hesaplanmaz ve optimizer onları güncellemez; bellek ve hesap tasarrufu. Kısmi fine-tuning'de `layer4` gibi son bloğu açarsın. **BatchNorm ayrıntısı:** dondurulmuş gövde yine de `train()` modunda çalıştırılırsa BN koşan istatistikleri günceller. Gövdeyi gerçekten sabit tutmak için ya tüm modeli `eval()` modunda tutup yalnız kafayı eğitirsin ya da BN katmanlarını ayrıca `eval()` moduna alırsın. BN `train()` içinde kalsın ama koşan istatistikleri değişmesin diyorsan `momentum=0` verirsin. `track_running_stats=False` dondurmaz: o zaman BN her modda batch istatistiğini kullanır ve çıkarım batch içeriğine bağlı kalır. En yaygın hata, dondurulmuş modelin BN istatistiklerini hedef veriyle kaydırıp sessizce bozmasıdır.\n\n## 4) Ayrı öğrenme oranları\n\nÖn-eğitilmiş ağırlıklar iyi bir bölgede; büyük adım onları dağıtır. Kafa sıfırdan başladığı için büyük adım ister. İki parametre grubu:\n\n$$\n\\eta_{\\text{gövde}} = 10^{-5}, \\qquad \\eta_{\\text{kafa}} = 10^{-3}\n$$\n\nPyTorch'ta optimizer'a grup listesi vererek bunu yaparsın. Literatürde buna [discriminative learning rate](term:ayirt-edici-ogrenme-orani) denir. Isınma (warmup) ve kademeli çözme (gradual unfreezing) de aynı mantığın uzantısıdır.\n\n## 5) Normalizasyon ve ön işleme\n\nÖn-eğitilmiş model, eğitildiği ön işlemeyi bekler. ImageNet için:\n\n$$\n\\hat{x} = \\frac{x - \\mu}{\\sigma}, \\qquad \\mu = (0.485, 0.456, 0.406), \\quad \\sigma = (0.229, 0.224, 0.225)\n$$"
+        },
+        {
+         "id": "f2-u5-l3-transfer-learning-p2-b2",
+         "kind": "text",
+         "md": "# Mekanizma: dondur, değiştir, ince ayar yap (devam)\n\nBu sayılar RGB kanalları için, [0,1] aralığındaki girdiye uygulanır. Yanlış normalizasyon (ör. hiç yapmamak, BGR kullanmak, 0-255 bırakmak) doğruluğu sessizce düşürür; hata vermez. `weights.transforms()` doğru hattı (resize 256 → center crop 224 → tensor → normalize) verir. Hedef verinin istatistikleri çok farklıysa (uydu görüntüsü, mikroskop) kendi ortalama/std'sini hesaplayıp kullanmak daha iyi olabilir; ama o zaman ön-eğitilmiş ağırlıkların beklediği dağılımdan uzaklaşırsın, deneyle karar ver.\n\n## 6) Ne zaman fine-tune? Ölçüt\n\nFine-tuning'in faydası, hedef verinin kaynak dağılımından **yeterince** farklı ve **yeterince** büyük olmasına bağlıdır. Pratik ölçüt: hedef sınıf başına örnek sayısı 100'ün altındaysa önce dondurulmuş gövdeyi dene; 1.000'in üstündeyse son blokları çöz; 10.000+ ve domain farklıysa tam fine-tune. Her durumda doğrulama seti karar verir.\n\n**[Felaketli unutma](term:felaketli-unutma)** (catastrophic forgetting): küçük veriyle tüm ağı yüksek öğrenme oranında eğitmek, kaynaktan gelen genel özellikleri siler. Ön-eğitilmiş ağırlıklar başlangıç noktasıdır, dokunulmaz kutsal değil; ama silinmeleri geri dönüşsüzdür. Bu yüzden checkpoint sakla, en iyi doğrulama skorunda dur.\n\n## 7) Sızıntı ve değerlendirme uyarıları\n\n- **ImageNet örtüşmesi**: hedef sınıfların ImageNet'te birebir karşılığı varsa (ör. \"golden retriever\"), test skoru şişer. Akademik benchmark'larda bu tür kontaminasyon yaygındır.\n- **Ön işleme sızıntısı**: normalizasyon istatistiklerini tüm veriden (test dahil) hesaplamak sızıntıdır; eğitimden hesapla.\n- **Etiket eşlemesi**: `classes` listesinin sırası hedef etiketlerle uyuşmazsa eğitim \"çalışır\" ama tahminler karışır. İlk iş, birkaç örnekte etiket-ad eşlemesini gözle doğrula."
         },
         {
          "id": "f2-u5-l3-transfer-learning-p3",
@@ -15901,7 +15945,7 @@
         {
          "id": "f2-u6b-l1-autoencoder-vae-p4",
          "kind": "code",
-         "md": "VAE: kodlayıcı $\\mu$ + $\\log\\sigma^2$ üretir, yeniden parametreleme ile örnekler, ELBO'yu maksimize eder. $\\beta$ karşılaştırması ve üretim.\n\n```python\n# test: python 3.13 · numpy 2.5.4 · torch 2.15.0 · torchvision 0.29.2\n# PC'de çalıştır — gerekli: torch, torchvision (Fashion-MNIST ilk çalıştırmada ~30 MB iner)\n# VAE: kodlayıcı ortalama+logvaryans üretir, yeniden parametreleme ile örnekler, ELBO'yu maksimize eder.\nimport torch, torch.nn as nn, torch.nn.functional as F\nfrom torch.utils.data import DataLoader, Subset\nfrom torchvision import datasets, transforms\nimport numpy as np\n\ntorch.manual_seed(0)\ntf = transforms.ToTensor()\ntr = Subset(datasets.FashionMNIST(\"./fmnist\", train=True, download=True, transform=tf), range(10000))\nte = Subset(datasets.FashionMNIST(\"./fmnist\", train=False, download=True, transform=tf), range(2000))\ndl_tr = DataLoader(tr, batch_size=128, shuffle=True)\ndl_te = DataLoader(te, batch_size=512)\n\nclass VAE(nn.Module):\n    def __init__(self, gizli=8):\n        super().__init__()\n        self.g = nn.Sequential(nn.Flatten(), nn.Linear(784, 256), nn.ReLU())\n        self.mu = nn.Linear(256, gizli)\n        self.logvar = nn.Linear(256, gizli)\n        self.d = nn.Sequential(nn.Linear(gizli, 256), nn.ReLU(), nn.Linear(256, 784))\n    def encode(self, x):\n        h = self.g(x)\n        return self.mu(h), self.logvar(h)\n    def forward(self, x):\n        mu, logvar = self.encode(x)\n        z = mu + torch.exp(0.5 * logvar) * torch.randn_like(mu)   # yeniden parametreleme\n        return self.d(z), mu, logvar, z\n\ndef elbo(x, rec, mu, logvar):\n    yeniden = F.binary_cross_entropy_with_logits(rec, x.view(x.size(0), -1), reduction=\"none\").sum(1).mean()\n    kl = -0.5 * (1 + logvar - mu.pow(2) - logvar.exp()).sum(1).mean()\n    return yeniden + kl, yeniden, kl\n\ndef egit(beta=1.0, epoch_sayisi=10):\n    m = VAE(8); opt = torch.optim.Adam(m.parameters(), lr=1e-3)\n    for epoch in range(epoch_sayisi):\n        for x, _ in dl_tr:\n            rec, mu, logvar, _ = m(x)\n            y, yeniden, kl = elbo(x, rec, mu, logvar)\n            kayip = yeniden + beta * kl\n            opt.zero_grad(); kayip.backward(); opt.step()\n        print(f\"  epoch {epoch+1} toplam={y.item():7.1f} yeniden={yeniden.item():7.1f} KL={kl.item():6.2f}\")\n    return m\n\nprint(\"beta=1 (standart VAE)\")\nm = egit(1.0)\nm.eval()\nwith torch.no_grad():\n    xs = torch.cat([x for x, _ in dl_te])\n    rec, mu, logvar, z = m(xs)\n    y, yeniden, kl = elbo(xs, rec, mu, logvar)\n    print(f\"test: ELBO={-y.item():.1f}  yeniden={yeniden.item():.1f}  KL={kl.item():.2f}\")\n    print(\"boyut basina KL:\", np.round(-0.5 * (1 + logvar - mu.pow(2) - logvar.exp()).mean(0).numpy(), 3))\n    print(\"gizli ortalama:\", np.round(mu.mean(0).numpy(), 2), \"| gizli std:\", np.round(z.std(0).numpy(), 2))\n\n    z = torch.randn(64, 8)                       # önceki dağılımdan üret\n    uretilen = torch.sigmoid(m.d(z))\n    print(f\"onceki'den uretim: ortalama piksel={uretilen.mean():.3f} (gercek veri {xs.mean():.3f})\")\n\n    z1, z2 = m.encode(xs[0:1])[0], m.encode(xs[1:2])[0]\n    for t in [0.0, 0.25, 0.5, 0.75, 1.0]:        # iki görüntü arasında gizli uzayda gezinme\n        gt = torch.sigmoid(m.d((1 - t) * z1 + t * z2))\n        print(f\"  t={t:.2f} ara goruntu ortalamasi={gt.mean():.3f}\")\n\nprint(\"\\nbeta=5 (KL'ye agirlik): yeniden kurma kotulesir, gizli uzay daha 'duzgun'\")\nm5 = egit(5.0, epoch_sayisi=10)\n\n# Beklenen çıktı (CPU, ~15 sn):\n# beta=1 (standart VAE)\n#   epoch 1 toplam=  273.5 yeniden=  261.8 KL= 11.73\n#   ...\n#   epoch 10 toplam=  251.9 yeniden=  238.8 KL= 13.10\n# test: ELBO=-255.5  yeniden=242.3  KL=13.19\n# boyut basina KL: [2.423 1.534 0.409 1.468 1.75  2.545 1.716 1.343]\n# gizli ortalama: [-0.05  0.22 -0.09  0.03  0.35  0.15 -0.14 -0.25] | gizli std: [1.39 1.18 0.89 1.14 1.04 1.36 1.22 1.1 ]\n# onceki'den uretim: ortalama piksel=0.216 (gercek veri 0.287)\n#   t=0.00 ara goruntu ortalamasi=0.180\n#   t=1.00 ara goruntu ortalamasi=0.482\n#\n# beta=5 (KL'ye agirlik): yeniden kurma kotulesir, gizli uzay daha 'duzgun'\n#   ...\n#   epoch 10 toplam=  254.4 yeniden=  248.9 KL=  5.46\n```\n\nOkuma: gizli boyutların std'si 0.89-1.39 (AE'de 2.7-5.2) ve ortalamalar 0'a yakın: önsellerden örneklemek artık veri manifolduna düşüyor. Prior'dan 64 örneğin ortalama pikseli 0.216, gerçek veri 0.287: üretilenler daha koyu ve bulanık (Bernoulli ortalaması), ama yapı var. Gizli uzayda iki görüntü arasında doğrusal gezinme, ara noktalarda da makul görüntüler veriyor: süreklilik, VAE'nin AE'ye karşı kazandığı asıl özellik."
+         "md": "VAE: kodlayıcı $\\mu$ + $\\log\\sigma^2$ üretir, yeniden parametreleme ile örnekler, ELBO'yu maksimize eder. $\\beta$ karşılaştırması ve üretim.\n\n```python\n# test: python 3.13 · numpy 2.5.4 · torch 2.15.0 · torchvision 0.29.2\n# PC'de çalıştır — gerekli: torch, torchvision (Fashion-MNIST ilk çalıştırmada ~30 MB iner)\n# VAE: kodlayıcı ortalama+logvaryans üretir, yeniden parametreleme ile örnekler, ELBO'yu maksimize eder.\nimport torch, torch.nn as nn, torch.nn.functional as F\nfrom torch.utils.data import DataLoader, Subset\nfrom torchvision import datasets, transforms\nimport numpy as np\n\ntorch.manual_seed(0)\ntf = transforms.ToTensor()\ntr = Subset(datasets.FashionMNIST(\"./fmnist\", train=True, download=True, transform=tf), range(10000))\nte = Subset(datasets.FashionMNIST(\"./fmnist\", train=False, download=True, transform=tf), range(2000))\ndl_tr = DataLoader(tr, batch_size=128, shuffle=True)\ndl_te = DataLoader(te, batch_size=512)\n\nclass VAE(nn.Module):\n    def __init__(self, gizli=8):\n        super().__init__()\n        self.g = nn.Sequential(nn.Flatten(), nn.Linear(784, 256), nn.ReLU())\n        self.mu = nn.Linear(256, gizli)\n        self.logvar = nn.Linear(256, gizli)\n        self.d = nn.Sequential(nn.Linear(gizli, 256), nn.ReLU(), nn.Linear(256, 784))\n    def encode(self, x):\n        h = self.g(x)\n        return self.mu(h), self.logvar(h)\n    def forward(self, x):\n        mu, logvar = self.encode(x)\n        z = mu + torch.exp(0.5 * logvar) * torch.randn_like(mu)   # yeniden parametreleme\n        return self.d(z), mu, logvar, z\n\ndef elbo(x, rec, mu, logvar):\n    yeniden = F.binary_cross_entropy_with_logits(rec, x.view(x.size(0), -1), reduction=\"none\").sum(1).mean()\n    kl = -0.5 * (1 + logvar - mu.pow(2) - logvar.exp()).sum(1).mean()\n    return yeniden + kl, yeniden, kl\n\ndef egit(beta=1.0, epoch_sayisi=10):\n    m = VAE(8); opt = torch.optim.Adam(m.parameters(), lr=1e-3)\n    for epoch in range(epoch_sayisi):\n        for x, _ in dl_tr:\n            rec, mu, logvar, _ = m(x)\n            y, yeniden, kl = elbo(x, rec, mu, logvar)\n            kayip = yeniden + beta * kl       # optimize edilen toplam; beta=1'de ELBO'nun negatifi\n            opt.zero_grad(); kayip.backward(); opt.step()\n        print(f\"  epoch {epoch+1} toplam={kayip.item():7.1f} yeniden={yeniden.item():7.1f} KL={kl.item():6.2f}\")\n    return m\n\nprint(\"beta=1 (standart VAE)\")\nm = egit(1.0)\nm.eval()\nwith torch.no_grad():\n    xs = torch.cat([x for x, _ in dl_te])\n    rec, mu, logvar, z = m(xs)\n    y, yeniden, kl = elbo(xs, rec, mu, logvar)\n    print(f\"test: ELBO={-y.item():.1f}  yeniden={yeniden.item():.1f}  KL={kl.item():.2f}\")\n    print(\"boyut basina KL:\", np.round(-0.5 * (1 + logvar - mu.pow(2) - logvar.exp()).mean(0).numpy(), 3))\n    print(\"gizli ortalama:\", np.round(mu.mean(0).numpy(), 2), \"| gizli std:\", np.round(z.std(0).numpy(), 2))\n\n    z = torch.randn(64, 8)                       # önceki dağılımdan üret\n    uretilen = torch.sigmoid(m.d(z))\n    print(f\"onceki'den uretim: ortalama piksel={uretilen.mean():.3f} (gercek veri {xs.mean():.3f})\")\n\n    z1, z2 = m.encode(xs[0:1])[0], m.encode(xs[1:2])[0]\n    for t in [0.0, 0.25, 0.5, 0.75, 1.0]:        # iki görüntü arasında gizli uzayda gezinme\n        gt = torch.sigmoid(m.d((1 - t) * z1 + t * z2))\n        print(f\"  t={t:.2f} ara goruntu ortalamasi={gt.mean():.3f}\")\n\nprint(\"\\nbeta=5 (KL'ye agirlik): yeniden kurma kotulesir, gizli uzay daha 'duzgun'\")\nm5 = egit(5.0, epoch_sayisi=10)\n\n# Beklenen çıktı (CPU, ~15 sn):\n# beta=1 (standart VAE)\n#   epoch 1 toplam=  273.5 yeniden=  261.8 KL= 11.73\n#   ...\n#   epoch 10 toplam=  251.9 yeniden=  238.8 KL= 13.10\n# test: ELBO=-255.5  yeniden=242.3  KL=13.19\n# boyut basina KL: [2.423 1.534 0.409 1.468 1.75  2.545 1.716 1.343]\n# gizli ortalama: [-0.05  0.22 -0.09  0.03  0.35  0.15 -0.14 -0.25] | gizli std: [1.39 1.18 0.89 1.14 1.04 1.36 1.22 1.1 ]\n# onceki'den uretim: ortalama piksel=0.216 (gercek veri 0.287)\n#   t=0.00 ara goruntu ortalamasi=0.180\n#   t=1.00 ara goruntu ortalamasi=0.482\n#\n# beta=5 (KL'ye agirlik): yeniden kurma kotulesir, gizli uzay daha 'duzgun'\n#   ...\n#   epoch 10 toplam=  276.2 yeniden=  248.9 KL=  5.46\n```\n\nOkuma: gizli boyutların std'si 0.89-1.39 (AE'de 2.7-5.2) ve ortalamalar 0'a yakın: önsellerden örneklemek artık veri manifolduna düşüyor. Prior'dan 64 örneğin ortalama pikseli 0.216, gerçek veri 0.287: üretilenler daha koyu ve bulanık (Bernoulli ortalaması), ama yapı var. Gizli uzayda iki görüntü arasında doğrusal gezinme, ara noktalarda da makul görüntüler veriyor: süreklilik, VAE'nin AE'ye karşı kazandığı asıl özellik."
         },
         {
          "id": "f2-u6b-l1-autoencoder-vae-p5",
@@ -15983,7 +16027,7 @@
         {
          "id": "f2-u6b-l2-gan-difuzyon-p1",
          "kind": "text",
-         "md": "# İki felsefe: sahtekârlık yarışı ve gürültüyü geri almak\n\nÖnceki ders AE/VAE ile veriyi **kodlayıp** geri kurdu. Bu ders iki üretken model ailesini karşılaştırıyor; ikisi de veri dağılımından örnek üretir ama mekanizmaları taban tabana zıt:\n\n| | GAN | Difüzyon |\n|---|---|---|\n| Öğrendiği şey | Sahte örnek üreten bir fonksiyon | Gürültüyü tahmin eden bir fonksiyon |\n| Eğitim sinyali | Bir sınıflandırıcının kararı (rekabet) | Piksel/gürültü regresyonu (MSE) |\n| Kayıp | Minimax oyunu, kararsız | Basit regresyon, kararlı |\n| Örnekleme | Tek ileri geçiş (hızlı) | Onlarca-yüzlerce adım (yavaş) |\n| Zayıf nokta | Mod çökmesi, eğitim dengesizliği | Yavaşlık, adım sayısı maliyeti |\n\n[GAN](term:gan) (generative adversarial network, Goodfellow vd. 2014) bir **[üretici](term:uretici)** ile bir **[ayırt edici](term:ayirt-edici)** arasında oyun kurar. Üretici $G(z)$ gürültüden sahte örnek yapar; ayırt edici $D(x)$ örneğin gerçek mi sahte mi olduğunu tahmin eder. İkisi birlikte eğitilir:\n\n$$\n\\min_G \\max_D \\; \\mathbb{E}_{x \\sim p_{\\text{data}}}\\big[\\log D(x)\\big] + \\mathbb{E}_{z \\sim p_z}\\big[\\log\\big(1 - D(G(z))\\big)\\big]\n$$\n\n## Neden bu oyun işe yarar?\n\nOptimal ayırt edici, iki yoğunluğun oranıdır:\n\n$$\nD^*(x) = \\frac{p_{\\text{data}}(x)}{p_{\\text{data}}(x) + p_g(x)}\n$$\n\nBunu yerine koyunca oyunun değeri $-\\log 4 + 2\\,JSD(p_{\\text{data}} \\Vert p_g)$ olur. Yani **hedef, üretilen dağılım ile gerçek dağılım arasındaki Jensen-Shannon diverjansını küçültmektir**; üretici tam olarak veriyi ürettiğinde $D = 1/2$ ve oyun dengededir. (Orijinal makaledeki türetim bu; pratikte kullanılan \"doymayan\" kayıp $\\max_G \\mathbb{E}[\\log D(G(z))]$ aynı dengeyi daha güçlü gradyanla hedefler.)\n\nBunun güzelliği: **olabilirlik hesaplamıyoruz**. $p_{\\text{data}}(x)$'i bilmiyoruz, sadece örnek çekebiliyoruz; ayırt edici, iki dağılım arasındaki farkı öğrenen bir \"test\" gibi çalışır.\n\n## Zorluk: minimax oyunu kararsızdır\n\nİki ağ aynı anda öğreniyor ve biri diğerinin hedefini değiştiriyor. Sonuç:\n\n- **[Mod çökmesi](term:mod-collapse).** Üretici, ayırt ediciyi en kolay kandıran **birkaç** moda yığılır; verinin geri kalanını hiç üretmez. Ayırt edici de yalnız bu bölgeleri denetlediği için oyun \"dengeye\" oturur. 8 modlu bir veride üretici yalnız 2 modu üretip kaybı düşürebilir.\n- **Salınım ve çökme.** D çok güçlü → G gradyanı kaybolur; G çok güçlü → D hiç öğrenemez. Öğrenme oranları, güncelleme sıklığı, mimari dengesi kritik.\n- **Değerlendirme zorluğu.** Kayıp değeri anlamlı bir ölçü değildir (oyun değeri veriye ve dengeye bağlı). Bu yüzden ayrı metrikler kullanılır: [kapsama](term:kapsama) (modların kaçı üretiliyor), örnek çeşitliliği, FID/IS gibi dağılım karşılaştırmaları.\n\nPratik reçete (DCGAN'tan beri değişmedi): Adam `betas=(0.5, 0.999)`, üreticide `BatchNorm`, ayırt edicide `LeakyReLU(0.2)`, ayrı öğrenme oranları, EMA ile üretici ağırlıklarının ortalaması, ve mod çökmesini ölçen bir izleme metriği. Kod sayfasındaki `kapsama` fonksiyonu tam bunu yapar: 2.000 sahte örneğin kaçının 8 merkezin 0.35 yakınına düştüğünü sayar. Örnek çıktıda 8/8; gerçek bir görüntü probleminde 8/8 görmek istisnadır.\n\n## Bu oyunun bugünkü yeri\n\nGAN'lar 2014-2020 arası görüntü üretiminin standardıydı; bugün yerini büyük ölçüde difüzyon modelleri aldı. GAN'lar hâlâ: gerçek zamanlı üretim (tek ileri geçiş), süper çözünürlük, stil transferi, veri artırma ve damıtılmış hızlı üreticilerde kullanılıyor. Sezgiyi bilmek, \"neden difüzyon daha kararlı\" sorusunu anlamak için şart.\n"
+         "md": "# İki felsefe: sahtekârlık yarışı ve gürültüyü geri almak\n\nÖnceki ders AE/VAE ile veriyi **kodlayıp** geri kurdu. Bu ders iki üretken model ailesini karşılaştırıyor; ikisi de veri dağılımından örnek üretir ama mekanizmaları taban tabana zıt:\n\n| | GAN | Difüzyon |\n|---|---|---|\n| Öğrendiği şey | Sahte örnek üreten bir fonksiyon | Gürültüyü tahmin eden bir fonksiyon |\n| Eğitim sinyali | Bir sınıflandırıcının kararı (rekabet) | Piksel/gürültü regresyonu (MSE) |\n| Kayıp | Minimax oyunu, kararsız | Basit regresyon, kararlı |\n| Örnekleme | Tek ileri geçiş (hızlı) | Onlarca-yüzlerce adım (yavaş) |\n| Zayıf nokta | Mod çökmesi, eğitim dengesizliği | Yavaşlık, adım sayısı maliyeti |\n\n[GAN](term:gan) (generative adversarial network, Goodfellow vd. 2014) bir **[üretici](term:uretici)** ile bir **[ayırt edici](term:ayirt-edici)** arasında oyun kurar. Üretici $G(z)$ gürültüden sahte örnek yapar; ayırt edici $D(x)$ örneğin gerçek mi sahte mi olduğunu tahmin eder. İkisi birlikte eğitilir:\n\n$$\n\\min_G \\max_D \\; \\mathbb{E}_{x \\sim p_{\\text{data}}}\\big[\\log D(x)\\big] + \\mathbb{E}_{z \\sim p_z}\\big[\\log\\big(1 - D(G(z))\\big)\\big]\n$$\n\n## Neden bu oyun işe yarar?\n\nOptimal ayırt edici, iki yoğunluğun oranıdır:\n\n$$\nD^*(x) = \\frac{p_{\\text{data}}(x)}{p_{\\text{data}}(x) + p_g(x)}\n$$\n\nBunu yerine koyunca oyunun değeri $-\\log 4 + 2\\,JSD(p_{\\text{data}} \\Vert p_g)$ olur. Yani **hedef, üretilen dağılım ile gerçek dağılım arasındaki Jensen-Shannon diverjansını küçültmektir**; üretici tam olarak veriyi ürettiğinde $D = 1/2$ ve oyun dengededir. (Orijinal makaledeki türetim bu; pratikte kullanılan \"doymayan\" kayıp $\\max_G \\mathbb{E}[\\log D(G(z))]$ aynı dengeyi daha güçlü gradyanla hedefler.)\n\nBunun güzelliği: **olabilirlik hesaplamıyoruz**. $p_{\\text{data}}(x)$'i bilmiyoruz, sadece örnek çekebiliyoruz; ayırt edici, iki dağılım arasındaki farkı öğrenen bir \"test\" gibi çalışır.\n\n## Zorluk: minimax oyunu kararsızdır\n\nİki ağ aynı anda öğreniyor ve biri diğerinin hedefini değiştiriyor. Sonuç:\n\n- **[Mod çökmesi](term:mod-collapse).** Üretici, ayırt ediciyi en kolay kandıran **birkaç** moda yığılır; verinin geri kalanını hiç üretmez. Ayırt edici de yalnız bu bölgeleri denetlediği için oyun \"dengeye\" oturur. 8 modlu bir veride üretici yalnız 2 modu üretip kaybı düşürebilir.\n- **Salınım ve çökme.** D çok güçlü → G gradyanı kaybolur; G çok güçlü → D hiç öğrenemez. Öğrenme oranları, güncelleme sıklığı, mimari dengesi kritik.\n- **Değerlendirme zorluğu.** Kayıp değeri anlamlı bir ölçü değildir (oyun değeri veriye ve dengeye bağlı). Bu yüzden ayrı metrikler kullanılır: [kapsama](term:kapsama) (modların kaçı üretiliyor), örnek çeşitliliği, FID/IS gibi dağılım karşılaştırmaları.\n\nDCGAN çekirdeği (2015'ten beri): Adam `betas=(0.5, 0.999)` ve tek öğrenme oranı (0.0002), üreticide `BatchNorm`, ayırt edicide `LeakyReLU(0.2)`. Sonradan standartlaşanlar: ayrı G/D öğrenme oranları (TTUR, Heusel vd. 2017) ve EMA ile üretici ağırlıklarının ortalaması (BigGAN/StyleGAN dönemi). Buna mod çökmesini ölçen bir izleme metriği eklenir. Kod sayfasındaki `kapsama` fonksiyonu tam bunu yapar: 2.000 sahte örneğin kaçının 8 merkezin 0.35 yakınına düştüğünü sayar. Örnek çıktıda 8/8; gerçek bir görüntü probleminde 8/8 görmek istisnadır.\n\n## Bu oyunun bugünkü yeri\n\nGAN'lar 2014-2020 arası görüntü üretiminin standardıydı; bugün yerini büyük ölçüde difüzyon modelleri aldı. GAN'lar hâlâ: gerçek zamanlı üretim (tek ileri geçiş), süper çözünürlük, stil transferi, veri artırma ve damıtılmış hızlı üreticilerde kullanılıyor. Sezgiyi bilmek, \"neden difüzyon daha kararlı\" sorusunu anlamak için şart.\n"
         },
         {
          "id": "f2-u6b-l2-gan-difuzyon-p2",
@@ -15993,7 +16037,7 @@
         {
          "id": "f2-u6b-l2-gan-difuzyon-p3",
          "kind": "text",
-         "md": "# Difüzyon: veriyi boz, sonra bozmayı öğren\n\n[Difüzyon modeli](term:difuzyon-modeli) (Sohl-Dickstein vd. 2015; DDPM, Ho vd. 2020) şu gözlemle başlar: bir görüntüyü adım adım gürültüye boğmak kolaydır, hiç model gerekmez. Zor olan tersi: gürültüden görüntüye gitmek. Ama ters yön de **küçük bir adımda** öğrenilebilir; yüzlerce küçük adım birleşince üretim çıkar.\n\n## İleri süreç (model yok)\n\nHer adımda biraz gürültü ekle:\n\n$$\nq(x_t \\mid x_{t-1}) = \\mathcal{N}\\big(\\sqrt{1-\\beta_t}\\,x_{t-1},\\; \\beta_t I\\big)\n$$\n\n$\\beta_t$ küçük bir varyans programıdır (ör. 1e-4'ten 0.05'e doğrusal). $\\alpha_t = 1-\\beta_t$ ve $\\bar\\alpha_t = \\prod_{s=1}^{t}\\alpha_s$ tanımlarsak, **herhangi bir adıma tek seferde** atlayabiliriz:\n\n$$\nq(x_t \\mid x_0) = \\mathcal{N}\\big(\\sqrt{\\bar\\alpha_t}\\,x_0,\\; (1-\\bar\\alpha_t) I\\big)\n$$\n\nSayısal örnek, $T = 100$ doğrusal program: $\\bar\\alpha_{10} = 0.972$, $\\bar\\alpha_{25} = 0.846$, $\\bar\\alpha_{50} = 0.520$, $\\bar\\alpha_{75} = 0.232$, $\\bar\\alpha_{99} = 0.078$. $t=50$'de sinyalin genliği $\\sqrt{0.52} = 0.72$ katına iner, gürültünün standart sapması $\\sqrt{0.48} \\approx 0.69$ olur. Verinin varyansı 2.01 ise $x_{50}$'nin varyansı $0.52 \\times 2.01 + 0.48 = 1.53$: kod çıktısında ölçülen 1.529, formülün 1.526'sıyla uyuşuyor.\n\n## Ters süreç (model burada)\n\n$q(x_{t-1}\\mid x_t)$'nin de Gauss olduğu kanıtlanabilir (küçük $\\beta$ için), ama ortalaması veriye bağlıdır. Bu yüzden onu bir ağla yaklaşıklerız:\n\n$$\np_\\theta(x_{t-1}\\mid x_t) = \\mathcal{N}\\big(\\mu_\\theta(x_t,t),\\; \\beta_t I\\big)\n$$\n\nHo vd.'nin kritik sadeleştirmesi: $\\mu_\\theta$'yı doğrudan tahmin etmek yerine, eklenen gürültüyü, yani [gürültü tahmini](term:gurultu-tahmini) problemini çöz. $\\varepsilon_\\theta(x_t,t)$ gürültü tahmini ise\n\n$$\n\\mu_\\theta(x_t,t) = \\frac{1}{\\sqrt{\\alpha_t}}\\left(x_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\varepsilon_\\theta(x_t,t)\\right)\n$$\n\nve eğitim kaybı şaşırtıcı derecede basit bir regresyona iner:\n\n$$\nL = \\mathbb{E}_{t,\\,x_0,\\,\\varepsilon}\\Big[\\big\\lVert \\varepsilon - \\varepsilon_\\theta\\big(\\sqrt{\\bar\\alpha_t}\\,x_0 + \\sqrt{1-\\bar\\alpha_t}\\,\\varepsilon,\\; t\\big)\\big\\rVert^2\\Big]\n$$\n\nYani: rastgele bir $t$ seç, veriyi o adıma kadar boz, ağa \"eklediğim gürültü neydi?\" diye sor, MSE ile cezalandır. **Ayrı bir ayırt edici yok, minimax yok, kararsızlık yok.** Bu yüzden difüzyon eğitimi GAN'a göre çok daha öngörülebilir; bedeli örnekleme maliyetidir.\n\n## Örnekleme\n\n$x_T \\sim \\mathcal{N}(0, I)$ ile başla, $t = T, \\dots, 1$ için ortalamayı hesapla ve $\\beta_t$ varyanslı gürültü ekle:\n\n$$\nx_{t-1} = \\frac{1}{\\sqrt{\\alpha_t}}\\Big(x_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\varepsilon_\\theta(x_t,t)\\Big) + \\sqrt{\\beta_t}\\,z, \\qquad z \\sim \\mathcal{N}(0,I)\n$$"
+         "md": "# Difüzyon: veriyi boz, sonra bozmayı öğren\n\n[Difüzyon modeli](term:difuzyon-modeli) (Sohl-Dickstein vd. 2015; DDPM, Ho vd. 2020) şu gözlemle başlar: bir görüntüyü adım adım gürültüye boğmak kolaydır, hiç model gerekmez. Zor olan tersi: gürültüden görüntüye gitmek. Ama ters yön de **küçük bir adımda** öğrenilebilir; yüzlerce küçük adım birleşince üretim çıkar.\n\n## İleri süreç (model yok)\n\nHer adımda biraz gürültü ekle:\n\n$$\nq(x_t \\mid x_{t-1}) = \\mathcal{N}\\big(\\sqrt{1-\\beta_t}\\,x_{t-1},\\; \\beta_t I\\big)\n$$\n\n$\\beta_t$ küçük bir varyans programıdır (ör. 1e-4'ten 0.05'e doğrusal). $\\alpha_t = 1-\\beta_t$ ve $\\bar\\alpha_t = \\prod_{s=0}^{t}\\alpha_s$ tanımlarsak (kod 0'dan indeksler; yani $\\bar\\alpha_t$ toplam $t+1$ gürültü adımının çarpımıdır ve $x_t$ bu kadar adım bozulmuştur), **herhangi bir adıma tek seferde** atlayabiliriz:\n\n$$\nq(x_t \\mid x_0) = \\mathcal{N}\\big(\\sqrt{\\bar\\alpha_t}\\,x_0,\\; (1-\\bar\\alpha_t) I\\big)\n$$\n\nSayısal örnek, $T = 100$ doğrusal program: $\\bar\\alpha_{10} = 0.972$, $\\bar\\alpha_{25} = 0.846$, $\\bar\\alpha_{50} = 0.520$, $\\bar\\alpha_{75} = 0.232$, $\\bar\\alpha_{99} = 0.078$. $t=50$'de sinyalin genliği $\\sqrt{0.52} = 0.72$ katına iner, gürültünün standart sapması $\\sqrt{0.48} \\approx 0.69$ olur. Verinin varyansı 2.01 ise $x_{50}$'nin varyansı $0.52 \\times 2.01 + 0.48 = 1.53$: kod çıktısında ölçülen 1.529, formülün 1.526'sıyla uyuşuyor.\n\n## Ters süreç (model burada)\n\n$q(x_{t-1}\\mid x_t)$'nin de Gauss olduğu kanıtlanabilir (küçük $\\beta$ için), ama ortalaması veriye bağlıdır. Bu yüzden onu bir ağla yaklaşıklerız:\n\n$$\np_\\theta(x_{t-1}\\mid x_t) = \\mathcal{N}\\big(\\mu_\\theta(x_t,t),\\; \\beta_t I\\big)\n$$\n\nHo vd.'nin kritik sadeleştirmesi: $\\mu_\\theta$'yı doğrudan tahmin etmek yerine, eklenen gürültüyü, yani [gürültü tahmini](term:gurultu-tahmini) problemini çöz. $\\varepsilon_\\theta(x_t,t)$ gürültü tahmini ise\n\n$$\n\\mu_\\theta(x_t,t) = \\frac{1}{\\sqrt{\\alpha_t}}\\left(x_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\varepsilon_\\theta(x_t,t)\\right)\n$$\n\nve eğitim kaybı şaşırtıcı derecede basit bir regresyona iner:\n\n$$\nL = \\mathbb{E}_{t,\\,x_0,\\,\\varepsilon}\\Big[\\big\\lVert \\varepsilon - \\varepsilon_\\theta\\big(\\sqrt{\\bar\\alpha_t}\\,x_0 + \\sqrt{1-\\bar\\alpha_t}\\,\\varepsilon,\\; t\\big)\\big\\rVert^2\\Big]\n$$\n\nYani: rastgele bir $t$ seç, veriyi o adıma kadar boz, ağa \"eklediğim gürültü neydi?\" diye sor, MSE ile cezalandır. **Ayrı bir ayırt edici yok, minimax yok, kararsızlık yok.** Bu yüzden difüzyon eğitimi GAN'a göre çok daha öngörülebilir; bedeli örnekleme maliyetidir.\n\n## Örnekleme\n\n$x_T \\sim \\mathcal{N}(0, I)$ ile başla, $t = T, \\dots, 1$ için ortalamayı hesapla ve $\\beta_t$ varyanslı gürültü ekle:\n\n$$\nx_{t-1} = \\frac{1}{\\sqrt{\\alpha_t}}\\Big(x_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\,\\varepsilon_\\theta(x_t,t)\\Big) + \\sqrt{\\beta_t}\\,z, \\qquad z \\sim \\mathcal{N}(0,I)\n$$"
         },
         {
          "id": "f2-u6b-l2-gan-difuzyon-p3-b2",
@@ -16062,11 +16106,13 @@
          "md": "Üretici gerçek dağılımı tam olarak ürettiğinde optimal ayırt edici $D^*(x)$ hangi değeri verir?",
          "accept": [
           "0.5",
+          "0.50",
           "0,5",
           ".5",
           ",5",
           "1/2",
-          "0.50",
+          "50%",
+          "%50",
           "0,50"
          ],
          "explain": "$D^*=p_{\\text{data}}/(p_{\\text{data}}+p_g)$; $p_g=p_{\\text{data}}$ iken oran $1/2$ olur. Oyun değeri bu noktada $-\\log 4$'e iner, yani Jensen-Shannon ıraksaması sıfırlanır."
@@ -16074,7 +16120,7 @@
         {
          "id": "f2-u6b-l2-gan-difuzyon-p9",
          "kind": "summary",
-         "md": "- GAN: üretici $G(z)$ ile ayırt edici $D(x)$ minimax oyunu; $\\min_G\\max_D \\mathbb{E}[\\log D(x)] + \\mathbb{E}[\\log(1-D(G(z)))]$. Optimal $D^* = p_{data}/(p_{data}+p_g)$, oyun değeri $-\\log4 + 2\\,JSD$.\n- GAN'ın zayıflıkları: mod çökmesi, kararsız eğitim, anlamsız kayıp değeri. İzleme için kapsama ve mod dengesi gerekir; kayıp değil.\n- Difüzyon: ileri süreç $q(x_t|x_0)=\\mathcal{N}(\\sqrt{\\bar\\alpha_t}x_0,(1-\\bar\\alpha_t)I)$; ters süreç gürültü tahminiyle $\\mu_\\theta = \\frac{1}{\\sqrt{\\alpha_t}}(x_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\varepsilon_\\theta)$.\n- Eğitim kaybı saf regresyon: $\\lVert\\varepsilon-\\varepsilon_\\theta(x_t,t)\\rVert^2$. Kararlılık buradan gelir; örnekleme maliyeti ise adım sayısıdır (DDIM/damıtma/latent difüzyon çözümleri).\n- Sayısal kontrol: $\\bar\\alpha_{50}=0.52$, $\\text{Var}(x_{50}) = 1.52$; kodda 1.529. $\\bar\\alpha$ hesabı yanlışsa eğitim sessizce bozulur.\n- Aynı 8 Gauss hedefinde ikisi de 8/8 kapsadı, std'ler gerçeğe yakın; fark eğitim oynaklığı (GAN salınım) ve çıkarım maliyeti (1 vs 100 çağrı).\n- Üretken modellerde tek metrik yok: kapsama, denge, yakınlık, kalite ve koşula uyum ayrı ölçülür.\n\n**Bu derse eşlik eden**\n- Oku: Goodfellow vd., \"Generative Adversarial Nets\", NeurIPS 2014 — bölüm 3-4 (minimax oyunu ve optimal D türetimi) — https://arxiv.org/abs/1406.2661 (~45 dk)\n- Oku: Ho, Jain, Abbeel, \"Denoising Diffusion Probabilistic Models\", NeurIPS 2020 — bölüm 3 (ileri/ters süreç, sadeleştirilmiş kayıp) — https://arxiv.org/abs/2006.11239 (~60 dk)\n- Oku: Prince, *Understanding Deep Learning*, Bölüm 15 \"Generative adversarial networks\" ve Bölüm 18 \"Diffusion models\" — https://udlbook.github.io/udlbook/ (~2 saat)\n- İncele: PyTorch DCGAN eğitimi (pratik ipuçları: `betas=(0.5, 0.999)`, BatchNorm, ayrı öğrenme oranları) — https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html (~40 dk)\n\n**Derinleşmek için**\n- Lilian Weng, \"What are Diffusion Models?\" (DDPM, DDIM, score-based bağlantısı, guidance) — https://lilianweng.github.io/posts/2021-07-11-diffusion-models/\n- Goodfellow, \"NIPS 2016 Tutorial: Generative Adversarial Networks\" (mod çökmesi ve eğitim hilelerinin sistematik anlatımı) — https://arxiv.org/abs/1701.00160\n- D2L, \"Generative Adversarial Networks\" ve \"Deep Convolutional GANs\" bölümleri (kodla birlikte) — https://www.d2l.ai/chapter_generative-adversarial-networks/gan.html\n\n**Süre:** ~175 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~155 dk"
+         "md": "- GAN: üretici $G(z)$ ile ayırt edici $D(x)$ minimax oyunu; $\\min_G\\max_D \\mathbb{E}[\\log D(x)] + \\mathbb{E}[\\log(1-D(G(z)))]$. Optimal $D^* = p_{data}/(p_{data}+p_g)$, oyun değeri $-\\log4 + 2\\,JSD$.\n- GAN'ın zayıflıkları: mod çökmesi, kararsız eğitim, anlamsız kayıp değeri. İzleme için kapsama ve mod dengesi gerekir; kayıp değil.\n- Difüzyon: ileri süreç $q(x_t|x_0)=\\mathcal{N}(\\sqrt{\\bar\\alpha_t}x_0,(1-\\bar\\alpha_t)I)$; ters süreç gürültü tahminiyle $\\mu_\\theta = \\frac{1}{\\sqrt{\\alpha_t}}(x_t - \\frac{\\beta_t}{\\sqrt{1-\\bar\\alpha_t}}\\varepsilon_\\theta)$.\n- Eğitim kaybı saf regresyon: $\\lVert\\varepsilon-\\varepsilon_\\theta(x_t,t)\\rVert^2$. Kararlılık buradan gelir; örnekleme maliyeti ise adım sayısıdır (DDIM/damıtma/latent difüzyon çözümleri).\n- Sayısal kontrol: $\\bar\\alpha_{50}=0.52$, $\\text{Var}(x_{50}) = 1.52$; kodda 1.529. $\\bar\\alpha$ hesabı yanlışsa eğitim sessizce bozulur.\n- Aynı 8 Gauss hedefinde ikisi de 8/8 kapsadı, std'ler gerçeğe yakın; fark eğitim oynaklığı (GAN salınım) ve çıkarım maliyeti (1 vs 100 çağrı).\n- Üretken modellerde tek metrik yok: kapsama, denge, yakınlık, kalite ve koşula uyum ayrı ölçülür.\n\n**Bu derse eşlik eden**\n- Oku: Goodfellow vd., \"Generative Adversarial Nets\", NeurIPS 2014 — bölüm 3-4 (minimax oyunu ve optimal D türetimi) — https://arxiv.org/abs/1406.2661 (~45 dk)\n- Oku: Ho, Jain, Abbeel, \"Denoising Diffusion Probabilistic Models\", NeurIPS 2020 — bölüm 3 (ileri/ters süreç, sadeleştirilmiş kayıp) — https://arxiv.org/abs/2006.11239 (~60 dk)\n- Oku: Prince, *Understanding Deep Learning*, Bölüm 15 \"Generative adversarial networks\" ve Bölüm 18 \"Diffusion models\" — https://udlbook.github.io/udlbook/ (~2 saat)\n- İncele: PyTorch DCGAN eğitimi (pratik ipuçları: `betas=(0.5, 0.999)`, tek öğrenme oranı, BatchNorm) — https://pytorch.org/tutorials/beginner/dcgan_faces_tutorial.html (~40 dk)\n\n**Derinleşmek için**\n- Lilian Weng, \"What are Diffusion Models?\" (DDPM, DDIM, score-based bağlantısı, guidance) — https://lilianweng.github.io/posts/2021-07-11-diffusion-models/\n- Goodfellow, \"NIPS 2016 Tutorial: Generative Adversarial Networks\" (mod çökmesi ve eğitim hilelerinin sistematik anlatımı) — https://arxiv.org/abs/1701.00160\n- D2L, \"Generative Adversarial Networks\" ve \"Deep Convolutional GANs\" bölümleri (kodla birlikte) — https://www.d2l.ai/chapter_generative-adversarial-networks/gan.html\n\n**Süre:** ~175 dk\n\n**Okuma:** ~20 dk · **Kod ve pratik:** ~155 dk"
         }
        ]
       }
@@ -16154,7 +16200,7 @@
          "id": "f2-u7-l1-proje-tanimi-p9",
          "kind": "check",
          "md": "Bigram modelinde $\\alpha=0$ iken doğrulama NLL'si neden tanımsız? $\\alpha$'yı büyütmek eğitim NLL'sini neden neredeyse hiç değiştirmiyor?",
-         "answer": "Doğrulamada eğitimde hiç görülmemiş bir bigram varsa olasılık 0 olur, $-\\log 0$ sonsuzdur; NLL tanımsız. $\\alpha$ her hücreye sabit bir sözde-sayım ekler; 23.595 isimlik eğitimde toplam sayım ~169 bin, 0.5'lik ekleme 19.683 hücrede bile toplamın binde birinden azıdır. Bu yüzden yaygın bigramların olasılıkları neredeyse değişmez, eğitim NLL'si sabit kalır. $\\alpha$'nın asıl etkisi seyrek hücrelerde ve doğrulamada görülür."
+         "answer": "Doğrulamada eğitimde hiç görülmemiş bir bigram varsa olasılık 0 olur, $-\\log 0$ sonsuzdur; NLL tanımsız. $\\alpha$ her hücreye sabit bir sözde-sayım ekler; 23.595 isimlik eğitimde toplam sayım 169.134; 0.5'lik ekleme 729 hücrede 364,5 sözde-sayım, yani toplamın ~%0,2'si. Bu yüzden yaygın bigramların olasılıkları neredeyse değişmez, eğitim NLL'si sabit kalır. $\\alpha$'nın asıl etkisi seyrek hücrelerde ve doğrulamada görülür."
         },
         {
          "id": "f2-u7-l1-proje-tanimi-p10",
@@ -16245,7 +16291,7 @@
         {
          "id": "f2-u7-l2-proje-uygulama-p2-b2",
          "kind": "text",
-         "md": "# Transfer learning: neyi dondururum, neyi eğitirim? (devam)\n\n- Yalnız eğitim setinde; doğrulama ve test deterministik (`Resize` + `CenterCrop`) olmalı.\n- Etiketi bozan artırma zararlıdır: rakam tanımada yatay çevirme \"6\"yı \"9\" yapar; yön önemliyse çevirme kullanma.\n- Bu projede dondurulmuş gövdede aug küçük bir düşüş gösterdi (0.935 → 0.932); fark tek seed'de gürültü sınırında olabilir, ama bunu iddia etmeden önce ölç.\n- Aynı görüntünün artırılmış kopyaları eğitim ve doğrulama arasında paylaşılmamalı; aksi halde [veri sızıntısı](term:veri-sizintisi) olur.\n\n## Ölçüm tablosunu okumak\n| Strateji | Eğitilen parametre | val acc | Yorum |\n|---|---|---|---|\n| Sıfırdan CNN | ~100 bin | 0.338 | 5 epoch, 3000 görüntü: yetersiz |\n| Doğrusal yoklama | 5.130 | 0.935 | En iyi maliyet/kazanç |\n| `layer4` ince ayar, 1e-4 | ~8,4 milyon | 0.906 | lr çok küçük, 5 epoch yetmiyor |\n| `layer4` ince ayar, 1e-3 | ~8,4 milyon | 0.928 | en iyi epoch 3; sonra düşüş, erken durdurma şart |\n| Tüm ağ, 1e-4 | 11,7 milyon | 0.907 | Ezber başlıyor (train 0.330 / val 0.353) |\n\nKarar kuralı: **önce doğrusal yoklama**. Baseline'ı geçemiyorsa sorun modelde değil, veride/etiketlerde/metrikte olabilir. Sonra son bloğu aç, ayırıcı lr ve erken durdurma ekle. Tam ince ayarı ancak veri ve epoch bütçesi varsa dene.\n\n## Tuzaklar\n- **Yanlış normalizasyon**: pretrained ağırlıklar ImageNet ortalaması/standart sapması bekler. Kendi verinin ortalamasını kullanırsan özellikler bozulur. `Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])`.\n- **Sınıf sayısını değiştirmemek**: `model.fc`'yi yenilemeden 1000 sınıflı başlıkla eğitmek. `requires_grad` ayarlarını başlık değiştirdikten sonra yap.\n- **`model.train()` ile donmuş BN**: yukarıda anlatıldı; en sık sessiz hata.\n- **Aynı lr'yi herkese vermek**: gövde ve başlık farklı ölçekte güncellenmeli.\n- **Sadece doğruluğa bakmak**: dengesiz/ince taneli veride makro F1 ve sınıf bazlı tablo gerekir."
+         "md": "# Transfer learning: neyi dondururum, neyi eğitirim? (devam)\n\n- Yalnız eğitim setinde; doğrulama ve test deterministik (`Resize` + `CenterCrop`) olmalı.\n- Etiketi bozan artırma zararlıdır: rakam tanımada yatay çevirme \"6\"yı \"9\" yapar; yön önemliyse çevirme kullanma.\n- Bu projede dondurulmuş gövdede aug küçük bir düşüş gösterdi (0.935 → 0.932); fark tek seed'de gürültü sınırında olabilir, ama bunu iddia etmeden önce ölç.\n- Aynı görüntünün artırılmış kopyaları eğitim ve doğrulama arasında paylaşılmamalı; aksi halde [veri sızıntısı](term:veri-sizintisi) olur.\n\n## Ölçüm tablosunu okumak\n| Strateji | Eğitilen parametre | val acc | Yorum |\n|---|---|---|---|\n| Sıfırdan CNN | ~100 bin | 0.338 | 5 epoch, 3000 görüntü: yetersiz |\n| Doğrusal yoklama | 5.130 | 0.935 | En iyi maliyet/kazanç |\n| `layer4` ince ayar, 1e-4 | ~8,4 milyon | 0.906 | lr çok küçük, 5 epoch yetmiyor |\n| `layer4` ince ayar, 1e-3 | ~8,4 milyon | 0.928 | en iyi epoch 3; sonra düşüş, erken durdurma şart |\n| Tüm ağ, 1e-4 | 11,2 milyon | 0.907 | Ezber başlıyor (train 0.330 / val 0.353) |\n\nKarar kuralı: **önce doğrusal yoklama**. Baseline'ı geçemiyorsa sorun modelde değil, veride/etiketlerde/metrikte olabilir. Sonra son bloğu aç, ayırıcı lr ve erken durdurma ekle. Tam ince ayarı ancak veri ve epoch bütçesi varsa dene.\n\n## Tuzaklar\n- **Yanlış normalizasyon**: pretrained ağırlıklar ImageNet ortalaması/standart sapması bekler. Kendi verinin ortalamasını kullanırsan özellikler bozulur. `Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])`.\n- **Sınıf sayısını değiştirmemek**: `model.fc`'yi yenilemeden 1000 sınıflı başlıkla eğitmek. `requires_grad` ayarlarını başlık değiştirdikten sonra yap.\n- **`model.train()` ile donmuş BN**: yukarıda anlatıldı; en sık sessiz hata.\n- **Aynı lr'yi herkese vermek**: gövde ve başlık farklı ölçekte güncellenmeli.\n- **Sadece doğruluğa bakmak**: dengesiz/ince taneli veride makro F1 ve sınıf bazlı tablo gerekir."
         },
         {
          "id": "f2-u7-l2-proje-uygulama-p3",
@@ -16645,8 +16691,7 @@
           "788736",
           "788.736",
           "788,736",
-          "788.74",
-          "788,74"
+          "788736 parametre"
          ],
          "explain": "$12 \\cdot 256^2 + 9 \\cdot 256 = 786432 + 2304 = 788736$. Dikkat $4d^2$, MLP $8d^2$, iki LayerNorm $4d$; bias'sız dikkatte $9d$ kalır."
         },
@@ -17058,8 +17103,10 @@
           "5.000",
           "5,000",
           "5k",
-          "5.00",
-          "5,00"
+          "5000 token",
+          "5.000 token",
+          "5 bin",
+          "5 bin token"
          ],
          "explain": "$2000 \\times 2.5 = 5000$ token. Doğurganlık yükseldikçe aynı içerik bağlamdan daha fazla yer kaplar ve API maliyeti artar."
         },
@@ -17390,7 +17437,9 @@
          "kind": "input",
          "md": "100.000 token'ı 2048'lik bloklara paketlerseniz kaç tam blok çıkar?",
          "accept": [
-          "48"
+          "48",
+          "48 blok",
+          "48 tam blok"
          ],
          "explain": "$\\lfloor 100000/2048 \\rfloor = 48$ tam blok; 1696 token artar. Paketleme, padding'e göre boşa harcanan kapasiteyi azaltır."
         },
@@ -17488,7 +17537,10 @@
          "kind": "input",
          "md": "Olasılıklar $[0.5, 0.3, 0.15, 0.05]$ ve top-p $=0.9$ ise kaç token tutulur?",
          "accept": [
-          "3"
+          "3",
+          "3 token",
+          "üç",
+          "üç token"
          ],
          "explain": "Kümülatif toplamlar $0.5, 0.8, 0.95$; $0.9$'ı ilk kez 3. token geçer. Bu üç token yeniden normalize edilir."
         },
@@ -17679,7 +17731,7 @@
           {
            "id": "b",
            "md": "LoRA hiç bellek kazandırmaz; yalnızca eğitimi hızlandırır.",
-           "why": "Gradyan ve optimizer durumu yüzlerce GB'tan ~0.1 GB'a iner; kazanç büyüktür."
+           "why": "Gradyan ve optimizer durumu ~84 GB'tan (ağırlıklarla ~98 GB) ~0.1 GB'a iner; kazanç büyüktür."
           },
           {
            "id": "c",
@@ -17704,8 +17756,9 @@
           "32.768",
           "32,768",
           "32k",
-          "32.77",
-          "32,77"
+          "32 768",
+          "32768 parametre",
+          "32.768 parametre"
          ],
          "explain": "$r(d_{in}+d_{out}) = 8 \\cdot (2048+2048) = 32768$. Tam ince ayar $2048^2 = 4.194.304$ parametredir; oran ~%0.78."
         },
@@ -18207,11 +18260,7 @@
           "0.02475",
           "0,02475",
           "0.025",
-          "0,025",
-          "0.02",
-          "0,02",
-          "0.03",
-          "0,03"
+          "0,025"
          ],
          "explain": "Giriş $=1600+2000+2400=6000$ token $\\to 0{,}018$ USD; çıkış $=3\\times150=450$ token $\\to 0{,}00675$ USD; toplam $\\approx 0{,}0248$ USD."
         },
@@ -18414,7 +18463,7 @@
         {
          "id": "f3-u7-l1-llm-eval-q2",
          "kind": "input",
-         "md": "Altın cevap 4 token, tahmin 2 token, kesişim 1 token. [Token F1](term:tam-eslesme) yaklaşık kaçtır?",
+         "md": "Altın cevap 4 token, tahmin 2 token, kesişim 1 token. Token F1 yaklaşık kaçtır?",
          "accept": [
           "0.33",
           "0,33",
@@ -18422,7 +18471,13 @@
           "0.333",
           "0,333",
           "0.34",
-          "0,34"
+          "0,34",
+          "33%",
+          "%33",
+          "33.3%",
+          "33,3%",
+          "%33.3",
+          "%33,3"
          ],
          "explain": "$P=1/2$, $R=1/4$, $F1=2PR/(P+R)=2\\cdot0{,}5\\cdot0{,}25/0{,}75=1/3\\approx0{,}33$. Exact match ise $0$ olurdu; ölçüt seçimi başarıyı tanımlar."
         },
@@ -18751,9 +18806,7 @@
           "1.536",
           "1,536",
           "1 536",
-          "1536 parametre",
-          "1.54",
-          "1,54"
+          "1536 parametre"
          ],
          "explain": "$r(d_{in}+d_{out}) = 4\\times(96+288) = 1536$; tam matris $96\\times288=27.648$ olduğuna göre yaklaşık %5,6. $\\alpha/r=2$ yalnız ölçeği belirler, parametre sayısını değiştirmez."
         },
@@ -18853,6 +18906,10 @@
           "96",
           "96.0",
           "96,0",
+          "96.04",
+          "96,04",
+          "96.04 görev",
+          "96,04 görev",
           "~96",
           "96 görev",
           "96.00",
@@ -18957,17 +19014,20 @@
         {
          "id": "f4-u1-l1-teknik-borc-seviyeler-q2",
          "kind": "input",
-         "md": "Bir kısa yol bugün 3 gün kazandırıyor, sonraki her değişiklikte 0,25 gün ek iş çıkarıyor. Özellik ayda 2 kez değişiyor. Kaç ay sonra kısa yol net zarara döner?",
+         "md": "Bir kısa yol bugün 3 gün kazandırıyor, sonraki her değişiklikte 0,25 gün ek iş çıkarıyor. Özellik ayda 2 kez değişiyor. Kısa yol kaç ay sonra başabaş noktasına gelir?",
          "accept": [
           "6",
           "6.0",
           "6,0",
           "altı",
           "6 ay",
+          "altı ay",
+          "6 ay sonra",
+          "altı ay sonra",
           "6.00",
           "6,00"
          ],
-         "explain": "Başabaş $= 3/0{,}25 = 12$ değişiklik; ayda 2 değişiklikle $12/2 = 6$ ay. [Borç faizi](term:borc-faizi) zamana değil değişiklik sıklığına bağlıdır, bu yüzden aynı kısa yol yavaş değişen bir özellikte yıllarca ucuz kalabilir."
+         "explain": "Başabaş $= 3/0{,}25 = 12$ değişiklik; ayda 2 değişiklikle $12/2 = 6$ ay. 12. değişiklikte net sıfırdır, sonrasında kısa yol zarar yazar. [Borç faizi](term:borc-faizi) zamana değil değişiklik sıklığına bağlıdır, bu yüzden aynı kısa yol yavaş değişen bir özellikte yıllarca ucuz kalabilir."
         },
         {
          "id": "f4-u1-l1-teknik-borc-seviyeler-p9",
@@ -19072,6 +19132,9 @@
           "0.49",
           "0,49",
           "48.8%",
+          "48,8%",
+          "%48.8",
+          "%48,8",
           "%49",
           "0.487",
           "0,487"
@@ -19719,6 +19782,9 @@
           "18",
           "%18",
           "%18,2",
+          "18,2%",
+          "18.2%",
+          "%18.2",
           "18.21",
           "18,21",
           "18.20",
@@ -19793,7 +19859,7 @@
          "options": [
           {
            "id": "a",
-           "md": "musl libc yüzünden numpy/scipy için uyumlu wheel bulunmaz; kaynaktan derleme saatler sürer ve imaj derleyiciyle şişer."
+           "md": "musl libc yüzünden scikit-learn için musllinux wheel yayınlanmaz; pip sdist derlemesine düşer ve Alpine'de derleyici kurulmadan kurulum hemen başarısız olur."
           },
           {
            "id": "b",
@@ -19803,7 +19869,7 @@
           {
            "id": "c",
            "md": "Alpine'de `pip install` çalışmaz; paketler yalnız `apk` ile kurulur.",
-           "why": "pip Alpine'de çalışır. Sorun pip değil, tekerlek bulunamayınca numpy/scipy derlemesinin başlaması."
+           "why": "pip Alpine'de çalışır. Sorun pip değil, scikit-learn için tekerlek bulunamayınca sdist derlemesinin başlaması."
           },
           {
            "id": "d",
@@ -19812,7 +19878,7 @@
           }
          ],
          "correct": "a",
-         "explain": "İmaj boyutunu taban imaj değil bağımlılıklar belirler: scipy ~81 MB, scikit-learn ~37 MB, numpy ~25 MB. `slim` glibc uyumludur ve tekerlekler hazırdır; alpine'de aynı iş kaynaktan derlemeye döner ve kazanç tersine döner."
+         "explain": "İmaj boyutunu taban imaj değil bağımlılıklar belirler: scipy ~81 MB, scikit-learn ~37 MB, numpy ~25 MB. `slim` glibc uyumludur ve tekerlekler hazırdır; alpine'de numpy ve scipy artık musllinux_1_2 wheel'i yayınlasa da scikit-learn yayınlamaz, pip sdist derlemesine düşer ve derleyici kurulmadan kurulum hemen hata verir; kazanç tersine döner."
         },
         {
          "id": "f4-u5-l2-docker-q2",
@@ -20017,7 +20083,7 @@
         {
          "id": "f4-u5-l4-kubernetes-q2",
          "kind": "input",
-         "md": "Yavaş açılan servis için `startupProbe: {periodSeconds: 2, failureThreshold: 30}`. Model 45 saniyede yükleniyor. Probe kaç saniye sonra pod'u başarısız sayar?",
+         "md": "Yavaş açılan servis için `startupProbe: {periodSeconds: 2, failureThreshold: 30}`. Model 45 saniyede yükleniyor, yani probe bu pencerede başarılı oluyor. Model hiç yüklenmezse startupProbe pod'u kaç saniye sonra başarısız sayar?",
          "accept": [
           "60",
           "60.0",
@@ -20027,7 +20093,7 @@
           "60.00",
           "60,00"
          ],
-         "explain": "$30 \\times 2 = 60$ s. `startupProbe` başarılı olana kadar `livenessProbe` denetimini bekletir; 45 s'lik yükleme 60 s'lik pencereye sığdığı için pod boşuna yeniden başlatılmaz."
+         "explain": "$30 \\times 2 = 60$ s azami başlangıç penceresidir. `startupProbe` başarılı olana kadar `livenessProbe` denetimini bekletir; model 45 s'de yüklendiği için probe başarılı olur ve pod hiçbir zaman başarısız sayılmaz — 60 s yalnız model hiç yüklenmediğinde devreye girer."
         },
         {
          "id": "f4-u5-l4-kubernetes-p9",
@@ -20320,12 +20386,12 @@
         {
          "id": "f4-u7-l1-drift-q1",
          "kind": "choice",
-         "md": "Dolandırıcılık oranı bir ayda %1'den %5'e çıktı; işlem özelliklerinin dağılımı ve $P(X\\mid Y)$ değişmedi. Hangi kayma ve neyi bozar?",
+         "md": "Dolandırıcılık oranı bir ayda %1'den %5'e çıktı; işlem özelliklerinin sınıf koşullu dağılımı $P(X\\mid Y)$ değişmedi. Hangi kayma ve neyi bozar?",
          "options": [
           {
            "id": "a",
-           "md": "Veri kayması ($P(X)$); özellik dağılımı değişmediği için model etkilenmez.",
-           "why": "Tanım gereği veri kayması $P(X)$'in değişmesidir. Burada $X$ aynı kaldı, değişen sınıf oranı."
+           "md": "Veri kayması ($P(X)$); sınıf oranı dışında bir dağılım değişmediği için model etkilenmez.",
+           "why": "Tanım gereği veri kayması $P(X)$'in değişmesidir; buradaki $P(X)$ kayması $P(Y)$'den karışım yoluyla gelir. Sınıf oranı 5 katına çıktığı için eşik ve kalibrasyon yine kayar."
           },
           {
            "id": "b",
@@ -20343,7 +20409,7 @@
           }
          ],
          "correct": "d",
-         "explain": "[Etiket kayması](term:etiket-kaymasi) sınıfın önceki olasılığını değiştirir: $P(y\\mid x)$ aynı kalsa bile 0.35'lik eşik artık farklı bir kesim seçer, kalibrasyon ve kapasite varsayımları bozulur. Girdi testleri (KS/PSI) bunu görmez; tahmin dağılımı ve pozitif oran izlenir."
+         "explain": "[Etiket kayması](term:etiket-kaymasi) sınıfın önceki olasılığını değiştirir: $P(X\\mid Y)$ aynı kalsa bile $P(Y)$ 5 katına çıktığı için $P(X)$ de karışım gereği hafifçe kayar ve sabit bir karar eşiği artık farklı bir kesim seçer; kalibrasyon ve pozitif oran varsayımları bozulur. Girdi testleri (KS/PSI) bu kaymayı sınıf oranından ayıramaz; tahmin dağılımı ve pozitif oran izlenir."
         },
         {
          "id": "f4-u7-l1-drift-q2",
@@ -20355,9 +20421,7 @@
           "0.01298",
           "0,01298",
           "0.0130",
-          "0,0130",
-          "0.01",
-          "0,01"
+          "0,0130"
          ],
          "explain": "$\\text{PSI} = (-0.05)\\ln(0.9) + (0.05)\\ln(0.35/0.30) \\approx 0.0053 + 0.0077 = 0.013$; 0.1'in altında, anlamlı değişim yok. Aynı kütle uçlara kaydığında aynı formül 0.5'i aşar: PSI kütlenin nereden nereye gittiğini cezalandırır."
         },
@@ -20885,7 +20949,7 @@
         {
          "id": "f4-u8-l3-proje-degerlendirme-q1",
          "kind": "choice",
-         "md": "Puanı hesapladın: 0,62. 'Düşük göründü' diyerek CI ağırlığını 0,20'den 0,10'a çekip testlerin ağırlığını artırdın; puan 0,71 oldu. Bu neden yanlış?",
+         "md": "Puanı hesapladın: 0,60. 'Düşük göründü' diyerek CI ağırlığını 0,20'den 0,10'a çekip testlerin ağırlığını artırdın; puan 0,63 oldu. Bu neden yanlış?",
          "options": [
           {
            "id": "a",
@@ -21008,7 +21072,7 @@
           {
            "id": "d",
            "md": "L2 önbellek bu erişimleri otomatik yakalar; fark L2 boyutundan gelir.",
-           "why": "L2 40-50 MB; 1024²'lik paneller birlikte sığmaz ve yeniden kullanım blok içinde olur. Programcı/derleyici yönetimi gerekir."
+           "why": "A (4 MB) ve B (4 MB) A100'ün 40 MB L2'sine sığar; 8,6 GB ve 268 MB ise global bellek yüklerinin önbelleksiz sayımıdır, HBM'e inen bayt değil. Fark L2 kapasitesinden değil, blok içi yeniden kullanımın paylaşımlı bellekte yapılmasıyla yük sayısının tile genişliği kadar azalmasından gelir."
           }
          ],
          "correct": "c",
@@ -21129,6 +21193,10 @@
           "185.860.096",
           "0.186B",
           "0,186B",
+          "185.9 milyon",
+          "185,9 milyon",
+          "185.9 milyon parametre",
+          "185,9 milyon parametre",
           "185.90",
           "185,90"
          ],
@@ -21331,10 +21399,10 @@
          "accept": [
           "1823",
           "1.823",
-          "1823 program",
           "1,823",
-          "1.82",
-          "1,82"
+          "1823 program",
+          "1.823 program",
+          "1,823 program"
          ],
          "explain": "Satır başına bir program olduğu için grid $(n_{\\text{rows}},)$ = 1823'tür; `BLOCK_SIZE` her programın sütun aralığını belirler, program sayısını değiştirmez. $\\lceil n/\\text{BLOCK} \\rceil$ yalnız eleman-bazlı çekirdeklerde geçerlidir."
         },
@@ -21431,9 +21499,7 @@
           "0,1353",
           "0,135",
           "e^-2",
-          "exp(-2)",
-          "0.14",
-          "0,14"
+          "exp(-2)"
          ],
          "explain": "$e^{m_{\\text{eski}}-m_{\\text{yeni}}} = e^{-2} \\approx 0.135$. Bu çarpan eski terimleri yeni maksimuma göre yeniden ölçekler; olmadığında bloklar farklı ölçekte toplanır ve sonuç standart softmax'tan sapar."
         },
@@ -21637,7 +21703,13 @@
           "3.75",
           "3,75",
           "3.75 B",
-          "3,75 bayt"
+          "3,75 B",
+          "3.75 bayt",
+          "3,75 bayt",
+          "3.75 bayt/parametre",
+          "3,75 bayt/parametre",
+          "3.75 B/parametre",
+          "3,75 B/parametre"
          ],
          "explain": "Z2'de optimizer durumu ve gradyan bölünür, ağırlık (2 bayt) her yerde kalır: $2 + (2+12)/8 = 3.75$ bayt/parametre. Z1'de aynı sayı $4 + 12/8 = 5.5$, Z3'te $16/8 = 2$ olur."
         },
@@ -21732,7 +21804,11 @@
           "56",
           "56 MiB",
           "56 mib",
-          "56mb"
+          "56mb",
+          "56MiB",
+          "56 MiB/katman",
+          "56MiB/katman",
+          "56 mib/katman"
          ],
          "explain": "Aktivasyon $2BSH = 4 \\times 1024 \\times 4096 \\times 2 = 32$ MiB; ring all-reduce $2 \\times 32 \\times 7/8 = 56$ MiB. Bu maliyet her satır-paralel katmanda (forward ve backward) tekrarlanır, bu yüzden [tensor paralelliği](term:tensor-paralelligi) NVLink içinde tutulur."
         },
@@ -22044,7 +22120,11 @@
           "128 KiB",
           "128 kib",
           "128kb",
-          "128 KB"
+          "128 KB",
+          "128KiB",
+          "128 KiB/token",
+          "128KiB/token",
+          "128 kib/token"
          ],
          "explain": "$2 \\times L \\times h_{kv} \\times d_{head} \\times b = 2 \\times 32 \\times 8 \\times 128 \\times 2 = 131{,}072$ bayt = 128 KiB. 8 bin tokenlık tek dizi ~1 GiB tutar; 32 eşzamanlı dizi 32 GiB eder."
         },
@@ -22143,7 +22223,11 @@
          "accept": [
           "2250",
           "2250 ms",
-          "2250ms"
+          "2250ms",
+          "2.250",
+          "2.250 ms",
+          "2.250ms",
+          "2 250 ms"
          ],
          "explain": "$250 + 100 \\times 20 = 2250$ ms. İlk token TTFT'ye dahil olduğu için aralık sayısı $n-1$'dir; $n$ ile çarpmak en yaygın hesap hatasıdır."
         },
@@ -22350,6 +22434,12 @@
           "0,5",
           ".5",
           "0.496",
+          "0.50 $/1M",
+          "0,50 $/1M",
+          "0.50 USD/1M",
+          "0,50 USD/1M",
+          "0.496 $/1M",
+          "0,496 $/1M",
           "0,496"
          ],
          "explain": "Saatte $1400 \\times 3600 = 5{,}04$M token; $2{,}50/5{,}04 \\approx 0{,}50$ \\$/1M. Kuantizasyonla hız artarsa maliyet düşer, ama kalite regresyonu ölçülmeden bu tasarruf karar sayılmaz."
@@ -22450,7 +22540,15 @@
           "4",
           "%4",
           "4%",
-          "yüzde 4"
+          "yüzde 4",
+          "4.0",
+          "4,0",
+          "%4.0",
+          "%4,0",
+          "4.0%",
+          "4,0%",
+          "4.00",
+          "4,00"
          ],
          "explain": "$12/300 = 0{,}04$, yani %4. Hatalar ölçüm dışı bırakılırsa iş hacmi olduğundan yüksek görünür; %5 üstünde yapılandırma karar dışı bırakılır ve başarısızlar SLO hesabında \"karşılamadı\" sayılır."
         },
@@ -22553,6 +22651,9 @@
           "120,0",
           "≈120",
           "yaklaşık 120",
+          "120 istek",
+          "yaklaşık 120 istek",
+          "120 istek (ortalama)",
           "120.00",
           "120,00"
          ],
@@ -22764,9 +22865,7 @@
           "0.031",
           "0,031",
           "0.03068",
-          "0,03068",
-          "0.03",
-          "0,03"
+          "0,03068"
          ],
          "explain": "$1/(60+1)+1/(60+10)=0{,}01639+0{,}01429\\approx0{,}0307$. İki kanalda da üst sıralarda olmak, tek kanalda birinci olmaktan daha yüksek skor verir."
         },
@@ -22977,6 +23076,10 @@
           "14,0",
           "0.1404",
           "0,1404",
+          "14.04",
+          "14,04",
+          "%14.04",
+          "%14,04",
           "14.00",
           "14,00"
          ],
@@ -23618,7 +23721,13 @@
           "1,67%",
           "%1.67",
           "%1,67",
-          "5/3"
+          "5/3",
+          "1.667",
+          "1,667",
+          "1.6667",
+          "1,6667",
+          "%1.667",
+          "%1,667"
          ],
          "explain": "Payda $300000\\cdot0{,}04\\cdot10\\cdot12=1{.}440{.}000$ USD/yıl; $24000/1{.}440{.}000\\approx0{,}0167$, yani %1,67. Bu eşiğin altında proje kendini ödemez."
         },
@@ -23642,17 +23751,17 @@
         {
          "id": "f6-u3-l4-sorumlu-yz-p1-b2",
          "kind": "text",
-         "md": "# Sorumlu yapay zekâ: üç ayrı risk, üç ayrı mühendislik (devam)\n\nTaban oranları farklıysa demografik parite, eşitlenmiş odds ve öngörücü pariteyi **aynı anda** sağlayan bir sınıflandırıcı (kestirici deterministik değilse) yoktur (Kleinberg, Mullainathan, Raghavan 2016; Chouldechova 2017). Sezgi: bir grupta gerçek pozitif oranı düşükse, \"her iki gruba da eşit oranda pozitif de\" demek, o grupta PPV'yi zorunlu olarak düşürür.\n\nYani adalet bir **optimizasyon hedefi değil, seçim problemidir**: hangi tanımı, kimin için, hangi maliyetle seçtiğine karar vermen gerekir. Bu kararı model geliştiricisi tek başına vermez; hukuk, ürün ve etkilenen toplulukla verilir. Senin işin, her seçeneğin sayısal sonucunu masaya koymak.\n\n## Müdahale nerede?\n\n- **Ön işleme**: veriyi yeniden ağırlıkla/dengele (grup bazlı ağırlıklar), korunan değişkeni çıkar (dikkat: vekil değişkenler kalır).\n- **İç işleme**: kayıp fonksiyonuna adalet cezası ekle (ör. eşit fırsat ihlali), ya da modeli kısıtlı sınıfa daralt.\n- **Sonradan işleme**: model skorunu koru, **gruba göre eşik** seç. Kod çıktısında bu yapıldı: eşitlenmiş odds kısıtıyla TPR farkı 0.147'den 0.053'e indi, genel doğruluk 0.852'den 0.836'ya düştü. Yani adalet satın alındı; bedeli doğruluk.\n\n**Tuzaklar.** (1) Korumalı değişkeni modelden çıkarmak adaleti sağlamaz: posta kodu, dil, cihaz gibi vekiller ayrımcılığı taşır. (2) Adaleti yalnız eğitim verisinde ölçmek: dağılım kayması grupları farklı vurur. (3) Küçük gruplarda fark gürültüdür: 200 kişilik grupta %5 fark anlamsız olabilir, güven aralığı raporla. (4) \"Adalet metriği ekledik, bitti\" demek: metrik, hangi hatanın kime daha pahalıya geldiğini söylemez."
+         "md": "# Sorumlu yapay zekâ: üç ayrı risk, üç ayrı mühendislik (devam)\n\nTaban oranları farklıysa demografik parite, eşitlenmiş odds ve öngörücü pariteyi **aynı anda** sağlayan bir sınıflandırıcı (rastgeleleştirme dahil; tahmin edici tam isabetli değilse) yoktur (Kleinberg, Mullainathan, Raghavan 2016; Chouldechova 2017). Sezgi: bir grupta gerçek pozitif oranı düşükse, \"her iki gruba da eşit oranda pozitif de\" demek, o grupta PPV'yi zorunlu olarak düşürür.\n\nYani adalet bir **optimizasyon hedefi değil, seçim problemidir**: hangi tanımı, kimin için, hangi maliyetle seçtiğine karar vermen gerekir. Bu kararı model geliştiricisi tek başına vermez; hukuk, ürün ve etkilenen toplulukla verilir. Senin işin, her seçeneğin sayısal sonucunu masaya koymak.\n\n## Müdahale nerede?\n\n- **Ön işleme**: veriyi yeniden ağırlıkla/dengele (grup bazlı ağırlıklar), korunan değişkeni çıkar (dikkat: vekil değişkenler kalır).\n- **İç işleme**: kayıp fonksiyonuna adalet cezası ekle (ör. eşit fırsat ihlali), ya da modeli kısıtlı sınıfa daralt.\n- **Sonradan işleme**: model skorunu koru, **gruba göre eşik** seç. Kod çıktısında bu yapıldı: eşitlenmiş odds kısıtıyla TPR farkı 0.147'den 0.053'e indi, genel doğruluk 0.852'den 0.836'ya düştü. Yani adalet satın alındı; bedeli doğruluk.\n\n**Tuzaklar.** (1) Korumalı değişkeni modelden çıkarmak adaleti sağlamaz: posta kodu, dil, cihaz gibi vekiller ayrımcılığı taşır. (2) Adaleti yalnız eğitim verisinde ölçmek: dağılım kayması grupları farklı vurur. (3) Küçük gruplarda fark gürültüdür: 200 kişilik grupta %5 fark anlamsız olabilir, güven aralığı raporla. (4) \"Adalet metriği ekledik, bitti\" demek: metrik, hangi hatanın kime daha pahalıya geldiğini söylemez."
         },
         {
          "id": "f6-u3-l4-sorumlu-yz-p2",
          "kind": "code",
-         "md": "Adult gelir modelinde grup bazlı metrikler, fairlearn ile farklar ve sonradan işlemenin doğruluk-adalet ödünleşimi.\n\n```python\n# test: python 3.13 · numpy 2.5.4 · scikit-learn 1.9.1\n# PC'de çalıştır — gerekli: numpy, pandas, scikit-learn, fairlearn\n# Adalet metrikleri: seçim oranı, TPR, FPR, PPV; eşit fırsat için sonradan işleme.\nimport numpy as np, pandas as pd\nfrom sklearn.datasets import fetch_openml\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.preprocessing import OneHotEncoder, StandardScaler\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\nfrom fairlearn.metrics import (MetricFrame, selection_rate, true_positive_rate,\n                               demographic_parity_difference, equalized_odds_difference)\nfrom fairlearn.postprocessing import ThresholdOptimizer\n\nd = fetch_openml(data_id=1590, as_frame=True, parser=\"liac-arff\").frame\ny = (d[\"class\"] == \">50K\").astype(int)\nX = d.drop(columns=[\"class\"])\ncinsiyet = d[\"sex\"].astype(str)\nX_tr, X_te, y_tr, y_te, g_tr, g_te = train_test_split(X, y, cinsiyet, test_size=0.3,\n                                                      stratify=y, random_state=0)\nsayisal = X.select_dtypes(\"number\").columns.tolist()\nkategorik = [c for c in X.columns if c not in sayisal]\non = ColumnTransformer([(\"s\", make_pipeline(SimpleImputer(strategy=\"median\"), StandardScaler()), sayisal),\n                        (\"k\", make_pipeline(SimpleImputer(strategy=\"most_frequent\"),\n                                            OneHotEncoder(handle_unknown=\"ignore\")), kategorik)])\nm = make_pipeline(on, LogisticRegression(max_iter=2000)).fit(X_tr, y_tr)\nyhat = (m.predict_proba(X_te)[:, 1] >= 0.5).astype(int)\n\nt = pd.DataFrame({\"y\": y_te.values, \"yhat\": yhat, \"g\": g_te.values})\nrows = []\nfor ad, s in t.groupby(\"g\"):\n    tp = ((s.y == 1) & (s.yhat == 1)).sum(); fn = ((s.y == 1) & (s.yhat == 0)).sum()\n    fp = ((s.y == 0) & (s.yhat == 1)).sum(); tn = ((s.y == 0) & (s.yhat == 0)).sum()\n    rows.append({\"grup\": ad, \"n\": len(s), \"secim\": s.yhat.mean(), \"TPR\": tp / (tp + fn),\n                 \"FPR\": fp / (fp + tn), \"PPV\": tp / max(tp + fp, 1), \"taban\": s.y.mean()})\nprint(pd.DataFrame(rows).set_index(\"grup\").round(3))\nprint(\"demografik parite farki:\", round(demographic_parity_difference(y_te, yhat, sensitive_features=g_te), 3))\nprint(\"esit firsat (odds) farki:\", round(equalized_odds_difference(y_te, yhat, sensitive_features=g_te), 3))\nprint(\"genel dogruluk:\", round(accuracy_score(y_te, yhat), 3))\n\n# Sonradan işleme: gruplara ayrı eşik, eşit fırsat kısıtı\nnp.random.seed(0)                            # eşik araması rastgele tie-breaking yapar: sabitle\neo = ThresholdOptimizer(estimator=m, constraints=\"equalized_odds\", predict_method=\"predict_proba\")\neo.fit(X_tr, y_tr, sensitive_features=g_tr)\nyh2 = eo.predict(X_te, sensitive_features=g_te)\nmf2 = MetricFrame(metrics={\"secim\": selection_rate, \"TPR\": true_positive_rate},\n                  y_true=y_te, y_pred=yh2, sensitive_features=g_te)\nprint(\"\\nsonrasi isleme sonrasi TPR farki:\", round(mf2.difference()[\"TPR\"], 3),\n      \"| dogruluk:\", round(accuracy_score(y_te, yh2), 3), \"(once\", round(accuracy_score(y_te, yhat), 3), \")\")\nprint(mf2.by_group.round(3))\n\n# Beklenen çıktı:\n#            n  secim    TPR    FPR    PPV  taban\n# grup\n# Female  4907  0.070  0.472  0.020  0.747  0.111\n# Male    9746  0.256  0.620  0.097  0.735  0.304\n# demografik parite farki: 0.186\n# esit firsat (odds) farki: 0.147\n# genel dogruluk: 0.852\n#\n# sonrasi isleme sonrasi TPR farki: 0.053 | dogruluk: 0.836 (once 0.852 )\n#         secim    TPR\n# sex\n# Female  0.107  0.467\n# Male    0.201  0.520\n```\n\nOkuma: model kadınlarda seçim oranını 3.7 kat düşük tutuyor (0.070 vs 0.256); TPR farkı 14.7 puan. Sonradan işleme TPR farkını 5.3 puana indiriyor ama doğruluk 1.6 puan düşüyor ve seçim oranı farkı hâlâ büyük (0.107 vs 0.201): **eşitlenmiş odds sağlandı, demografik parite sağlanmadı** — imkânsızlık teoreminin somut hâli. Taban oranları 0.111 ve 0.304 olduğu için üçünü birden sağlamak mümkün değil."
+         "md": "Adult gelir modelinde grup bazlı metrikler, fairlearn ile farklar ve sonradan işlemenin doğruluk-adalet ödünleşimi.\n\n```python\n# test: python 3.13 · numpy 2.5.4 · scikit-learn 1.9.1\n# PC'de çalıştır — gerekli: numpy, pandas, scikit-learn, fairlearn\n# Adalet metrikleri: seçim oranı, TPR, FPR, PPV; eşit fırsat için sonradan işleme.\nimport numpy as np, pandas as pd\nfrom sklearn.datasets import fetch_openml\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.pipeline import make_pipeline\nfrom sklearn.preprocessing import OneHotEncoder, StandardScaler\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score\nfrom fairlearn.metrics import (MetricFrame, selection_rate, true_positive_rate, false_positive_rate,\n                               demographic_parity_difference, equalized_odds_difference)\nfrom fairlearn.postprocessing import ThresholdOptimizer\n\nd = fetch_openml(data_id=1590, as_frame=True, parser=\"liac-arff\").frame\ny = (d[\"class\"] == \">50K\").astype(int)\nX = d.drop(columns=[\"class\"])\ncinsiyet = d[\"sex\"].astype(str)\nX_tr, X_te, y_tr, y_te, g_tr, g_te = train_test_split(X, y, cinsiyet, test_size=0.3,\n                                                      stratify=y, random_state=0)\nsayisal = X.select_dtypes(\"number\").columns.tolist()\nkategorik = [c for c in X.columns if c not in sayisal]\non = ColumnTransformer([(\"s\", make_pipeline(SimpleImputer(strategy=\"median\"), StandardScaler()), sayisal),\n                        (\"k\", make_pipeline(SimpleImputer(strategy=\"most_frequent\"),\n                                            OneHotEncoder(handle_unknown=\"ignore\")), kategorik)])\nm = make_pipeline(on, LogisticRegression(max_iter=2000)).fit(X_tr, y_tr)\nyhat = (m.predict_proba(X_te)[:, 1] >= 0.5).astype(int)\n\nt = pd.DataFrame({\"y\": y_te.values, \"yhat\": yhat, \"g\": g_te.values})\nrows = []\nfor ad, s in t.groupby(\"g\"):\n    tp = ((s.y == 1) & (s.yhat == 1)).sum(); fn = ((s.y == 1) & (s.yhat == 0)).sum()\n    fp = ((s.y == 0) & (s.yhat == 1)).sum(); tn = ((s.y == 0) & (s.yhat == 0)).sum()\n    rows.append({\"grup\": ad, \"n\": len(s), \"secim\": s.yhat.mean(), \"TPR\": tp / (tp + fn),\n                 \"FPR\": fp / (fp + tn), \"PPV\": tp / max(tp + fp, 1), \"taban\": s.y.mean()})\nprint(pd.DataFrame(rows).set_index(\"grup\").round(3))\nprint(\"demografik parite farki:\", round(demographic_parity_difference(y_te, yhat, sensitive_features=g_te), 3))\nprint(\"esit firsat (odds) farki:\", round(equalized_odds_difference(y_te, yhat, sensitive_features=g_te), 3))\nprint(\"genel dogruluk:\", round(accuracy_score(y_te, yhat), 3))\n\n# Sonradan işleme: gruplara ayrı eşik, eşit fırsat kısıtı\nnp.random.seed(0)                            # eşik araması rastgele tie-breaking yapar: sabitle\neo = ThresholdOptimizer(estimator=m, constraints=\"equalized_odds\", predict_method=\"predict_proba\")\neo.fit(X_tr, y_tr, sensitive_features=g_tr)\nyh2 = eo.predict(X_te, sensitive_features=g_te)\nmf2 = MetricFrame(metrics={\"secim\": selection_rate, \"TPR\": true_positive_rate, \"FPR\": false_positive_rate},\n                  y_true=y_te, y_pred=yh2, sensitive_features=g_te)\nprint(\"\\nsonrasi isleme sonrasi TPR farki:\", round(mf2.difference()[\"TPR\"], 3),\n      \"| FPR farki:\", round(mf2.difference()[\"FPR\"], 3),\n      \"| EO farki:\", round(equalized_odds_difference(y_te, yh2, sensitive_features=g_te), 3),\n      \"| dogruluk:\", round(accuracy_score(y_te, yh2), 3), \"(once\", round(accuracy_score(y_te, yhat), 3), \")\")\nprint(mf2.by_group.round(3))\n\n# Beklenen çıktı:\n#            n  secim    TPR    FPR    PPV  taban\n# grup\n# Female  4907  0.070  0.472  0.020  0.747  0.111\n# Male    9746  0.256  0.620  0.097  0.735  0.304\n# demografik parite farki: 0.186\n# esit firsat (odds) farki: 0.147\n# genel dogruluk: 0.852\n#\n# sonrasi isleme sonrasi TPR farki: 0.053 | FPR farki: 0.0 | EO farki: 0.053 | dogruluk: 0.836 (once 0.852 )\n#         secim    TPR    FPR\n# sex\n# Female  0.107  0.467  0.062\n# Male    0.201  0.520  0.062\n```\n\nOkuma: model kadınlarda seçim oranını 3.7 kat düşük tutuyor (0.070 vs 0.256); TPR farkı 14.7 puan. Sonradan işleme FPR'ı eşitliyor (0.062 vs 0.062) ve TPR farkını 5.3 puana indiriyor ama **tam eşitlenmiş odds sağlamıyor**: `equalized_odds_difference` 0.053, yani TPR farkı kalıyor. Sebep, eşik kuralının eğitim verisinde fit edilip teste birebir taşınmaması. Doğruluk 1.6 puan düşüyor, seçim oranı farkı hâlâ büyük (0.107 vs 0.201): **demografik parite sağlanmadı**. Bu tablo imkânsızlık teoreminin somut hâli: taban oranları 0.111 ve 0.304 olduğu için TPR'yi eşitlemek seçim oranlarını eşitlemiyor, üçünü birden sağlamak mümkün değil."
         },
         {
          "id": "f6-u3-l4-sorumlu-yz-p3",
          "kind": "text",
-         "md": "# Diferansiyel gizlilik: \"bu kişi veri setinde miydi?\"\n\nBir modeli yayınladığında yalnız ağırlıkları değil, eğitim verisi hakkında **bilgi** yayınlarsın. Aşırı öğrenmiş bir model, tek bir kişinin kaydını neredeyse kopyalar; saldırgan modeli sorgulayarak o kişinin veride olup olmadığını anlayabilir. [Diferansiyel gizlilik](term:diferansiyel-gizlilik) (DP) bu sızıntıya **matematiksel bir sınır** koyar.\n\n## Tanım\n\nKomşu iki veri kümesi $D$ ve $D'$ yalnız **tek bir kişinin** kaydında farklı olsun. Mekanizma $\\mathcal{M}$ için $(\\varepsilon, \\delta)$-DP:\n\n$$\n\\Pr[\\mathcal{M}(D) \\in S] \\le e^{\\varepsilon}\\,\\Pr[\\mathcal{M}(D') \\in S] + \\delta\n$$\n\nHer olası çıktı kümesi $S$ için. Yorum: bir kişinin veride olması, çıktı dağılımını en fazla $e^\\varepsilon$ katına çıkarabilir. $\\varepsilon = 0$ → çıktı kişiden tamamen bağımsız (işe yaramaz). $\\varepsilon = 1$ → güçlü; $\\varepsilon = 10$ → zayıf ama bazen kabul edilir. $\\delta$ küçük bir \"tamamen sızma\" olasılığıdır (tipik $10^{-5}$).\n\n## Laplace mekanizması: epsilon'un somut anlamı\n\nBir sorgunun **duyarlılığı** $\\Delta$, tek kişinin değişmesiyle çıktının en fazla ne kadar değişebileceğidir. Laplace mekanizması $\\mathcal{M}(D) = q(D) + \\text{Lap}(\\Delta/\\varepsilon)$ ekler. $[0,1]$ aralığındaki bir ortalamanın duyarlılığı $1/n$'dir.\n\nKod çıktısı, $n = 569$: duyarlılık 0.00176. $\\varepsilon = 0.1$ → gürültü ölçeği 0.0176, ortalama mutlak hata 0.0178; $\\varepsilon = 10$ → hata 0.0002. Yani $\\varepsilon$ küçüldükçe gizlilik artar, tahmin gürültülenir. **$\\varepsilon$'ı \"yüzde\" gibi okuma**; iki farklı veri ve sorgu için aynı $\\varepsilon$ aynı risk demek değildir.\n\n## DP-SGD: modeli gizli eğitmek\n\nStandart SGD, tek bir örneğin gradyanını doğrudan kullanır: o örnek modeli etkiler, yani sızabilir. [DP-SGD](term:dp-sgd) (Abadi vd. 2016) iki adım ekler:\n\n1. **Kırpma**: her örnek gradyanı $g_i$'yi $\\lVert g_i\\rVert \\le C$ olacak biçimde ölçekle. Bu, tek örneğin etkisini sınırlar (duyarlılık $C$).\n2. **Gürültü**: toplam gradyana $\\mathcal{N}(0, \\sigma^2 C^2 I)$ ekle.\n\n$$\ng_t = \\frac{1}{B}\\Big(\\sum_{i \\in \\text{batch}} \\text{clip}_C(g_i) + \\mathcal{N}(0, \\sigma^2 C^2 I)\\Big)\n$$\n\n$\\sigma$ büyük → daha çok gizlilik, daha az doğruluk. Kod çıktısında $\\sigma$ 0 → 4 arasında doğruluk 0.972'den 0.951'e iniyor: bu veri küçük (420 eğitim satırı) ve kırpma eşiği cömert ($C=1$), o yüzden kayıp küçük. Gerçek sistemlerde $\\sigma$ ve $C$ birlikte ayarlanır; asıl kaldıraç **$\\sigma C$ çarpımının gradyan ölçeğine oranıdır**."
+         "md": "# Diferansiyel gizlilik: \"bu kişi veri setinde miydi?\"\n\nBir modeli yayınladığında yalnız ağırlıkları değil, eğitim verisi hakkında **bilgi** yayınlarsın. Aşırı öğrenmiş bir model, tek bir kişinin kaydını neredeyse kopyalar; saldırgan modeli sorgulayarak o kişinin veride olup olmadığını anlayabilir. [Diferansiyel gizlilik](term:diferansiyel-gizlilik) (DP) bu sızıntıya **matematiksel bir sınır** koyar.\n\n## Tanım\n\nKomşu iki veri kümesi $D$ ve $D'$ yalnız **tek bir kişinin** kaydında farklı olsun. Mekanizma $\\mathcal{M}$ için $(\\varepsilon, \\delta)$-DP:\n\n$$\n\\Pr[\\mathcal{M}(D) \\in S] \\le e^{\\varepsilon}\\,\\Pr[\\mathcal{M}(D') \\in S] + \\delta\n$$\n\nHer olası çıktı kümesi $S$ için. Yorum: bir kişinin veride olması, çıktı dağılımını en fazla $e^\\varepsilon$ katına çıkarabilir. $\\varepsilon = 0$ → çıktı kişiden tamamen bağımsız (işe yaramaz). $\\varepsilon = 1$ → güçlü; $\\varepsilon = 10$ → zayıf ama bazen kabul edilir. $\\delta$ küçük bir \"tamamen sızma\" olasılığıdır (tipik $10^{-5}$).\n\n## Laplace mekanizması: epsilon'un somut anlamı\n\nBir sorgunun **duyarlılığı** $\\Delta$, tek kişinin değişmesiyle çıktının en fazla ne kadar değişebileceğidir. Laplace mekanizması $\\mathcal{M}(D) = q(D) + \\text{Lap}(\\Delta/\\varepsilon)$ ekler. $[0,1]$ aralığındaki bir ortalamanın duyarlılığı $1/n$'dir.\n\nKod çıktısı, $n = 569$: duyarlılık 0.00176. $\\varepsilon = 0.1$ → gürültü ölçeği 0.0176, ortalama mutlak hata 0.0178; $\\varepsilon = 10$ → hata 0.0002. Yani $\\varepsilon$ küçüldükçe gizlilik artar, tahmin gürültülenir. **$\\varepsilon$'ı \"yüzde\" gibi okuma**; iki farklı veri ve sorgu için aynı $\\varepsilon$ aynı risk demek değildir.\n\n## DP-SGD: modeli gizli eğitmek\n\nStandart SGD, tek bir örneğin gradyanını doğrudan kullanır: o örnek modeli etkiler, yani sızabilir. [DP-SGD](term:dp-sgd) (Abadi vd. 2016) iki adım ekler:\n\n1. **Kırpma**: her örnek gradyanı $g_i$'yi $\\lVert g_i\\rVert \\le C$ olacak biçimde ölçekle. Bu, tek örneğin etkisini sınırlar (duyarlılık $C$).\n2. **Gürültü**: toplam gradyana $\\mathcal{N}(0, \\sigma^2 C^2 I)$ ekle.\n\n$$\ng_t = \\frac{1}{B}\\Big(\\sum_{i \\in \\text{batch}} \\text{clip}_C(g_i) + \\mathcal{N}(0, \\sigma^2 C^2 I)\\Big)\n$$\n\n$\\sigma$ büyük → daha çok gizlilik, daha az doğruluk. Kod çıktısında $\\sigma$ 0 → 4 arasında doğruluk 0.972'den 0.951'e iniyor: bu veri küçük (426 eğitim satırı) ve kırpma eşiği cömert ($C=1$), o yüzden kayıp küçük. Gerçek sistemlerde $\\sigma$ ve $C$ birlikte ayarlanır; asıl kaldıraç **$\\sigma C$ çarpımının gradyan ölçeğine oranıdır**."
         },
         {
          "id": "f6-u3-l4-sorumlu-yz-p3-b2",
@@ -23733,9 +23842,7 @@
           "0.004",
           "0,004",
           "0.0040",
-          "0,0040",
-          "0.00",
-          "0,00"
+          "0,0040"
          ],
          "explain": "$0{,}002/0{,}5=0{,}004$. [Diferansiyel gizlilik](term:diferansiyel-gizlilik)te $\\varepsilon$ küçüldükçe ölçek büyür: daha çok gizlilik, daha gürültülü tahmin."
         },
@@ -23995,12 +24102,12 @@
         {
          "id": "f6-u4-l3-davranissal-p3",
          "kind": "text",
-         "md": "# Hikâye bankası: altı hikâye, altı yetkinlik\n\nMülakatta hikâye uydurmak zor; hazırlıklı olmak gerekir. 6-8 hikâyelik bir **bank** kurun; her hikâye 2-4 yetkinliğe hizmet etsin. Aynı hikâyeyi farklı sorularda farklı vurguyla anlatabilirsiniz.\n\n## Kapsama matrisi\n\n| Hikâye | Etki | Sahiplenme | Belirsizlik | Çatışma | Mentorluk | Başarısızlık |\n|---|---|---|---|---|---|---|\n| Ayrılma modeli | ✓ |  | ✓ |  |  |  |\n| Üretim olayı |  | ✓ |  |  |  | ✓ |\n| Onboarding | ✓ |  |  |  | ✓ |  |\n| Filtre vs sıralama | ✓ |  |  | ✓ |  |  |\n| Başarısız proje |  | ✓ | ✓ |  |  | ✓ |\n| Standart/araç | ✓ | ✓ |  |  | ✓ |  |\n\nHer sütunda en az bir hikâye olmalı. Boş sütun, mülakatta o soruya hazırlıksız yakalanmak demektir.\n\n## Hikâyeyi nereden bulacaksınız?\n\n- **İş**: teslim ettiğiniz her proje, katıldığınız her olay, yaptığınız her kod incelemesi.\n- **Açık kaynak**: kabul edilen/reddedilen PR, tartışma, sürüm.\n- **Kendi projeleri**: `ml-yol` portföyü; ama \"tek başıma yaptım\" hikâyeleri işbirliği sinyali vermez, dikkatli kullanın.\n- **Okul/önceki kariyer**: yazılım projeleri, ekip çalışması, öğretmenlik/mentorluk.\n\nHer hikâye için şu alanları doldurun: durum, görev, üç-beş aksiyon, sonuç (sayı + kanıt), öğrenim, hangi yetkinlikler. Sonra 2 dakikalık ve 5 dakikalık iki versiyon yazın.\n\n## Örnek: ayrılma modeli (tam hikâye)\n\n**S.** \"2 milyon kullanıcılı bir abonelik ürününde aylık ayrılma 6 ayda %4'ten %5'e çıkmıştı. Ekip nedeni bilmiyordu; veri ekibi 3 hafta sonra ancak temiz veri verebiliyordu.\"\n\n**T.** \"Çeyrek sonuna kadar ayrılmayı düşürecek bir müdahale bulmam ve etkisini ölçmem gerekiyordu.\"\n\n**A.** \"Ben önce son 12 ayın kullanım verisini inceledim ve riskli dilimi tanımladım: son 30 günde oturum sayısı düşen, destek talebi açan kullanıcılar. İki özellik setini karşılaştırdım; davranışsal özellikler demografikten daha güçlüydü. Modeli sıfırdan kurdum, sınıf dengesizliği için ağırlıklandırma ekledim. Ölçüm için 21 günlük A/B testi tasarladım; güç analizi 356 bin kullanıcı/kol dedi ve tam haftalara yuvarladım. Sonuçları CUPED ile analiz ettim.\"\n\n**R.** \"Hedeflenen 200 bin kullanıcıda aylık ayrılma %5,0'den %4,85'e indi; yılda yaklaşık 43 bin USD gelir korundu. A/B GA [+0,05; +0,25] puan. Yayın 6 hafta sürdü, sonraki çeyrekte etki kalıcıydı.\"\n\n**L.** \"Bugün olsa veri temizliğini beklemeden önce ölçüm tasarımını yazardım; 3 hafta kaybımın yarısı buradan geldi.\"\n\nBu hikâye hem **etki** hem **belirsizlik** sorusuna hizmet eder. Etki sorusunda sonucu, belirsizlik sorusunda veri eksikliğiyle nasıl karar verdiğinizi vurgularsınız.\n\n## Bankayı güncel tutmak\n\nHer çeyrek sonunda bankaya bakın: yeni bir olay, yeni bir mentorluk, yeni bir başarısızlık ekleyin. Mülakat sabahı hikâye aramak, en kötü hazırlıktır. [Proje günlüğü](term:proje-gunlugu) tutuyorsanız banka kendiliğinden oluşur.\n"
+         "md": "# Hikâye bankası: altı hikâye, altı yetkinlik\n\nMülakatta hikâye uydurmak zor; hazırlıklı olmak gerekir. 6-8 hikâyelik bir **bank** kurun; her hikâye 2-4 yetkinliğe hizmet etsin. Aynı hikâyeyi farklı sorularda farklı vurguyla anlatabilirsiniz.\n\n## Kapsama matrisi\n\n| Hikâye | Etki | Sahiplenme | Belirsizlik | Çatışma | Mentorluk | Başarısızlık |\n|---|---|---|---|---|---|---|\n| Ayrılma modeli | ✓ |  | ✓ |  |  |  |\n| Üretim olayı |  | ✓ |  |  |  | ✓ |\n| Onboarding | ✓ |  |  |  | ✓ |  |\n| Filtre vs sıralama | ✓ |  |  | ✓ |  |  |\n| Başarısız proje |  | ✓ | ✓ |  |  | ✓ |\n| Standart/araç | ✓ | ✓ |  |  | ✓ |  |\n\nHer sütunda en az bir hikâye olmalı. Boş sütun, mülakatta o soruya hazırlıksız yakalanmak demektir.\n\n## Hikâyeyi nereden bulacaksınız?\n\n- **İş**: teslim ettiğiniz her proje, katıldığınız her olay, yaptığınız her kod incelemesi.\n- **Açık kaynak**: kabul edilen/reddedilen PR, tartışma, sürüm.\n- **Kendi projeleri**: `ml-yol` portföyü; ama \"tek başıma yaptım\" hikâyeleri işbirliği sinyali vermez, dikkatli kullanın.\n- **Okul/önceki kariyer**: yazılım projeleri, ekip çalışması, öğretmenlik/mentorluk.\n\nHer hikâye için şu alanları doldurun: durum, görev, üç-beş aksiyon, sonuç (sayı + kanıt), öğrenim, hangi yetkinlikler. Sonra 2 dakikalık ve 5 dakikalık iki versiyon yazın.\n\n## Örnek: ayrılma modeli (tam hikâye)\n\n**S.** \"2 milyon kullanıcılı bir abonelik ürününde aylık ayrılma 6 ayda %4'ten %5'e çıkmıştı. Ekip nedeni bilmiyordu; veri ekibi 3 hafta sonra ancak temiz veri verebiliyordu.\"\n\n**T.** \"Çeyrek sonuna kadar ayrılmayı düşürecek bir müdahale bulmam ve etkisini ölçmem gerekiyordu.\"\n\n**A.** \"Ben önce son 12 ayın kullanım verisini inceledim ve riskli dilimi tanımladım: son 30 günde oturum sayısı düşen, destek talebi açan kullanıcılar. İki özellik setini karşılaştırdım; davranışsal özellikler demografikten daha güçlüydü. Modeli sıfırdan kurdum, sınıf dengesizliği için ağırlıklandırma ekledim. Ölçüm için 21 günlük A/B testi tasarladım; güç analizi %80 güç ve 0,19 puanlık en küçük etki için yaklaşık 200 bin kullanıcı/kol dedi, tam haftalara yuvarladım. Sonuçları CUPED ile analiz ettim.\"\n\n**R.** \"Hedeflenen 200 bin kullanıcıda aylık ayrılma %5,0'den %4,85'e indi; yılda yaklaşık 43 bin USD gelir korundu. A/B GA [+0,02; +0,28] puan. Yayın 6 hafta sürdü, sonraki çeyrekte etki kalıcıydı.\"\n\n**L.** \"Bugün olsa veri temizliğini beklemeden önce ölçüm tasarımını yazardım; 3 hafta kaybımın yarısı buradan geldi.\"\n\nBu hikâye hem **etki** hem **belirsizlik** sorusuna hizmet eder. Etki sorusunda sonucu, belirsizlik sorusunda veri eksikliğiyle nasıl karar verdiğinizi vurgularsınız.\n\n## Bankayı güncel tutmak\n\nHer çeyrek sonunda bankaya bakın: yeni bir olay, yeni bir mentorluk, yeni bir başarısızlık ekleyin. Mülakat sabahı hikâye aramak, en kötü hazırlıktır. [Proje günlüğü](term:proje-gunlugu) tutuyorsanız banka kendiliğinden oluşur.\n"
         },
         {
          "id": "f6-u4-l3-davranissal-p4",
          "kind": "code",
-         "md": "STAR bankası denetleyicisi: yapı, sonuçta tabanlı sayı, birinci tekil karar anı, öğrenim ve yetkinlik kapsamı. Dört hikâye 20 üzerinden 20 alıyor; kapsama matrisinde yalnız başarısızlık yetkinliği eksik raporlanıyor.\n\n```python\n# PC'de çalıştır — gerekli: yok (standart kütüphane)\n# STAR hikâye bankası denetleyicisi: yapı, sayı, birinci tekil karar, kapsam.\nimport re\n\nSTORIES = [\n    {\"id\": \"churn\", \"competencies\": [\"etki\", \"belirsizlik\"],\n     \"situation\": \"Ayrılma oranı 6 ayda %2 arttı; ekip nedeni bilmiyordu.\",\n     \"task\": \"Çeyrek sonuna kadar ayrılmayı düşürecek bir müdahale bulmak.\",\n     \"action\": [\"Ben riskli dilimi tanımlamak için 12 aylık kullanım verisini inceledim.\",\n                \"Ben özellik olarak son 30 gün oturum sayısını seçtim; alternatifleri karşılaştırdım.\",\n                \"Ben modeli sıfırdan kurdum ve 21 günlük A/B testi tasarladım.\"],\n     \"result\": \"Aylık ayrılma %5,0'den %4,85'e indi; yılda 43 bin USD gelir korundu; A/B GA [+0,05; +0,25] puan.\",\n     \"learning\": \"Etkiyi ölçmeden yayına almak, iyi modeli bile savunulamaz kılıyor.\"},\n    {\"id\": \"incident\", \"competencies\": [\"sahiplik\", \"olay\"],\n     \"situation\": \"Öneri servisinin p99 gecikmesi 900 ms'ye çıktı; hata oranı iki katına çıktı.\",\n     \"task\": \"Nöbette kök nedeni bulup hizmeti geri getirmek.\",\n     \"action\": [\"Ben alarmı gördükten 5 dakika sonra önbellek isabet oranının düştüğünü tespit ettim.\",\n                \"Yeni model sürümünü geri aldım; 40 dakikada p99 180 ms'ye indi.\",\n                \"Olay sonrası analiz yazdım ve önbellek boyutu için alarm ekledim.\"],\n     \"result\": \"MTTR 40 dakika; tekrar eden olay sayısı çeyrekte 3'ten 0'a indi.\",\n     \"learning\": \"Geri alma tetiği yazılı olmadan nöbet, kahramanlığa dönüşüyor.\"},\n    {\"id\": \"mentor\", \"competencies\": [\"mentorluk\", \"etki\"],\n     \"situation\": \"Yeni katılan mühendis ilk 3 ay boyunca bağımsız deploy yapamadı.\",\n     \"task\": \"Onboarding süresini kısaltmak ve bağımsız sahiplenmeyi artırmak.\",\n     \"action\": [\"Ben ilk 2 hafta için 6 maddelik bir kontrol listesi hazırladım.\",\n                \"Haftalık 30 dakikalık kod incelemesi kurduk; her incelemede tek bir odak seçtik.\",\n                \"İlk bağımsız deploy'unu birlikte planladık, sonra geri çekildim.\"],\n     \"result\": \"Bağımsız deploy süresi 12 haftadan 8 haftaya indi; sonraki 2 yeni mühendis 8. haftada deploy etti.\",\n     \"learning\": \"Mentorluk cevap vermek değil, karar alanını güvenli biçimde genişletmek.\"},\n    {\"id\": \"conflict\", \"competencies\": [\"catisma\", \"etki\"],\n     \"situation\": \"Ürün ekibi sıralama modeli yerine sert filtre istiyordu; ben sıralamanın daha iyi olacağını düşünüyordum.\",\n     \"task\": \"İki yaklaşım arasında veriye dayalı karar vermek.\",\n     \"action\": [\"Ben iki yaklaşımı da aynı değerlendirme setinde ölçtüm.\",\n                \"Filtrenin keşfedilebilirliği %18 düşürdüğünü gösterdim.\",\n                \"Uzlaşma olarak filtreyi yalnız güvenlik kategorilerinde tuttuk.\"],\n     \"result\": \"Keşfedilebilirlik %18'lik düşüşten korundu; güvenlik şikayetleri değişmedi; karar 2 haftada verildi.\",\n     \"learning\": \"Çatışmayı görüş değil ortak metrik üzerinden çözmek, kararı hızlandırıyor.\"},\n]\n\nTARGET = {\"etki\", \"sahiplik\", \"belirsizlik\", \"mentorluk\", \"catisma\", \"basarisizlik\"}\nREQUIRED = [\"situation\", \"task\", \"action\", \"result\"]\n\ndef audit(s):\n    points, notes = 0, []\n    if all(s.get(k) for k in REQUIRED):\n        points += 1\n    else:\n        notes.append(\"yapı eksik\")\n    r = s.get(\"result\", \"\")\n    if re.search(r\"\\d\", r) and re.search(r\"%|USD|puan|ms|hafta|dakika\", r) \\\n       and re.search(r\"(den|dan|ten|tan)\", r):\n        points += 1\n    else:\n        notes.append(\"sonuçta tabanlı sayı yok\")\n    acts = \" \".join(s.get(\"action\", []))\n    if re.search(r\"\\bBen\\b|\\bben\\b\", acts) and re.search(\n            r\"karar verdim|önerdim|seçtim|durdurdum|değiştirdim|kurdum|inceledim|\"\n            r\"tespit ettim|hazırladım|ölçtüm\", acts):\n        points += 1\n    else:\n        notes.append(\"birinci tekil karar anı yok\")\n    points += 1 if len(s.get(\"action\", [])) >= 3 else 0\n    if len(s.get(\"action\", [])) < 3:\n        notes.append(\"aksiyon 3 adımdan az\")\n    points += 1 if s.get(\"learning\") else 0\n    if not s.get(\"learning\"):\n        notes.append(\"öğrenim yok\")\n    return points, notes\n\nfor s in STORIES:\n    pts, notes = audit(s)\n    print(f\"{s['id']:9s} {pts}/5  {notes or 'temiz'}\")\n\ncovered = set().union(*(set(s[\"competencies\"]) for s in STORIES))\nprint(\"kapsanan yetkinlikler:\", sorted(covered))\nprint(\"eksik:\", sorted(TARGET - covered))\nprint(f\"toplam: {sum(audit(s)[0] for s in STORIES)}/{5*len(STORIES)}\")\n\n# Beklenen çıktı:\n# churn     5/5  temiz\n# incident  5/5  temiz\n# mentor    5/5  temiz\n# conflict  5/5  temiz\n# kapsanan yetkinlikler: ['belirsizlik', 'catisma', 'etki', 'mentorluk', 'olay', 'sahiplik']\n# eksik: ['basarisizlik']\n# toplam: 20/20\n```"
+         "md": "STAR bankası denetleyicisi: yapı, sonuçta tabanlı sayı, birinci tekil karar anı, öğrenim ve yetkinlik kapsamı. Dört hikâye 20 üzerinden 20 alıyor; kapsama matrisinde yalnız başarısızlık yetkinliği eksik raporlanıyor.\n\n```python\n# PC'de çalıştır — gerekli: yok (standart kütüphane)\n# STAR hikâye bankası denetleyicisi: yapı, sayı, birinci tekil karar, kapsam.\nimport re\n\nSTORIES = [\n    {\"id\": \"churn\", \"competencies\": [\"etki\", \"belirsizlik\"],\n     \"situation\": \"Ayrılma oranı 6 ayda %4'ten %5'e çıktı; ekip nedeni bilmiyordu.\",\n     \"task\": \"Çeyrek sonuna kadar ayrılmayı düşürecek bir müdahale bulmak.\",\n     \"action\": [\"Ben riskli dilimi tanımlamak için 12 aylık kullanım verisini inceledim.\",\n                \"Ben özellik olarak son 30 gün oturum sayısını seçtim; alternatifleri karşılaştırdım.\",\n                \"Ben modeli sıfırdan kurdum ve 21 günlük A/B testi tasarladım.\"],\n     \"result\": \"Aylık ayrılma %5,0'den %4,85'e indi; yılda 43 bin USD gelir korundu; A/B GA [+0,02; +0,28] puan.\",\n     \"learning\": \"Etkiyi ölçmeden yayına almak, iyi modeli bile savunulamaz kılıyor.\"},\n    {\"id\": \"incident\", \"competencies\": [\"sahiplik\", \"olay\"],\n     \"situation\": \"Öneri servisinin p99 gecikmesi 900 ms'ye çıktı; hata oranı iki katına çıktı.\",\n     \"task\": \"Nöbette kök nedeni bulup hizmeti geri getirmek.\",\n     \"action\": [\"Ben alarmı gördükten 5 dakika sonra önbellek isabet oranının düştüğünü tespit ettim.\",\n                \"Yeni model sürümünü geri aldım; 40 dakikada p99 180 ms'ye indi.\",\n                \"Olay sonrası analiz yazdım ve önbellek boyutu için alarm ekledim.\"],\n     \"result\": \"MTTR 40 dakika; tekrar eden olay sayısı çeyrekte 3'ten 0'a indi.\",\n     \"learning\": \"Geri alma tetiği yazılı olmadan nöbet, kahramanlığa dönüşüyor.\"},\n    {\"id\": \"mentor\", \"competencies\": [\"mentorluk\", \"etki\"],\n     \"situation\": \"Yeni katılan mühendis ilk 3 ay boyunca bağımsız deploy yapamadı.\",\n     \"task\": \"Onboarding süresini kısaltmak ve bağımsız sahiplenmeyi artırmak.\",\n     \"action\": [\"Ben ilk 2 hafta için 6 maddelik bir kontrol listesi hazırladım.\",\n                \"Haftalık 30 dakikalık kod incelemesi kurduk; her incelemede tek bir odak seçtik.\",\n                \"İlk bağımsız deploy'unu birlikte planladık, sonra geri çekildim.\"],\n     \"result\": \"Bağımsız deploy süresi 12 haftadan 8 haftaya indi; sonraki 2 yeni mühendis 8. haftada deploy etti.\",\n     \"learning\": \"Mentorluk cevap vermek değil, karar alanını güvenli biçimde genişletmek.\"},\n    {\"id\": \"conflict\", \"competencies\": [\"catisma\", \"etki\"],\n     \"situation\": \"Ürün ekibi sıralama modeli yerine sert filtre istiyordu; ben sıralamanın daha iyi olacağını düşünüyordum.\",\n     \"task\": \"İki yaklaşım arasında veriye dayalı karar vermek.\",\n     \"action\": [\"Ben iki yaklaşımı da aynı değerlendirme setinde ölçtüm.\",\n                \"Filtrenin keşfedilebilirliği %18 düşürdüğünü gösterdim.\",\n                \"Uzlaşma olarak filtreyi yalnız güvenlik kategorilerinde tuttuk.\"],\n     \"result\": \"Keşfedilebilirlik %18'lik düşüşten korundu; güvenlik şikayetleri değişmedi; karar 2 haftada verildi.\",\n     \"learning\": \"Çatışmayı görüş değil ortak metrik üzerinden çözmek, kararı hızlandırıyor.\"},\n]\n\nTARGET = {\"etki\", \"sahiplik\", \"belirsizlik\", \"mentorluk\", \"catisma\", \"basarisizlik\"}\nREQUIRED = [\"situation\", \"task\", \"action\", \"result\"]\n\ndef audit(s):\n    points, notes = 0, []\n    if all(s.get(k) for k in REQUIRED):\n        points += 1\n    else:\n        notes.append(\"yapı eksik\")\n    r = s.get(\"result\", \"\")\n    if re.search(r\"\\d\", r) and re.search(r\"%|USD|puan|ms|hafta|dakika\", r) \\\n       and re.search(r\"(den|dan|ten|tan)\", r):\n        points += 1\n    else:\n        notes.append(\"sonuçta tabanlı sayı yok\")\n    acts = \" \".join(s.get(\"action\", []))\n    if re.search(r\"\\bBen\\b|\\bben\\b\", acts) and re.search(\n            r\"karar verdim|önerdim|seçtim|durdurdum|değiştirdim|kurdum|inceledim|\"\n            r\"tespit ettim|hazırladım|ölçtüm\", acts):\n        points += 1\n    else:\n        notes.append(\"birinci tekil karar anı yok\")\n    points += 1 if len(s.get(\"action\", [])) >= 3 else 0\n    if len(s.get(\"action\", [])) < 3:\n        notes.append(\"aksiyon 3 adımdan az\")\n    points += 1 if s.get(\"learning\") else 0\n    if not s.get(\"learning\"):\n        notes.append(\"öğrenim yok\")\n    return points, notes\n\nfor s in STORIES:\n    pts, notes = audit(s)\n    print(f\"{s['id']:9s} {pts}/5  {notes or 'temiz'}\")\n\ncovered = set().union(*(set(s[\"competencies\"]) for s in STORIES))\nprint(\"kapsanan yetkinlikler:\", sorted(covered))\nprint(\"eksik:\", sorted(TARGET - covered))\nprint(f\"toplam: {sum(audit(s)[0] for s in STORIES)}/{5*len(STORIES)}\")\n\n# Beklenen çıktı:\n# churn     5/5  temiz\n# incident  5/5  temiz\n# mentor    5/5  temiz\n# conflict  5/5  temiz\n# kapsanan yetkinlikler: ['belirsizlik', 'catisma', 'etki', 'mentorluk', 'olay', 'sahiplik']\n# eksik: ['basarisizlik']\n# toplam: 20/20\n```"
         },
         {
          "id": "f6-u4-l3-davranissal-p5",
@@ -24096,12 +24203,12 @@
         {
          "id": "f6-u5-l1-portfoy-kariyer-p1",
          "kind": "text",
-         "md": "# Müfredat biter, kariyer başlar\n\nBu müfredat 2-2,5 yılda (yaklaşık 1 300-1 800 saat) senior ML Engineer'ın **bilgi ve beceri tabanını** kurar. Senior unvanının kendisini vermez. Kamuya açık kariyer basamakları ve ilanlar, 2-3+ yılı doğrudan ML olmak üzere toplam **5-8 yıl üretim deneyimi** istiyor; bu \"sahiplenme yılları\" çalışarak kısaltılamıyor ([GitLab MLE](https://handbook.gitlab.com/job-families/engineering/development/data-science/machine-learning)). Dropbox'ın IC3 (senior) tanımı da \"çeyrek ölçekli, belirsiz projeleri bağımsız sahiplenme, RFC yazma, mentorluk, SEV müdahalesi\" diyor ([Dropbox IC3](https://dropbox.github.io/dbx-career-framework/ic3_machine_learning_engineer.html)).\n\nBu yüzden kapanış dersi iki soruya cevap verir:\n\n1. **Kanıtı nasıl biriktiririm?** [Portföy](term:portfoy), öğrendiğini göstermenin en ucuz yolu.\n2. **Zamanı nasıl harcarım?** Hangi iş, senior yolunda en yüksek getiriyi üretir?\n\n## Üç kanıt katmanı\n\n| Katman | Ne kanıtlar | Nerede durur |\n|---|---|---|\n| Kod ve tekrar üretilebilirlik | Mühendislik becerisi | GitHub `ml-yol` |\n| Ölçülmüş sonuç | Etki ve ölçüm disiplini | Proje README + `results.md` |\n| Yazı ve karar | İletişim ve tasarım | RFC'ler, blog, model kartları |\n\nBir işe alım uzmanı ilk 60 saniyede README'ye bakar: problem ne, sonuç ne, nasıl çalıştırılır? Bu üçü yoksa kod ne kadar iyi olursa olsun portföy puan kaybeder.\n\n## Portföy ≠ proje sayısı\n\nOn tane yarım proje yerine **üç derin proje**; yarım projeler yalnız [teknik borç](term:teknik-borc) biriktirir:\n\n- Biri **tabular/klasik ML** (ayrılma, fraud, fiyatlama) — iş etkisi ve A/B.\n- Biri **derin öğrenme/LLM** (RAG, sınıflandırma, ince ayar) — modern yığın.\n- Biri **sistem/MLOps** (servis, izleme, CI/CD) — üretim tarafı.\n\nHer proje, bir mülakat sorusunun cevabı gibi yazılmalı: \"Hangi problemi çözdüm, hangi baseline'ı geçtim, hangi ödünleşimi seçtim, ne ölçtüm, ne öğrendim.\"\n\n## Bu dersin çıktısı\n\n- `ml-yol` deposunun iskeleti ve README standardı.\n- Portföy denetleyicisi: eksik kanıt dosyalarını gösteren çalışır araç.\n- Beş yetkinlik sütununa dayalı kariyer planı ve gerçekçi takvim.\n- Her 6 ayda müfredatı resmi dokümanlara karşı güncelleme rutini.\n"
+         "md": "# Müfredat biter, kariyer başlar\n\nBu müfredat 2-2,5 yılda (yaklaşık 1 300-1 800 saat) senior ML Engineer'ın **bilgi ve beceri tabanını** kurar. Senior unvanının kendisini vermez. Kamuya açık kariyer basamakları ve ilanlar, senior seviyede **en az 3 yıl**, staff seviyede **en az 5 yıl** doğrudan ML deneyimi istiyor; bu \"sahiplenme yılları\" çalışarak kısaltılamıyor ([GitLab MLE](https://handbook.gitlab.com/job-description-library/engineering/development/data-science/machine-learning/)). Dropbox'ın IC3 (senior) tanımı da \"çeyrek ölçekli, belirsiz projeleri bağımsız sahiplenme, RFC yazma, mentorluk, SEV müdahalesi\" diyor ([Dropbox IC3](https://dropbox.github.io/dbx-career-framework/ic3_machine_learning_engineer.html)).\n\nBu yüzden kapanış dersi iki soruya cevap verir:\n\n1. **Kanıtı nasıl biriktiririm?** [Portföy](term:portfoy), öğrendiğini göstermenin en ucuz yolu.\n2. **Zamanı nasıl harcarım?** Hangi iş, senior yolunda en yüksek getiriyi üretir?\n\n## Üç kanıt katmanı\n\n| Katman | Ne kanıtlar | Nerede durur |\n|---|---|---|\n| Kod ve tekrar üretilebilirlik | Mühendislik becerisi | GitHub `ml-yol` |\n| Ölçülmüş sonuç | Etki ve ölçüm disiplini | Proje README + `results.md` |\n| Yazı ve karar | İletişim ve tasarım | RFC'ler, blog, model kartları |\n\nBir işe alım uzmanı ilk 60 saniyede README'ye bakar: problem ne, sonuç ne, nasıl çalıştırılır? Bu üçü yoksa kod ne kadar iyi olursa olsun portföy puan kaybeder.\n\n## Portföy ≠ proje sayısı\n\nOn tane yarım proje yerine **üç derin proje**; yarım projeler yalnız [teknik borç](term:teknik-borc) biriktirir:\n\n- Biri **tabular/klasik ML** (ayrılma, fraud, fiyatlama) — iş etkisi ve A/B.\n- Biri **derin öğrenme/LLM** (RAG, sınıflandırma, ince ayar) — modern yığın.\n- Biri **sistem/MLOps** (servis, izleme, CI/CD) — üretim tarafı.\n\nHer proje, bir mülakat sorusunun cevabı gibi yazılmalı: \"Hangi problemi çözdüm, hangi baseline'ı geçtim, hangi ödünleşimi seçtim, ne ölçtüm, ne öğrendim.\"\n\n## Bu dersin çıktısı\n\n- `ml-yol` deposunun iskeleti ve README standardı.\n- Portföy denetleyicisi: eksik kanıt dosyalarını gösteren çalışır araç.\n- Beş yetkinlik sütununa dayalı kariyer planı ve gerçekçi takvim.\n- Her 6 ayda müfredatı resmi dokümanlara karşı güncelleme rutini.\n"
         },
         {
          "id": "f6-u5-l1-portfoy-kariyer-p2",
          "kind": "text",
-         "md": "# `ml-yol` portföyünün iskeleti\n\n## Depo yapısı\n\n```text\nml-yol/\n  README.md                  # harita: hangi faz, hangi proje, hangi beceri\n  f1-churn/\n    README.md                # Problem / Data / Method / Results / Run\n    src/                     # eğitim ve çıkarım kodu\n    tests/                   # en az 3 test\n    pyproject.toml           # bağımlılıklar kilitli\n    results.md               # baseline vs model tablosu\n    model_card.md            # amaç, veri, sınırlar, kullanım dışı\n  f3-rag/\n    ...\n  rfcs/                      # tasarım kararları\n  writing/                   # blog taslakları\n  .github/workflows/ci.yml   # test + lint\n```\n\nHer proje **kendi başına çalıştırılabilir** olmalı: `uv sync && pytest && python -m src.train`. README'de bu üç komut yazılı olmalı. \"Kendi ortamımda çalışıyordu\" portföyde en sık görülen kırmızı bayraktır.\n\n## README standardı: beş başlık\n\n1. **Problem**: kim, hangi karar, hangi metrik? İş diliyle 2-3 cümle.\n2. **Data**: kaynak, lisans, boyut, zaman aralığı, sızıntı kontrolleri. Veriyi paylaşamıyorsan şemasını ve üretim betiğini paylaş.\n3. **Method**: baseline ve model; neden bu model; hiperparametre araması; özellik mühendisliği.\n4. **Results**: tablo. Baseline, model, metrik, güven aralığı. Offline ve (varsa) online sonuç ayrı.\n5. **Run**: kurulum, komutlar, süre, donanım. Tohum (seed) ve sürümler.\n\nEk olarak **sınırlar**: modelin neyi yapamadığı, hangi segmentte kötü olduğu, hangi veride eğitilmediği. [Model kartı](term:model-karti) bu bilgiyi tek sayfada toplar.\n\n## Sonuç tablosu: baseline zorunlu\n\n| Model | ROC-AUC | PR-AUC | Recall@%10 FPR | Not |\n|---|---|---|---|---|\n| Çoğunluk sınıfı | 0.500 | 0.061 | 0.061 | baseline |\n| Lojistik regresyon | 0.842 | 0.512 | 0.441 | 12 özellik |\n| LightGBM | 0.871 | 0.588 | 0.503 | 300 ağaç |\n| LightGBM + kalibrasyon | 0.871 | 0.590 | 0.511 | olasılıklar kalibre |\n\nBaseline olmadan \"0.87 AUC\" bir sayı değil, bağlamsız bir iddiadır. Tabloda **en az bir** baseline ve **bir** üst model olmalı; aradaki farkın iş etkisi yazılmalı.\n\n## Kod kalitesi: portföyde aranan beş şey\n\n- **Tekrar üretilebilirlik**: kilitli bağımlılıklar ([sürümleme](term:surumleme)), sabit tohum, deterministik bölme.\n- **Test**: veri şeması, metrik hesabı, çıkarım şekli. Model kalitesini test etmek zor; ama sözleşmeyi test edin.\n- **Konfigürasyon**: hiperparametreler kodda değil, YAML/CLI'da.\n- **CI**: her push'ta test + lint; rozet README'de.\n- **Lisans ve atıf**: veri ve model lisansı; üçüncü taraf kod atıfları.\n\n## Yazı: üç parça\n\n- **Bir RFC** (`rfcs/001-...md`): bir tasarım kararını seçenekleri ve ödünleşimleriyle anlatır.\n- **Bir blog yazısı**: bir hatayı ya da öğrenileni 800-1 200 kelimede anlatır. \"Nasıl yaptım\" değil, \"ne öğrendim, neyi farklı yapardım\".\n- **Bir model kartı**: her proje için; amaç, veri, performans, sınırlar.\n\nYazı, mülakatta anlatacağınız hikâyenin yazılı provasıdır. Aynı içeriği iki kez üretmiş olursunuz; maliyet düşük, getiri yüksektir.\n\n## Görünürlük\n\n- README'nin ilk ekranında **sonuç** ve **çalıştırma komutu** olsun; ziyaretçi kaydırmasın.\n- Depoyu sabit tutun: 3-5 proje, her biri cilalı.\n- LinkedIn/CV'de proje linki + tek cümlelik etki. \"ML projeleri\" değil, \"ayrılma tahmini: %3 göreli düşüş, 43 bin USD/yıl\".\n- Açık kaynak katkısı: küçük ama gerçek bir PR (doküman düzeltmesi bile), süreklilik gösterir.\n"
+         "md": "# `ml-yol` portföyünün iskeleti\n\n## Depo yapısı\n\n```text\nml-yol/\n  README.md                  # harita: hangi faz, hangi proje, hangi beceri\n  f1-churn/\n    README.md                # Problem / Data / Method / Results / Run\n    src/                     # eğitim ve çıkarım kodu\n    tests/                   # en az 3 test\n    pyproject.toml           # bağımlılıklar kilitli\n    results.md               # baseline vs model tablosu\n    model_card.md            # amaç, veri, sınırlar, kullanım dışı\n  f3-rag/\n    ...\n  rfcs/                      # tasarım kararları\n  writing/                   # blog taslakları\n  .github/workflows/ci.yml   # test + lint\n```\n\nHer proje **kendi başına çalıştırılabilir** olmalı: `uv sync && pytest && python -m src.train`. README'de bu üç komut yazılı olmalı. \"Kendi ortamımda çalışıyordu\" portföyde en sık görülen kırmızı bayraktır.\n\n## README standardı: beş başlık\n\n1. **Problem**: kim, hangi karar, hangi metrik? İş diliyle 2-3 cümle.\n2. **Data**: kaynak, lisans, boyut, zaman aralığı, sızıntı kontrolleri. Veriyi paylaşamıyorsan şemasını ve üretim betiğini paylaş.\n3. **Method**: baseline ve model; neden bu model; hiperparametre araması; özellik mühendisliği.\n4. **Results**: tablo. Baseline, model, metrik, güven aralığı. Offline ve (varsa) online sonuç ayrı.\n5. **Run**: kurulum, komutlar, süre, donanım. Tohum (seed) ve sürümler.\n\nEk olarak **sınırlar**: modelin neyi yapamadığı, hangi segmentte kötü olduğu, hangi veride eğitilmediği. [Model kartı](term:model-karti) bu bilgiyi tek sayfada toplar.\n\n## Sonuç tablosu: baseline zorunlu\n\n| Model | ROC-AUC | PR-AUC | Recall@%10 FPR | Not |\n|---|---|---|---|---|\n| Rastgele skor | 0.500 | 0.061 | 0.100 | baseline (recall ≈ FPR) |\n| Lojistik regresyon | 0.842 | 0.512 | 0.441 | 12 özellik |\n| LightGBM | 0.871 | 0.588 | 0.503 | 300 ağaç |\n| LightGBM + kalibrasyon | 0.871 | 0.590 | 0.511 | olasılıklar kalibre |\n\nBaseline olmadan \"0.87 AUC\" bir sayı değil, bağlamsız bir iddiadır. Tabloda **en az bir** baseline ve **bir** üst model olmalı; aradaki farkın iş etkisi yazılmalı.\n\n## Kod kalitesi: portföyde aranan beş şey\n\n- **Tekrar üretilebilirlik**: kilitli bağımlılıklar ([sürümleme](term:surumleme)), sabit tohum, deterministik bölme.\n- **Test**: veri şeması, metrik hesabı, çıkarım şekli. Model kalitesini test etmek zor; ama sözleşmeyi test edin.\n- **Konfigürasyon**: hiperparametreler kodda değil, YAML/CLI'da.\n- **CI**: her push'ta test + lint; rozet README'de.\n- **Lisans ve atıf**: veri ve model lisansı; üçüncü taraf kod atıfları.\n\n## Yazı: üç parça\n\n- **Bir RFC** (`rfcs/001-...md`): bir tasarım kararını seçenekleri ve ödünleşimleriyle anlatır.\n- **Bir blog yazısı**: bir hatayı ya da öğrenileni 800-1 200 kelimede anlatır. \"Nasıl yaptım\" değil, \"ne öğrendim, neyi farklı yapardım\".\n- **Bir model kartı**: her proje için; amaç, veri, performans, sınırlar.\n\nYazı, mülakatta anlatacağınız hikâyenin yazılı provasıdır. Aynı içeriği iki kez üretmiş olursunuz; maliyet düşük, getiri yüksektir.\n\n## Görünürlük\n\n- README'nin ilk ekranında **sonuç** ve **çalıştırma komutu** olsun; ziyaretçi kaydırmasın.\n- Depoyu sabit tutun: 3-5 proje, her biri cilalı.\n- LinkedIn/CV'de proje linki + tek cümlelik etki. \"ML projeleri\" değil, \"ayrılma tahmini: %3 göreli düşüş, 43 bin USD/yıl\".\n- Açık kaynak katkısı: küçük ama gerçek bir PR (doküman düzeltmesi bile), süreklilik gösterir.\n"
         },
         {
          "id": "f6-u5-l1-portfoy-kariyer-p3",
@@ -24148,7 +24255,7 @@
          "id": "f6-u5-l1-portfoy-kariyer-p10",
          "kind": "check",
          "md": "Senior unvanı neden müfredatla alınamaz? Cevabınızda iki sayı ve bir neden kullanın.",
-         "answer": "İlanlar ve kariyer basamakları toplam 5-8 yıl (2-3+ yılı ML) üretim deneyimi istiyor; müfredat 2-2,5 yılda bilgi/beceri tabanı verir. Neden: senior, belirsiz projeleri bağımsız sahiplenme ve ölçülebilir iş etkisiyle tanımlanır; bu, çalışılan yıllarla birikir."
+         "answer": "İlanlar ve kariyer basamakları senior seviyede en az 3 yıl, staff seviyede en az 5 yıl ML deneyimi istiyor; müfredat 2-2,5 yılda bilgi/beceri tabanı verir. Neden: senior, belirsiz projeleri bağımsız sahiplenme ve ölçülebilir iş etkisiyle tanımlanır; bu, çalışılan yıllarla birikir."
         },
         {
          "id": "f6-u5-l1-portfoy-kariyer-p11",
@@ -24199,7 +24306,7 @@
         {
          "id": "f6-u5-l1-portfoy-kariyer-p12",
          "kind": "summary",
-         "md": "## Özet\n\n- Müfredat bilgi/beceri tabanı verir; senior unvanı 5-8 yıl (2-3+ yılı ML) üretim deneyimi ve sahiplenmeyle gelir.\n- Portföy üç katman: tekrar üretilebilir kod, ölçülmüş sonuç, yazılı karar (RFC/blog/model kartı).\n- `ml-yol` iskeleti: proje başına README (Problem/Data/Method/Results/Run), `results.md`, `model_card.md`, testler, kilitli bağımlılıklar, CI.\n- Baseline'sız sonuç iddia değildir; tabloda baseline + üst model + iş etkisi olur.\n- Beş yetkinlik sütunu: ML derinliği, üretim ML, sistem tasarımı, kapsam/sahiplenme, liderlik/etki. Son ikisi deneyimle kazanılır.\n- En yüksek getirili hamle: gerçek kullanıcısı olan bir sistemde ML'e dokunan bir alanı sahiplenmek; staj, hoca projesi, kulüp, açık kaynak veya kendi uygulaman kanaldır (alan → küçük başla → RFC → ölç → sahiplen → yay).\n- Kariyer planı sayıya dökülür: boşluk × saat / haftalık saat = takvim; deneyim sütunları takvimle kısalmaz.\n- 30-60-90: öğren → küçük teslim → RFC/standart.\n- İş arama hunisini ölçün; hangi aşamada elendiğiniz yatırımı belirler.\n- Müfredatı 6 ayda bir resmi dokümanlara, linklere ve varsayılan yöntemlere karşı güncelleyin; değişikliği kaydedin.\n\n**Bu derse eşlik eden**\n- Oku: Dropbox IC3 MLE kariyer çerçevesi — https://dropbox.github.io/dbx-career-framework/ic3_machine_learning_engineer.html (Impact/Craft/Communication, ~15 dk).\n- Oku: GitLab MLE job family — https://handbook.gitlab.com/job-families/engineering/development/data-science/machine-learning (seviye beklentileri ve yıl şartları, ~15 dk).\n- Oku: Will Larson, *Staff Engineer* — https://staffeng.com/ (kariyer yolları ve etki, ~30 dk).\n\n**Derinleşmek için**\n- Oku: Chip Huyen, *ML Interviews Book* — https://huyenchip.com/ml-interviews-book/ (mülakat döngüsü ve hazırlık, ~30 dk).\n- Oku: Google, \"Rules of Machine Learning\" — https://developers.google.com/machine-learning/guides/rules-of-ml (üretimde ML sahiplenme ilkeleri, ~20 dk).\n- Bakım: PyTorch sürüm notları — https://github.com/pytorch/pytorch/releases (6 aylık kontrol listesinin ilk maddesi).\n\n**Süre:** ~200 dk (portföy 120 + kariyer planı 60 + okuma 20)\n\n**Okuma:** ~25 dk · **Kod ve pratik:** ~175 dk"
+         "md": "## Özet\n\n- Müfredat bilgi/beceri tabanı verir; senior unvanı en az 3 yıl (staff için 5 yıl) ML deneyimi ve sahiplenmeyle gelir.\n- Portföy üç katman: tekrar üretilebilir kod, ölçülmüş sonuç, yazılı karar (RFC/blog/model kartı).\n- `ml-yol` iskeleti: proje başına README (Problem/Data/Method/Results/Run), `results.md`, `model_card.md`, testler, kilitli bağımlılıklar, CI.\n- Baseline'sız sonuç iddia değildir; tabloda baseline + üst model + iş etkisi olur.\n- Beş yetkinlik sütunu: ML derinliği, üretim ML, sistem tasarımı, kapsam/sahiplenme, liderlik/etki. Son ikisi deneyimle kazanılır.\n- En yüksek getirili hamle: gerçek kullanıcısı olan bir sistemde ML'e dokunan bir alanı sahiplenmek; staj, hoca projesi, kulüp, açık kaynak veya kendi uygulaman kanaldır (alan → küçük başla → RFC → ölç → sahiplen → yay).\n- Kariyer planı sayıya dökülür: boşluk × saat / haftalık saat = takvim; deneyim sütunları takvimle kısalmaz.\n- 30-60-90: öğren → küçük teslim → RFC/standart.\n- İş arama hunisini ölçün; hangi aşamada elendiğiniz yatırımı belirler.\n- Müfredatı 6 ayda bir resmi dokümanlara, linklere ve varsayılan yöntemlere karşı güncelleyin; değişikliği kaydedin.\n\n**Bu derse eşlik eden**\n- Oku: Dropbox IC3 MLE kariyer çerçevesi — https://dropbox.github.io/dbx-career-framework/ic3_machine_learning_engineer.html (Impact/Craft/Communication, ~15 dk).\n- Oku: GitLab MLE job family — https://handbook.gitlab.com/job-description-library/engineering/development/data-science/machine-learning/ (seviye beklentileri ve yıl şartları, ~15 dk).\n- Oku: Will Larson, *Staff Engineer* — https://staffeng.com/ (kariyer yolları ve etki, ~30 dk).\n\n**Derinleşmek için**\n- Oku: Chip Huyen, *ML Interviews Book* — https://huyenchip.com/ml-interviews-book/ (mülakat döngüsü ve hazırlık, ~30 dk).\n- Oku: Google, \"Rules of Machine Learning\" — https://developers.google.com/machine-learning/guides/rules-of-ml (üretimde ML sahiplenme ilkeleri, ~20 dk).\n- Bakım: PyTorch sürüm notları — https://github.com/pytorch/pytorch/releases (6 aylık kontrol listesinin ilk maddesi).\n\n**Süre:** ~200 dk (portföy 120 + kariyer planı 60 + okuma 20)\n\n**Okuma:** ~25 dk · **Kod ve pratik:** ~175 dk"
         }
        ]
       }
